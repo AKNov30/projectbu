@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-        <AppbarMain />
+      <AppbarMain />
       <Routes>
         <Route path='/' element={<Home></Home>}></Route>
         <Route path='/register' element={<RegisterForm></RegisterForm>}></Route>
@@ -35,15 +35,16 @@ function App() {
         <Route path='/cancle' element={<Cancle></Cancle>}></Route>
         <Route path='/history' element={<History></History>}></Route>
         <Route path='/reserve' element={<Reserve></Reserve>}></Route>
-        {/* admin */}
-        <Route path='/home-admin' element={<HomeAdmin />}></Route>
-        <Route path='/adddog' element={<AddDogForm />}></Route>
-        <Route path='/reserve-admin' element={<Reserveadmin />}></Route>
+
+        {/* admin routes */}
+        <Route path='/home-admin' element={<HomeAdmin />} />
+        <Route path='/adddog' element={<AddDogForm />} />
+        <Route path='/reserve-admin' element={<Reserveadmin />} />
         <Route path="/reserve/:id" element={<Reserveinfo />} />
         <Route path="/change-date" element={<ChangeDate />} />
         <Route path="/list-user" element={<ListUser />} />
         <Route path="/result" element={<Result />} />
-        {/* <Route path='*' element={<Notfound></Notfound>}></Route> */}
+        {/* <Route path='*' element={<Notfound />}></Route> */}
       </Routes>
     </>
   )

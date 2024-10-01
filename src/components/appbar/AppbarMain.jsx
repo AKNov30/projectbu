@@ -1,17 +1,32 @@
-import React from 'react';
-
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom"; // นำเข้า useNavigate เพื่อใช้เปลี่ยนเส้นทาง
 import LoginForm from '../LoginForm/LoginForm';
 
 function AppbarMain() {
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token')); // ตรวจสอบสถานะล็อกอิน
+  const [userRole, setUserRole] = useState(localStorage.getItem('user_role') || '');
+  const navigate = useNavigate(); // ใช้ useNavigate เพื่อเปลี่ยนเส้นทาง
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // ลบ token ออกจาก localStorage
+    localStorage.removeItem('user_role'); // ลบ role ออกจาก localStorage
+    setIsLoggedIn(false); // อัปเดตสถานะล็อกอิน
+    setUserRole(''); // รีเซ็ต userRole
+    navigate('/'); // เปลี่ยนเส้นทางไปยังหน้าแรก
+  };
+
+  useEffect(() => {
+    const role = localStorage.getItem('user_role');
+    // console.log('Current role:', role); // เพิ่มบรรทัดนี้เพื่อตรวจสอบค่า role
+    setUserRole(role || '');
+  }, [isLoggedIn]);
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light">
         <a className="navbar-brand text-logo d-flex" href="">
           <img src="image/logo.png" alt="Logo" height="40" className="d-inline-block align-text-top" />
-          <div className="pt-1 px-2">
-            PuglifeHouse
-          </div>
+          <div className="pt-1 px-2">PuglifeHouse</div>
         </a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -20,16 +35,16 @@ function AppbarMain() {
         <div className="collapse navbar-collapse just-flex-end" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-            <Link as={Link} to="/" className="nav-link">หน้าแรก</Link>
+              <Link to="/" className="nav-link">หน้าแรก</Link>
             </li>
             <li className="nav-item">
-            <Link as={Link} to="/shop" className="nav-link">ร้านค้า</Link>
+              <Link to="/shop" className="nav-link">ร้านค้า</Link>
             </li>
             <li className="nav-item">
-            <Link as={Link} to="/cancle" className="nav-link">การจอง</Link>
+              <Link to="/cancle" className="nav-link">การจอง</Link>
             </li>
             <li className="nav-item">
-            <Link as={Link} to="/history" className="nav-link">ประวัติการจอง</Link>
+              <Link to="/history" className="nav-link">ประวัติการจอง</Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="">ติดต่อฉัน
@@ -41,12 +56,24 @@ function AppbarMain() {
 
         <div className="collapse navbar-collapse just-flex-end" id="navbarNav">
           <ul className="navbar-nav">
-            <li className="nav-item" style={{ cursor: 'pointer' }}>
-              <a className="nav-link px-3" data-bs-toggle="modal" data-bs-target="#login">ล็อคอิน</a>
-            </li>
+            {isLoggedIn ? (
+              <>
+                <li className="nav-item">
+                  <span className="nav-link">{userRole === 'admin' ? 'Admin' : 'Member'}</span>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" onClick={handleLogout} style={{ cursor: 'pointer' }}>ออกจากระบบ</a>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item" style={{ cursor: 'pointer' }}>
+                <a className="nav-link px-3" data-bs-toggle="modal" data-bs-target="#login">ล็อคอิน</a>
+              </li>
+            )}
           </ul>
         </div>
       </nav>
+      
 
       <LoginForm />
     </>

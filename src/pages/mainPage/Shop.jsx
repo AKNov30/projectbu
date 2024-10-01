@@ -4,7 +4,7 @@ function Shop() {
     //ข้อมูลหมา
     const products = [
         {
-          id: 'BR004',
+          id: 'BR001',
           name: 'ปั๊กสีน้ำตาลธรรมชาติ4',
           color: 'ดำ',
           age: '4 วัน',
@@ -13,7 +13,7 @@ function Shop() {
           link: 'detaildog',
         },
         {
-          id: 'BR003',
+          id: 'BR002',
           name: 'ปั๊กสีน้ำตาลธรรมชาติ3',
           color: 'ขาว',
           age: '14 วัน',
@@ -22,7 +22,7 @@ function Shop() {
           link: 'detaildog',
         },
         {
-          id: 'BR002',
+          id: 'BR003',
           name: 'ปั๊กสีน้ำตาลธรรมชาติ2',
           color: 'ขาว-ดำ',
           age: '34 วัน',
@@ -31,7 +31,7 @@ function Shop() {
           link: 'detaildog',
         },
         {
-          id: 'BR001',
+          id: 'BR004',
           name: 'ปั๊กสีน้ำตาลธรรมชาติ1',
           color: 'น้ำตาล',
           age: '44 วัน',
@@ -40,7 +40,7 @@ function Shop() {
           link: 'detaildog',
         },
         {
-            id: 'BR001',
+            id: 'BR005',
             name: 'ปั๊กสีน้ำตาลธรรมชาติ1',
             color: 'น้ำตาล',
             age: '44 วัน',
@@ -49,7 +49,7 @@ function Shop() {
             link: 'detaildog',
           },
           {
-            id: 'BR001',
+            id: 'BR006',
             name: 'ปั๊กสีน้ำตาลธรรมชาติ1',
             color: 'น้ำตาล',
             age: '44 วัน',

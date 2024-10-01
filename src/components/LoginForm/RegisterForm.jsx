@@ -9,8 +9,12 @@ const RegisterForm = () => {
     lastname: '',
     user_email: '',
     user_password: '',
+    user_password_confirm: '',
     phone: '',
   });
+
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,10 +22,22 @@ const RegisterForm = () => {
       ...formData,
       [name]: value,
     });
+
+    // ล้างข้อความแสดงข้อผิดพลาดเมื่อผู้ใช้เริ่มพิมพ์ใหม่ในฟิลด์รหัสผ่านหรือยืนยันรหัสผ่าน
+    if (name === 'user_password' || name === 'user_password_confirm') {
+      setError('');
+      setSuccess('');
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.user_password !== formData.user_password_confirm) {
+      setError('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:5000/api/register', formData);
       alert(response.data); // แสดงข้อความเมื่อสมัครสมาชิกสำเร็จ
@@ -30,6 +46,7 @@ const RegisterForm = () => {
         lastname: '',
         user_email: '',
         user_password: '',
+        user_password_confirm: '',
         phone: '',
       }); // ล้างฟอร์มหลังจากสมัครสมาชิกสำเร็จ
     } catch (error) {
@@ -39,6 +56,12 @@ const RegisterForm = () => {
 
   return (
     <>
+    {/* ข้อความแสดงข้อผิดพลาดหรือความสำเร็จ */}
+
+  <div className="col-12 text-center">
+    {error && <div className="alert alert-danger">{error}</div>}
+    {success && <div className="alert alert-success">{success}</div>}
+  </div>
       <div className="container">
         {/* Back Button */}
         <div className="row fix-row">
@@ -71,7 +94,7 @@ const RegisterForm = () => {
         {/* RegisterForm */}
         <form onSubmit={handleSubmit}>
           <div className="row">
-          <div className="col-xl-4 pt-3"></div>
+            <div className="col-xl-4 pt-3"></div>
             <div className="col-xl-2 pt-3">
               <label className="form-label">ชื่อ</label>
               <input
@@ -94,6 +117,8 @@ const RegisterForm = () => {
                   required
                 />
               </div>
+            </div> 
+              
 
             <div className="row">
               <div className="col-xl-4 pt-3"></div>
@@ -131,9 +156,9 @@ const RegisterForm = () => {
                 <label className="form-label">ยืนยันรหัสผ่าน</label>
                 <input
                   type="password"
-                  name="user_password"
+                  name="user_password_confirm"
                   className="form-control"
-                  value={formData.user_password}
+                  value={formData.user_password_confirm}
                   onChange={handleChange}
                   required
                 />
@@ -160,7 +185,6 @@ const RegisterForm = () => {
                 <div className="col-xl-4 pt-5">
                   <button type="submit" className="btn btn-primary" style={{ width: '100%', height: '50px' }}>สมัครสมาชิก</button>
                 </div>
-              </div>
           </div>
         </form>
       </div>
