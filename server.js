@@ -3,13 +3,15 @@ import mysql from 'mysql2';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv'; // เพิ่มการนำเข้า dotenv
 import cors from 'cors';
-
-app.use(cors());
+import bcrypt from 'bcrypt';
 
 dotenv.config(); // โหลดตัวแปรสภาพแวดล้อมจากไฟล์ .env
 
+
 const app = express();
 const port = 5000;
+
+app.use(cors());
 
 // เชื่อมต่อกับฐานข้อมูล
 const db = mysql.createConnection({
