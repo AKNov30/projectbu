@@ -1,0 +1,260 @@
+@font-face {
+    font-family: 'thaifont';
+    src: url(../fonts/Prompt.ttf);
+}
+* {
+    font-family: 'thaifont';
+}
+:root {
+    /*--- Color ---*/
+    --theme: #F9E8D9;
+    --theme-light: #FFF8F1;
+    --theme-dark: #FFC088;
+    --yellow:#FF9C00;
+    --brown: #452A01;
+    --brown-light:#734500;
+    --brown-lighter:#D07D00;
+    /*--- Font Size ---*/
+    --font-xxsmall: 12px;
+    --font-xsmall: 14px;
+    --font-small: 16px;
+    --font-p: 18px;
+    --font-h5: 20px;
+    --font-h4: 22px;
+    --font-h3: 24px;
+    --font-h2: 26px;
+    --font-h1: 28px;
+}
+a {
+    color: var(--bs-link-color);
+     text-decoration: none;
+}
+/*--- Navbar ---*/
+.navbar{
+    background-color: var(--theme);
+}
+.text-logo{
+    color: var(--brown) !important;;
+    font-weight: bold;
+}
+.nav-link{
+    color: var(--brown) !important;
+}
+.nav-link:hover{
+    color: var(--brown-light) !important;
+}
+.icon-nav{
+    height: 15px;
+    cursor: pointer;
+}
+.just-flex-end{
+    justify-content: flex-end;
+}
+.just-flex-center{
+    justify-content: center;
+}
+/*--- Text ---*/
+.text-Home{
+    color: var(--brown) !important;;
+    font-weight: bold;
+}
+.colortextbrown{
+    color:var(--brown);
+}
+.text-setting a{
+    color:var(--brown);
+}
+.text-setting a:hover {
+    color: var(--brown-light) !important;;
+}
+.setting-text{
+    padding: 0 20px;
+    color: black;
+}
+.setting-text p{
+    margin-bottom: 0;
+}
+.forgetpass{
+    display: flex; 
+    align-items: flex-end; 
+    text-decoration: underline;
+    cursor: pointer;
+}
+.text-reserve p{
+    font-size: 20px;
+    margin-bottom: 0.2rem;
+}
+.head-admin{
+    padding-left: 20px;
+    font-size: 24px;
+}
+
+.admin-text {
+    color:#000000;
+    cursor: pointer;
+}
+.admin-text:hover {
+    transition: color 0.2s ease;
+    color:var(--theme-dark);
+    cursor: pointer;
+}
+.text-admin{
+    border-bottom: solid 2px black;
+}
+/*--- Shop ---*/
+.namepage{
+    padding-top: 50px;
+    color:var(--brown);
+}
+/*--- Search ---*/
+.btn-search{
+    margin-top: 30px;
+}
+/*--- Card ---*/
+.card-setting {
+    position: relative;
+    box-shadow: 0 .125rem .45rem rgba(0, 0, 0, .15);
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+.card-setting:hover {
+    transform: scale(1.02);
+}
+/*--- Picture ---*/
+.setting-pic{
+    width: 250px;
+    height: 250px;
+}
+.setting-pic-info{
+    width: 400px;
+    height: 400px;
+}
+.setting-pic-cancle{
+    width: 150px;
+    height: 150px;
+}
+.setting-pic-pay{
+    width: 350px;
+    height: 400px;
+}
+.setting-pic-info-small{
+    margin-top: 10px;
+    padding-right: 5px;
+    width: 130px;
+    height: 130px;
+}
+.pic-admin{
+    width: 35px;
+    margin-right: 10px;
+}
+.pic-icon{
+    width: 30px;
+    padding: 4px ;
+    cursor: pointer;
+}
+.hover-icon :hover{
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    background-color: #fdeacd;
+}
+/*--- Button ---*/
+.setting-btn-reserve{
+    padding: 10px 50px;
+    --bs-btn-hover-color: #ffffff;
+}
+.btn-reserve-info{
+    padding-top: 80px;
+}
+
+/*--- Background ---*/
+.bg-grey{
+    background: var(--theme-light);
+}
+.bg-grey-reserve{
+    background: var(--theme-light);
+}
+.bg-theme{
+    background: var(--theme);
+}
+.bg-white{
+    background: white;
+}
+.bg-grey p{
+    margin-bottom: 5px;
+}
+/*--- modal ---*/
+.modal-header{
+    border-bottom: none;
+}
+.modal-footer{
+    border-top: none;
+}
+.modal-dialog {
+    max-width:400px ;
+}
+
+tbody tr td{
+    border-style: none;
+}
+thead tr{
+    background: var(--theme);
+}
+
+.fix-row{
+    --bs-gutter-x: 0;
+}
+.dropzone {
+    height: 350px !important;
+    width: 350px;
+    border: 2px dashed var(--theme-dark) !important;
+}
+.dropzone .dz-message {
+    margin: 9em 0 !important;
+} 
+
+table tbody tr:nth-child(odd) {
+    background-color: var(--theme-light); /* สีสำหรับแถวคี่ */
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f8ebe1; /* สีสำหรับแถวคู่ */
+}
+.bg-grey-reserve:nth-child(even) {
+    background-color: var(--theme-light); /* สีสำหรับแถวคู่ */
+}
+
+.bg-grey-reserve:nth-child(odd) {
+    background-color: #ffffff; /* สีสำหรับแถวคี่ */
+}
+
+
+/*--------------------------------------------------------
+    Start: Responsive View Google Chrome
+----------------------------------------------------------*/
+/* Nest Hub*/
+@media (max-width: 1199px) {
+    .btn-reserve-info{
+        padding-top: 10px;
+    }
+    .just-flex-end {
+        justify-content: center;
+    }
+}
+/* Surface Pro 7*/
+@media (max-width: 991px) {}
+/* iPad Mini*/
+@media (max-width: 769px) {}
+/* Surface Duo*/
+@media (max-width: 569px) {}
+/*iPhone 14 Pro Max*/
+@media (max-width: 481px) {}
+/*iPhone SE*/
+@media (max-width: 376px) {}
+/* Galaxy Fold 5*/
+@media (max-width: 345px) {}
+/*--------------------------------------------------------
+    End: Responsive
+----------------------------------------------------------*/
