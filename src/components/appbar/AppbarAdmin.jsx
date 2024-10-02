@@ -1,29 +1,34 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 
 function AppbarAdmin() {
   return (
     <>
-          <nav className="head-admin pt-2">
+          <nav className="head-admin pt-2 row">
             <h3 className="px-3 text-admin">Admin</h3>
-            <div>
+            <div className='d-flex p-2'>
               <img className="pic-admin" src="image/dogadmin.png" alt="Add Dog" />
-              <a className="admin-text" href="adddog.html">เพิ่มสุนัข</a>
+              <Link to="/home-admin" className="nav-link">รายชื่อสุนัข</Link>
             </div>
-            <div className="pt-2">
+            <div className='d-flex p-2'>
+              <img className="pic-admin" src="image/dogadmin.png" alt="Add Dog" />
+              <Link to="/adddog" className="nav-link">เพิ่มสุนัข</Link>
+            </div>
+            <div className="d-flex p-2">
               <img className="pic-admin" src="image/docadmin.png" alt="Check Reservations" />
-              <a className="admin-text" href="reserve-admin.html">เช็ครายการจอง</a>
+              <Link to="/reserve-admin" className="nav-link">เช็ครายการจอง</Link>
             </div>
-            <div className="pt-2">
+            <div className="d-flex p-2">
               <img className="pic-admin" src="image/docadmin.png" alt="Postpone Pickup" />
-              <a className="admin-text" href="date.html">เลือนวันรับ</a>
+              <Link to="/change-date" className="nav-link">เลือนวันรับ</Link>
             </div>
-            <div className="pt-2">
+            <div className="d-flex p-2">
               <img className="pic-admin" src="image/listadmin.png" alt="Member List" />
-              <a className="admin-text" href="listname.html">รายชื่อสมาชิก</a>
+              <Link to="/list-user" className="nav-link">รายชื่อสมาชิก</Link>
             </div>
-            <div className="pt-2">
+            <div className="d-flex p-2">
               <img className="pic-admin" src="image/doc2admin.png" alt="Summary" />
-              <a className="admin-text" href="result.html">สรุปยอด</a>
+              <Link to="/result" className="nav-link">สรุปยอด</Link>
             </div>
           </nav>
     </>

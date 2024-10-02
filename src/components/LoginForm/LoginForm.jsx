@@ -28,11 +28,12 @@ function LoginForm() {
     
     try {
       const response = await axios.post('http://localhost:5000/api/login', formData);
-      const { token, message, user_role, user_id } = response.data;
+      const { token, message, user_role, user_id, firstname } = response.data;
 
       localStorage.setItem('token', token);
       localStorage.setItem('user_role', user_role);
       localStorage.setItem('user_id', user_id);
+      localStorage.setItem('firstname', firstname);
 
       setAlert({ message: response.data, type: 'success' }); // แสดงข้อความสำเร็จ
        // จัดการสถานะการเข้าสู่ระบบ

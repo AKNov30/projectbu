@@ -1,16 +1,15 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-// สร้าง PrivateRoute component
-const PrivateRoute = ({ element, ...rest }) => {
-  const isLoggedIn = !!localStorage.getItem('token'); // ตรวจสอบสถานะล็อกอิน
+const PrivateRoute = ({ children, allowedRoles }) => {
+  const token = localStorage.getItem('token');
+  const userRole = localStorage.getItem('user_role');
 
-  return (
-    <Route 
-      {...rest} 
-      element={isLoggedIn ? element : <Navigate to="/login" />} // ถ้าไม่ล็อกอินให้เปลี่ยนเส้นทางไปหน้า login
-    />
-  );
+  if (!token || !allowedRoles.includes(userRole)) {
+    return <Navigate to="/" />; // Redirect ไปหน้าอื่นถ้าไม่มีสิทธิ์
+  }
+
+  return children;
 };
 
 export default PrivateRoute;

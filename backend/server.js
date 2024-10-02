@@ -93,14 +93,15 @@ app.post('/api/login', async (req, res) => {
       }
 
     // เข้าสู่ระบบสำเร็จ
-    const { user_id, user_role } = user; // ดึง user_id และ user_role จากผลลัพธ์
+    const { user_id, user_role, firstname } = user; // ดึง user_id, user_role, firstname จากผลลัพธ์
     const token = 'your_generated_jwt_token'; // สร้าง JWT token ที่นี่ (คุณสามารถใช้ jwt.sign() เพื่อสร้าง token)
 
     res.status(200).json({
       token,
       message: 'เข้าสู่ระบบสำเร็จ',
-      user_id: user.id, 
-      user_role: user.user_role
+      user_id,
+      firstname, 
+      user_role
     });
   } catch (error) {
     console.error('Error comparing password:', error);

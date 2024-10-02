@@ -1,5 +1,6 @@
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
 
 import AppbarMain from "./components/appbar/AppbarMain";
 import AppbarAdmin from "./components/appbar/AppbarAdmin";
@@ -23,29 +24,96 @@ import Result from "./pages/adminPage/result/Result";
 import './index.css'
 
 function App() {
+  const location = useLocation();
+
+  // Check if the current path belongs to the admin routes
+  const isAdminRoute = location.pathname.startsWith("/home-admin") ||
+                       location.pathname.startsWith("/adddog") ||
+                       location.pathname.startsWith("/reserve-admin") ||
+                       location.pathname.startsWith("/reserve/") ||
+                       location.pathname.startsWith("/change-date") ||
+                       location.pathname.startsWith("/list-user") ||
+                       location.pathname.startsWith("/result");
 
   return (
     <>
       <AppbarMain />
+      <div class="row">
+      <div class="col-md-2">
+        {isAdminRoute && <AppbarAdmin />}
+      </div>
+      <div className={`col-md-${isAdminRoute ? '10' : '12'}`}>
       <Routes>
-        <Route path='/' element={<Home></Home>}></Route>
-        <Route path='/register' element={<RegisterForm></RegisterForm>}></Route>
-        <Route path='/shop' element={<Shop></Shop>}></Route>
-        <Route path='/detaildog' element={<DetailDog></DetailDog>}></Route>
-        <Route path='/cancle' element={<Cancle></Cancle>}></Route>
-        <Route path='/history' element={<History></History>}></Route>
-        <Route path='/reserve' element={<Reserve></Reserve>}></Route>
+        {/* Public routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/cancle" element={<Cancle />} />
+        <Route path="/detaildog" element={<DetailDog />} />
+        <Route path="/reserve" element={<Reserve />} />
+        <Route path="/history" element={<History />} />
 
-        {/* admin routes */}
-        <Route path='/home-admin' element={<HomeAdmin />} />
-        <Route path='/adddog' element={<AddDogForm />} />
-        <Route path='/reserve-admin' element={<Reserveadmin />} />
-        <Route path="/reserve/:id" element={<Reserveinfo />} />
-        <Route path="/change-date" element={<ChangeDate />} />
-        <Route path="/list-user" element={<ListUser />} />
-        <Route path="/result" element={<Result />} />
+        {/* Admin routes */}
+        <Route
+          path="/home-admin"
+          element={
+            <PrivateRoute allowedRoles={['admin']}>
+              <HomeAdmin />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/adddog"
+          element={
+            <PrivateRoute allowedRoles={['admin']}>
+              <AddDogForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/reserve-admin"
+          element={
+            <PrivateRoute allowedRoles={['admin']}>
+              <Reserveadmin />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/reserve/:id"
+          element={
+            <PrivateRoute allowedRoles={['admin']}>
+              <Reserveinfo />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/change-date"
+          element={
+            <PrivateRoute allowedRoles={['admin']}>
+              <ChangeDate />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/list-user"
+          element={
+            <PrivateRoute allowedRoles={['admin']}>
+              <ListUser />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/result"
+          element={
+            <PrivateRoute allowedRoles={['admin']}>
+              <Result />
+            </PrivateRoute>
+          }
+        />
         {/* <Route path='*' element={<Notfound />}></Route> */}
       </Routes>
+      </div>
+      </div>
     </>
   )
 }
