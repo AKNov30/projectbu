@@ -4,7 +4,7 @@ function Home() {
   return (
     <>
       <div className="container-fullid">
-        <img src="image/banner.jpg" className="img-fluid" alt="Banner Image" />
+        <img src="banner.jpg" className="img-fluid" alt="Banner Image" />
       </div>
       
       <div className="container justify-content-center pt-3">

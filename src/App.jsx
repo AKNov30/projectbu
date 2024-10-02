@@ -39,8 +39,8 @@ function App() {
   return (
     <>
       <AppbarMain />
-      <div class="row">
-      <div class="col-md-2">
+      <div className="row">
+      <div className="col-md-2">
         {isAdminRoute && <AppbarAdmin />}
       </div>
       <div className={`col-md-${isAdminRoute ? '10' : '12'}`}>
