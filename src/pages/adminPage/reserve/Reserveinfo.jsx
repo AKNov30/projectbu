@@ -12,7 +12,7 @@ const Reserveinfo = () => {
             name: "ปั๊กสีน้ำตาลธรรมชาติ",
             price: 4500,
             code: "BRP01",
-            imageUrl: "image/dogbrown.png"
+            imageUrl: "dogbrown.png"
         },
         user: {
             name: "สิทธิโชค จันทร์ทรง",

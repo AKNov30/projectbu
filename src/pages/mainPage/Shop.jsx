@@ -9,7 +9,7 @@ function Shop() {
           color: 'ดำ',
           age: '4 วัน',
           price: '4,500 THB',
-          imgSrc: 'image/dogblack.png',
+          imgSrc: 'dogblack.png',
           link: 'detaildog',
         },
         {
@@ -18,7 +18,7 @@ function Shop() {
           color: 'ขาว',
           age: '14 วัน',
           price: '4,500 THB',
-          imgSrc: 'image/dogwhite.png',
+          imgSrc: 'dogwhite.png',
           link: 'detaildog',
         },
         {
@@ -27,7 +27,7 @@ function Shop() {
           color: 'ขาว-ดำ',
           age: '34 วัน',
           price: '4,500 THB',
-          imgSrc: 'image/dogpanda.png',
+          imgSrc: 'dogpanda.png',
           link: 'detaildog',
         },
         {
@@ -36,7 +36,7 @@ function Shop() {
           color: 'น้ำตาล',
           age: '44 วัน',
           price: '4,500 THB',
-          imgSrc: 'image/dogbrown.png',
+          imgSrc: 'dogbrown.png',
           link: 'detaildog',
         },
         {
@@ -45,7 +45,7 @@ function Shop() {
             color: 'น้ำตาล',
             age: '44 วัน',
             price: '4,500 THB',
-            imgSrc: 'image/dogbrown.png',
+            imgSrc: 'dogbrown.png',
             link: 'detaildog',
           },
           {
@@ -54,7 +54,7 @@ function Shop() {
             color: 'น้ำตาล',
             age: '44 วัน',
             price: '4,500 THB',
-            imgSrc: 'image/dogbrown.png',
+            imgSrc: 'dogbrown.png',
             link: 'detaildog',
           },
       ];
@@ -117,7 +117,7 @@ function Shop() {
         </div>
 
         <div className="col-xl-1 col-lg-1 col-md-1 col-1" style={{ cursor: 'pointer' }}>
-          <img src="image/search.png" alt="Search" height="25" className="btn-search" />
+          <img src="search.png" alt="Search" height="25" className="btn-search" />
         </div>
       </div>
     </div>

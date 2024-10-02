@@ -17,7 +17,7 @@ function Cancle() {
                 <div className="col-xl-2 col-lg-2 col-md-3 pt-2">
                     <img
                         className="setting-pic-cancle just-flex-center img-fluid"
-                        src="image/dogbrown.png"
+                        src="dogbrown.png"
                         alt="dog"
                     />
                 </div>

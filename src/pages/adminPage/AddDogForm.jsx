@@ -12,7 +12,7 @@ function AddDogForm() {
             href="home-admin.html"
             style={{ color: 'black', cursor: 'pointer' }}
           >
-            <img src="image/back.png" style={{ width: '25px' }} alt="Back" />
+            <img src="back.png" style={{ width: '25px' }} alt="Back" />
             ย้อนกลับ
           </a>
         </div>

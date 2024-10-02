@@ -20,8 +20,9 @@ import Reserveadmin from "./pages/adminPage/reserve/Reserveadmin";
 import Reserveinfo from "./pages/adminPage/reserve/Reserveinfo";
 import ChangeDate from "./pages/adminPage/ChangeDate";
 import ListUser from "./pages/adminPage/listUser/ListUser";
+import EditUser from "./pages/adminPage/listUser/EditUser";
 import Result from "./pages/adminPage/result/Result";
-import './index.css'
+// import './index.css'
 
 function App() {
   const location = useLocation();
@@ -99,6 +100,14 @@ function App() {
           element={
             <PrivateRoute allowedRoles={['admin']}>
               <ListUser />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/edit/:id"
+          element={
+            <PrivateRoute allowedRoles={['admin']}>
+              <EditUser />
             </PrivateRoute>
           }
         />

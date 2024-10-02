@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Reserveadmin() {
     const reservations = [
         {
-            image: "image/dogbrown.png",
+            image: "dogbrown.png",
             name: "สิทธิโชค จันทร์ทรง",
             email: "Sittichok@juns@bumail.net",
             phone: "087-994-8760",
@@ -14,7 +14,7 @@ function Reserveadmin() {
             time: "14.00"
         },
         {
-            image: "image/dogblack.png",
+            image: "dogblack.png",
             name: "สิทธิโชค จันทร์ทรง",
             email: "Sittichok@juns@bumail.net",
             phone: "087-994-8760",

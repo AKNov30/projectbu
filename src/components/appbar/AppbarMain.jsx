@@ -31,7 +31,7 @@ function AppbarMain() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light">
         <a className="navbar-brand text-logo d-flex" href="">
-          <img src="image/logo.png" alt="Logo" height="40" className="d-inline-block align-text-top" />
+          <img src="logo.png" alt="Logo" height="40" className="d-inline-block align-text-top" />
           <div className="pt-1 px-2">PuglifeHouse</div>
         </a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ function AppbarMain() {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="">ติดต่อฉัน
-                <img src="image/paws.png" alt="Logo" height="18" className="pb-1" />
+                <img src="paws.png" alt="Logo" height="18" className="pb-1" />
               </a>
             </li>
           </ul>

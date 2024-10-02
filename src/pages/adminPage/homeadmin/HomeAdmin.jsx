@@ -27,10 +27,10 @@ function HomeAdmin() {
                 <td>น้ำตาล</td>
                 <td>
                   <a className="hover-icon" href="adddog.html" aria-label="Edit">
-                    <img className="pic-icon" src="image/edit-icon.png" alt="Edit" />
+                    <img className="pic-icon" src="edit-icon.png" alt="Edit" />
                   </a>
                   <a className="hover-icon" aria-label="Delete">
-                    <img className="pic-icon" src="image/bin-icon.png" alt="Delete" />
+                    <img className="pic-icon" src="bin-icon.png" alt="Delete" />
                   </a>
                 </td>
               </tr>
@@ -42,10 +42,10 @@ function HomeAdmin() {
                 <td>น้ำตาล</td>
                 <td>
                   <a className="hover-icon" href="adddog.html" aria-label="Edit">
-                    <img className="pic-icon" src="image/edit-icon.png" alt="Edit" />
+                    <img className="pic-icon" src="edit-icon.png" alt="Edit" />
                   </a>
                   <a className="hover-icon" aria-label="Delete">
-                    <img className="pic-icon" src="image/bin-icon.png" alt="Delete" />
+                    <img className="pic-icon" src="bin-icon.png" alt="Delete" />
                   </a>
                 </td>
               </tr>

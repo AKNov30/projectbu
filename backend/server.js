@@ -111,6 +111,72 @@ app.post('/api/login', async (req, res) => {
 });
 
 
+// ดึงรายข้อมูล user มาแสดง
+app.get('/api/users', (req, res) => {
+  const sql = 'SELECT user_id, firstname, lastname, user_role FROM users';
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching users:', err);
+      return res.status(500).send('Error fetching users');
+    }
+    
+    res.status(200).json(results);
+  });
+});
+
+// ดึงข้อมูลผู้ใช้ตาม user_id 
+app.get('/api/users/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const sql = 'SELECT firstname, lastname, user_email, phone FROM users WHERE user_id = ?';
+
+  db.query(sql, [user_id], (err, results) => {
+    if (err) {
+      console.error('Error fetching user:', err);
+      return res.status(500).send('Error fetching user');
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send('User not found');
+    }
+
+    res.status(200).json(results[0]);
+  });
+});
+
+
+// Endpoint สำหรับแก้ไขข้อมูล user
+app.put('/api/users/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { firstname, lastname, user_email, phone } = req.body;
+
+  // ตรวจสอบว่าผู้ใช้มีอยู่ในฐานข้อมูลหรือไม่
+  const checkUserSql = 'SELECT * FROM users WHERE user_id = ?';
+  db.query(checkUserSql, [user_id], (err, results) => {
+    if (err) {
+      console.error('Error checking user:', err);
+      return res.status(500).send('Error checking user');
+    }
+
+    // ถ้าไม่มีผู้ใช้นี้ในฐานข้อมูล
+    if (results.length === 0) {
+      return res.status(404).send('ไม่พบผู้ใช้งาน');
+    }
+
+    // อัปเดตข้อมูลผู้ใช้
+    const updateSql = 'UPDATE users SET firstname = ?, lastname = ?, user_email = ?, phone = ? WHERE user_id = ?';
+    db.query(updateSql, [firstname, lastname, user_email, phone, user_id], (err, result) => {
+      if (err) {
+        console.error('Error updating user:', err);
+        return res.status(500).send('Error updating user');
+      }
+      res.status(200).send('ข้อมูลผู้ใช้ถูกอัปเดตเรียบร้อยแล้ว');
+    });
+  });
+});
+
+
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
