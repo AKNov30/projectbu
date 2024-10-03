@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { print, search } from '../../../assets/' 
+
 function Result() {
   return (
     <>
@@ -22,7 +24,7 @@ function Result() {
                     <input className="form-control" type="text" id="datepicker2" />
                 </div>
                 <div className="col-xl-1 col-lg-1 col-md-1 col-1 mt-2" style={{ cursor: 'pointer' }}>
-                    <img src="search.png" alt="Search" height="25" className="btn-search" />
+                    <img src={ search } alt="Search" height="25" className="btn-search" />
                 </div>
             </div>
 
@@ -57,7 +59,7 @@ function Result() {
                                 <td>4,500</td>
                                 <td>
                                     <div className="text-center" style={{ cursor: 'pointer' }}>
-                                        <img src="print.png" style={{ width: '25px' }} alt="Print" />
+                                        <img src={ print } style={{ width: '25px' }} alt="Print" />
                                     </div>
                                 </td>
                             </tr>
@@ -73,7 +75,7 @@ function Result() {
                                 <td>5,500</td>
                                 <td>
                                     <div className="text-center" style={{ cursor: 'pointer' }}>
-                                        <img src="print.png" style={{ width: '25px' }} alt="Print" />
+                                        <img src={ print } style={{ width: '25px' }} alt="Print" />
                                     </div>
                                 </td>
                             </tr>
