@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
+import { dogBrown, dogWhite } from '../../assets/' 
+
 function DetailDog() {
   return (
     <>
@@ -16,7 +18,7 @@ function DetailDog() {
       <div className="row">  
         <div className="col-xl-1 col-lg-1 col-md-0"></div>   
         <div className="col-xl-3 col-lg-5 col-md-5">
-          <img className="setting-pic-info just-flex-center img-fluid" src="dogbrown.png" alt="Dog" />
+          <img className="setting-pic-info just-flex-center img-fluid" src={ dogBrown } alt="Dog" />
         </div>
         <div className="col-xl-7 col-lg-5 col-md-6 bg-grey p-3">
           <h2>ปั๊กสีน้ำตาลธรรมชาติ</h2>
@@ -40,9 +42,9 @@ function DetailDog() {
       <div className="row">
         <div className="col-1"></div> 
         <div className="col-xl-5 col-lg-11">
-          <img className="setting-pic-info-small just-flex-center img-fluid" src="dogbrown.png" alt="Dog" />
-          <img className="setting-pic-info-small just-flex-center img-fluid" src="dogbrown.png" alt="Dog" />
-          <img className="setting-pic-info-small just-flex-center img-fluid" src="dogbrown.png" alt="Dog" />
+          <img className="setting-pic-info-small just-flex-center img-fluid" src={ dogBrown } alt="Dog" />
+          <img className="setting-pic-info-small just-flex-center img-fluid" src={ dogBrown } alt="Dog" />
+          <img className="setting-pic-info-small just-flex-center img-fluid" src={ dogBrown } alt="Dog" />
         </div>
       </div>
 
@@ -60,7 +62,7 @@ function DetailDog() {
         <div className="col-xl-3 col-lg-3 col-md-5 col-sm-6 d-md-flex align-items-stretch pt-3">
           <Link to="/info" className="card-setting bg-white">
             <div className="d-flex just-flex-center">
-              <img className="setting-pic just-flex-center img-fluid" src="dogwhite.png" alt="Dog" />
+              <img className="setting-pic just-flex-center img-fluid" src={ dogWhite } alt="Dog" />
             </div>
             
             <div className="setting-text">

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { dogBrown, dogBlack } from '../../../assets/' 
+
 function Reserveadmin() {
     const reservations = [
         {
-            image: "dogbrown.png",
+            image: dogBrown,
             name: "สิทธิโชค จันทร์ทรง",
             email: "Sittichok@juns@bumail.net",
             phone: "087-994-8760",
@@ -14,7 +16,7 @@ function Reserveadmin() {
             time: "14.00"
         },
         {
-            image: "dogblack.png",
+            image: dogBlack,
             name: "สิทธิโชค จันทร์ทรง",
             email: "Sittichok@juns@bumail.net",
             phone: "087-994-8760",

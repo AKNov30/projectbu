@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
+import { logo, back } from '../../../assets/' 
+
 function EditUser() {
   const { id } = useParams(); // ดึง user_id จาก URL
   const navigate = useNavigate();
@@ -44,7 +46,7 @@ function EditUser() {
       <div className="row fix-row">
         <div className="col-12 pt-1">
           <a className="p-2 d-flex" href="/list-user" style={{ color: 'black', cursor: 'pointer' }}>
-            <img src="back.png" alt="Back" style={{ width: '25px' }} />
+            <img src={ back } alt="Back" style={{ width: '25px' }} />
             ย้อนกลับ
           </a>
         </div>
@@ -53,7 +55,7 @@ function EditUser() {
       <div className="container">
         <div class="row">
           <div className="col-12 pt-3 d-flex justify-content-center">
-            <img src="image/logo.png" style={{ width: '100px' }} alt="Banner Image" />
+            <img src={ logo } style={{ width: '100px' }} alt="Banner Image" />
           </div>
           <div className="col-12 pt-3 d-flex justify-content-center">
             <h1>แก้ไขข้อมูลสมาชิก</h1>

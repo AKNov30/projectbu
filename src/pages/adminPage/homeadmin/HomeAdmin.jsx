@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { binIcon, editIcon } from '../../../assets' 
+
 function HomeAdmin() {
   return (
     <>
@@ -27,10 +29,10 @@ function HomeAdmin() {
                 <td>น้ำตาล</td>
                 <td>
                   <a className="hover-icon" href="adddog.html" aria-label="Edit">
-                    <img className="pic-icon" src="edit-icon.png" alt="Edit" />
+                    <img className="pic-icon" src={ editIcon } alt="Edit" />
                   </a>
                   <a className="hover-icon" aria-label="Delete">
-                    <img className="pic-icon" src="bin-icon.png" alt="Delete" />
+                    <img className="pic-icon" src={ binIcon } alt="Delete" />
                   </a>
                 </td>
               </tr>
@@ -42,10 +44,10 @@ function HomeAdmin() {
                 <td>น้ำตาล</td>
                 <td>
                   <a className="hover-icon" href="adddog.html" aria-label="Edit">
-                    <img className="pic-icon" src="edit-icon.png" alt="Edit" />
+                    <img className="pic-icon" src={ editIcon } alt="Edit" />
                   </a>
                   <a className="hover-icon" aria-label="Delete">
-                    <img className="pic-icon" src="bin-icon.png" alt="Delete" />
+                    <img className="pic-icon" src={ binIcon } alt="Delete" />
                   </a>
                 </td>
               </tr>

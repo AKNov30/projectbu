@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { dogBrown } from '../../assets/' 
+
 function Reserve() {
     const [isAccepted, setIsAccepted] = useState(false);
     const [date, setDate] = useState('');
@@ -23,7 +25,7 @@ function Reserve() {
             <div className="row">
                 <div className="col-xl-1 "></div>
                 <div className="col-xl-4 col-lg-5 col-md-5">
-                    <img className="setting-pic-info just-flex-center img-fluid" src="dogbrown.png" alt="Dog" />
+                    <img className="setting-pic-info just-flex-center img-fluid" src={ dogBrown } alt="Dog" />
                 </div>
                 <div className="col-xl-6 col-lg-5 col-md-6 bg-grey p-3">
                     <h2>ปั๊กสีน้ำตาลธรรมชาติ</h2>

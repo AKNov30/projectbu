@@ -27,13 +27,7 @@ function App() {
   const location = useLocation();
 
   // Check if the current path belongs to the admin routes
-  const isAdminRoute = location.pathname.startsWith("/home-admin") ||
-                       location.pathname.startsWith("/adddog") ||
-                       location.pathname.startsWith("/reserve-admin") ||
-                       location.pathname.startsWith("/reserve/") ||
-                       location.pathname.startsWith("/change-date") ||
-                       location.pathname.startsWith("/list-user") ||
-                       location.pathname.startsWith("/result");
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
     <>
@@ -55,7 +49,7 @@ function App() {
 
         {/* Admin routes */}
         <Route
-          path="/home-admin"
+          path="/admin/home-admin"
           element={
             <PrivateRoute allowedRoles={['admin']}>
               <HomeAdmin />
@@ -63,7 +57,7 @@ function App() {
           }
         />
         <Route
-          path="/adddog"
+          path="/admin/adddog"
           element={
             <PrivateRoute allowedRoles={['admin']}>
               <AddDogForm />
@@ -71,7 +65,7 @@ function App() {
           }
         />
         <Route
-          path="/reserve-admin"
+          path="/admin/reserve-admin"
           element={
             <PrivateRoute allowedRoles={['admin']}>
               <Reserveadmin />
@@ -79,7 +73,7 @@ function App() {
           }
         />
         <Route
-          path="/reserve/:id"
+          path="/admin/reserve/:id"
           element={
             <PrivateRoute allowedRoles={['admin']}>
               <Reserveinfo />
@@ -87,7 +81,7 @@ function App() {
           }
         />
         <Route
-          path="/change-date"
+          path="/admin/change-date"
           element={
             <PrivateRoute allowedRoles={['admin']}>
               <ChangeDate />
@@ -95,7 +89,7 @@ function App() {
           }
         />
         <Route
-          path="/list-user"
+          path="/admin/list-user"
           element={
             <PrivateRoute allowedRoles={['admin']}>
               <ListUser />
@@ -103,7 +97,7 @@ function App() {
           }
         />
         <Route
-          path="/edit/:id"
+          path="/admin/edit/:id"
           element={
             <PrivateRoute allowedRoles={['admin']}>
               <EditUser />
@@ -111,7 +105,7 @@ function App() {
           }
         />
         <Route
-          path="/result"
+          path="/admin/result"
           element={
             <PrivateRoute allowedRoles={['admin']}>
               <Result />

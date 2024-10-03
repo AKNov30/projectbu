@@ -1,6 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import { dogBrown } from '../../../assets/' 
+
 const Reserveinfo = () => {
     // Access the parameters from the URL
     const { id } = useParams(); // Assuming your URL has a parameter named `id`
@@ -12,7 +14,7 @@ const Reserveinfo = () => {
             name: "ปั๊กสีน้ำตาลธรรมชาติ",
             price: 4500,
             code: "BRP01",
-            imageUrl: "dogbrown.png"
+            imageUrl: dogBrown
         },
         user: {
             name: "สิทธิโชค จันทร์ทรง",

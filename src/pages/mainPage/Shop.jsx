@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { search, dogBrown, dogBlack, dogPanda, dogWhite } from '../../assets/'
+
 function Shop() {
     //ข้อมูลหมา
     const products = [
@@ -9,7 +11,7 @@ function Shop() {
           color: 'ดำ',
           age: '4 วัน',
           price: '4,500 THB',
-          imgSrc: 'dogblack.png',
+          imgSrc: dogBlack,
           link: 'detaildog',
         },
         {
@@ -18,7 +20,7 @@ function Shop() {
           color: 'ขาว',
           age: '14 วัน',
           price: '4,500 THB',
-          imgSrc: 'dogwhite.png',
+          imgSrc: dogWhite,
           link: 'detaildog',
         },
         {
@@ -27,7 +29,7 @@ function Shop() {
           color: 'ขาว-ดำ',
           age: '34 วัน',
           price: '4,500 THB',
-          imgSrc: 'dogpanda.png',
+          imgSrc: dogPanda,
           link: 'detaildog',
         },
         {
@@ -36,7 +38,7 @@ function Shop() {
           color: 'น้ำตาล',
           age: '44 วัน',
           price: '4,500 THB',
-          imgSrc: 'dogbrown.png',
+          imgSrc: dogBrown,
           link: 'detaildog',
         },
         {
@@ -45,7 +47,7 @@ function Shop() {
             color: 'น้ำตาล',
             age: '44 วัน',
             price: '4,500 THB',
-            imgSrc: 'dogbrown.png',
+            imgSrc: dogBrown,
             link: 'detaildog',
           },
           {
@@ -54,7 +56,7 @@ function Shop() {
             color: 'น้ำตาล',
             age: '44 วัน',
             price: '4,500 THB',
-            imgSrc: 'dogbrown.png',
+            imgSrc: dogBrown,
             link: 'detaildog',
           },
       ];
@@ -117,7 +119,7 @@ function Shop() {
         </div>
 
         <div className="col-xl-1 col-lg-1 col-md-1 col-1" style={{ cursor: 'pointer' }}>
-          <img src="search.png" alt="Search" height="25" className="btn-search" />
+          <img src={ search } alt="Search" height="25" className="btn-search" />
         </div>
       </div>
     </div>

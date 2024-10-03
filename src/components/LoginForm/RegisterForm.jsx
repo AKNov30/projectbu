@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import { logo, back } from '../../assets/' 
+
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
     firstname: '',
@@ -71,7 +73,7 @@ const RegisterForm = () => {
               href="shop"
               style={{ color: 'black', cursor: 'pointer' }}
             >
-              <img src="image/back.png" style={{ width: '25px' }} alt="Back" />
+              <img src={ back } style={{ width: '25px' }} alt="Back" />
               ย้อนกลับ
             </a>
           </div>
@@ -80,7 +82,7 @@ const RegisterForm = () => {
         {/* Logo */}
         <div className="row">
           <div className="col-12 pt-3 d-flex justify-content-center">
-            <img src="image/logo.png" style={{ width: '100px' }} alt="Banner Image" />
+            <img src={ logo } style={{ width: '100px' }} alt="Banner Image" />
           </div>
         </div>
 

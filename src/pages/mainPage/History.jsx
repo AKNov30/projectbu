@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { search } from '../../assets/' 
+
 function History() {
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('ทั้งหมด');
@@ -79,7 +81,7 @@ function History() {
 
                 <div className="col-xl-1 col-lg-1 col-md-1 col-1 d-flex mt-2">
                     <div className="" onClick={() => { /* เพิ่มฟังก์ชันการค้นหาเพิ่มเติมถ้าจำเป็น */ }}>
-                        <img src="search.png" alt="Search" height="25" className="btn-search" />
+                        <img src={ search } alt="Search" height="25" className="btn-search" />
                     </div>
                 </div>
             </div>

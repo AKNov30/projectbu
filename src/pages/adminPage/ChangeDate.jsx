@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { dogBrown, dogBlack } from '../../assets/'
+
 function ChangeDate() {
   return (
     <>
@@ -29,7 +31,7 @@ function ChangeDate() {
                         <tbody>
                             <tr>
                                 <td className="text-center">
-                                    <img src="dogbrown.png" alt="Dog Brown" height="80" className="d-inline-block align-text-top" />
+                                    <img src={ dogBrown } alt="Dog Brown" height="80" className="d-inline-block align-text-top" />
                                 </td>
                                 <td>
                                     สิทธิโชค จันทร์ทรง<br />
@@ -50,7 +52,7 @@ function ChangeDate() {
                             </tr>
                             <tr>
                                 <td className="text-center">
-                                    <img src="dogblack.png" alt="Dog Black" height="80" className="d-inline-block align-text-top" />
+                                    <img src={ dogBlack } alt="Dog Black" height="80" className="d-inline-block align-text-top" />
                                 </td>
                                 <td>
                                     สิทธิโชค จันทร์ทรง<br />

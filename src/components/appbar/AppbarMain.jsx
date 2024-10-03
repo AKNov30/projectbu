@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom"; // นำเข้า useNavigate เพื่อใช้เปลี่ยนเส้นทาง
 import LoginForm from '../LoginForm/LoginForm';
 
+//image
+import { logo,paws } from '../../assets/' 
+
 function AppbarMain() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token')); // ตรวจสอบสถานะล็อกอิน
   const [userRole, setUserRole] = useState(localStorage.getItem('user_role') || '');
@@ -31,7 +34,7 @@ function AppbarMain() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light">
         <a className="navbar-brand text-logo d-flex" href="">
-          <img src="logo.png" alt="Logo" height="40" className="d-inline-block align-text-top" />
+          <img src={logo} alt="Logo" height="40" className="d-inline-block align-text-top" />
           <div className="pt-1 px-2">PuglifeHouse</div>
         </a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +57,7 @@ function AppbarMain() {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="">ติดต่อฉัน
-                <img src="paws.png" alt="Logo" height="18" className="pb-1" />
+                <img src={paws} alt="Logo" height="18" className="pb-1" />
               </a>
             </li>
           </ul>
@@ -76,7 +79,7 @@ function AppbarMain() {
                 <ul className="dropdown-menu">
                   {userRole === 'admin' && (
                     <li>
-                      <a href='home-admin' className="nav-link" style={{ cursor: 'pointer' }} >
+                      <a href='/admin/home-admin' className="nav-link" style={{ cursor: 'pointer' }} >
                         Admin Dashboard
                       </a>
                     </li>

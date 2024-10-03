@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { editIcon } from '../../../assets/'
+
 function ListUser() {
     const [users, setUsers] = useState([]);
 
@@ -42,7 +44,7 @@ function ListUser() {
                                             <td>{user.user_role}</td>
                                             <td className="text-center">
                                                 <a className="hover-icon" href={`/edit/${user.user_id}`}>
-                                                    <img className="pic-icon" src="edit-icon.png" alt="Edit" />
+                                                    <img className="pic-icon" src={ editIcon } alt="Edit" />
                                                 </a>
                                             </td>
                                         </tr>

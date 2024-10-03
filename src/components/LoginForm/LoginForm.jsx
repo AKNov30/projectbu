@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import { logo } from '../../assets/' 
+
 function LoginForm() {
   const [formData, setFormData] = useState({
     user_email: '',
@@ -77,7 +79,7 @@ function LoginForm() {
               <div className="row">
                 <div className="col-12 d-flex justify-content-center">
                   <img
-                    src="image/logo.png"
+                    src={ logo }
                     style={{ width: '100px' }}
                     alt="Logo"
                   />

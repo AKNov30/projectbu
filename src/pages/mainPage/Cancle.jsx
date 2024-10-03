@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { dogBrown } from '../../assets/'
+
 function Cancle() {
   return (
     <>
@@ -17,7 +19,7 @@ function Cancle() {
                 <div className="col-xl-2 col-lg-2 col-md-3 pt-2">
                     <img
                         className="setting-pic-cancle just-flex-center img-fluid"
-                        src="dogbrown.png"
+                        src={ dogBrown }
                         alt="dog"
                     />
                 </div>
