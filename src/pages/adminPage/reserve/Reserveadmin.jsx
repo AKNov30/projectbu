@@ -67,7 +67,7 @@ function Reserveadmin() {
                                     <td>{reservation.time}</td>
                                     <td>
                                         <div>
-                                            <Link to={`/reserve/${reservation.code}`} className="btn btn-warning" style={{ width: "100%" }}>
+                                            <Link to={`/admin/reserve/${reservation.code}`} className="btn btn-warning" style={{ width: "100%" }}>
                                                 รายละเอียด
                                             </Link>
                                         </div>

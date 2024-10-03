@@ -43,7 +43,7 @@ function ListUser() {
                                             <td>{user.firstname} {user.lastname}</td>
                                             <td>{user.user_role}</td>
                                             <td className="text-center">
-                                                <a className="hover-icon" href={`/edit/${user.user_id}`}>
+                                                <a className="hover-icon" href={`/admin/edit/${user.user_id}`}>
                                                     <img className="pic-icon" src={ editIcon } alt="Edit" />
                                                 </a>
                                             </td>
