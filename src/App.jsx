@@ -22,7 +22,6 @@ import ChangeDate from "./pages/adminPage/ChangeDate";
 import ListUser from "./pages/adminPage/listUser/ListUser";
 import EditUser from "./pages/adminPage/listUser/EditUser";
 import Result from "./pages/adminPage/result/Result";
-// import './index.css'
 
 function App() {
   const location = useLocation();

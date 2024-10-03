@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'thaifont';
-    src: url(../fonts/Prompt.ttf);
+    src: url('../src/fonts/Prompt.ttf') format('truetype');
 }
 * {
     font-family: 'thaifont';
