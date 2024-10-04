@@ -217,6 +217,17 @@ app.post('/api/adddog',upload.array('files'), (req, res) => {
   });
 });
 
+// ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน home-admin
+app.get('/api/dogs', (req, res) => {
+  const sql = 'SELECT dog_id, dogs_name, birthday, price, color FROM dogs';
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).send('Error fetching dogs: ' + err.message);
+    res.json(results);
+  });
+});
+
+
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
