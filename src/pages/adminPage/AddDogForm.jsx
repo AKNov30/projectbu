@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
 function AddDogForm() {
   const [dogname, setDogName] = useState("");
@@ -8,65 +8,61 @@ function AddDogForm() {
   const [color, setColor] = useState("");
   const [description, setDescription] = useState("");
   const [personality, setPersonality] = useState("");
-  const [file, setFile] = useState();
+  const [files, setFiles] = useState([]);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(""); // สำหรับแสดงข้อผิดพลาด
-  const [fileKey, setFileKey] = useState(0); // สำหรับรีเซ็ต file input
+  const [error, setError] = useState(""); // For displaying errors
+  const [fileKey, setFileKey] = useState(0); // For resetting file input
 
   const upload = () => {
-    // ตรวจสอบว่ากรอกข้อมูลครบทุกช่องหรือไม่
-    if (!dogname || !birthDay || !price || !color || !description || !personality || !file) {
-      alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+    if (!dogname || !birthDay || !price || !color || !description || !personality || files.length === 0) {
+      setError("กรุณากรอกข้อมูลให้ครบทุกช่อง");
       return;
     }
 
-    const formData = new FormData()
+    const formData = new FormData();
     formData.append("dogs_name", dogname);
     formData.append("birthday", birthDay);
     formData.append("price", price);
     formData.append("color", color);
     formData.append("description", description);
     formData.append("personality", personality);
-    formData.append('file', file)
+    files.forEach(file => {
+      formData.append('files', file);
+    });
 
     axios.post('http://localhost:5000/api/adddog', formData)
       .then((response) => {
         console.log(response);
-        setSuccess(true); // ตั้งค่าสถานะให้แสดง alert เมื่อเพิ่มสำเร็จ
-        setError(""); // รีเซ็ตข้อผิดพลาด
+        setSuccess(true);
+        setError(""); // Reset error on success
       })
       .catch(err => {
-        console.log(err);
-        setError("เกิดข้อผิดพลาดในการเพิ่มสุนัข"); // ตั้งค่าข้อผิดพลาด
+        console.error(err);
+        setError("เกิดข้อผิดพลาดในการเพิ่มสุนัข");
       });
   };
 
   useEffect(() => {
     if (success) {
-      // ล้างค่าฟอร์ม
+      // Reset form
       setDogName("");
       setBirthDay("");
       setPrice("");
       setColor("");
       setDescription("");
       setPersonality("");
-      setFile(null);
+      setFiles([]);
+      setFileKey(prevKey => prevKey + 1); // Reset file input
 
-      // รีเซ็ต key เพื่อรีเซ็ต file input
-      setFileKey(prevKey => prevKey + 1);
-
-      // ตั้งค่าการรีเซ็ต `success` หลังจาก 3 วินาที
       const timer = setTimeout(() => {
         setSuccess(false);
       }, 3000);
-
-      // ทำความสะอาด timer เมื่อ component ถูก unmount หรือเมื่อ `success` เปลี่ยนแปลง
       return () => clearTimeout(timer);
     }
   }, [success]);
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    setFiles([...e.target.files]);
   };
 
   return (
@@ -79,7 +75,7 @@ function AddDogForm() {
         </div>
 
         <div className="row">
-          <div className="col-xl-8 offset-xl-2 pt-3"> {/* Center the form */}
+          <div className="col-xl-8 offset-xl-2 pt-3">
             <form>
               {/* Dog Name */}
               <div className="mb-3">
@@ -108,11 +104,12 @@ function AddDogForm() {
                 <div className="col-md-6">
                   <label className="form-label">ราคา</label>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
+                    step="0.01"
                   />
                 </div>
               </div>
@@ -158,8 +155,18 @@ function AddDogForm() {
                   key={fileKey}
                   type="file"
                   className="form-control"
-                  onChange={(e) => setFile(e.target.files[0])}
+                  multiple
+                  onChange={handleFileChange}
                 />
+                <div className="mt-2">
+                  {files.length > 0 && (
+                    <ul>
+                      {Array.from(files).map((file, index) => (
+                        <li key={index}>{file.name}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
 
               {/* Submit Button */}
@@ -175,18 +182,22 @@ function AddDogForm() {
               </div>
             </form>
 
-            {/* Success Alert */}
+            {/* Success and Error Messages */}
             {success && (
               <div className="alert alert-success mt-3" role="alert">
                 เพิ่มสุนัขสำเร็จ
               </div>
             )}
+            {error && (
+              <div className="alert alert-danger mt-3" role="alert">
+                {error}
+              </div>
+            )}
           </div>
         </div>
       </div>
-
     </>
-  )
+  );
 }
 
-export default AddDogForm
+export default AddDogForm;

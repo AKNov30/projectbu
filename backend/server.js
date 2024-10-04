@@ -34,17 +34,6 @@ db.connect((err) => {
   console.log('Connected to database');
 });
 
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    return cb(null, "./public/images")
-  },
-  filename: function (req, file, cb) {
-    return cb(null, `${Date.now()}_${file.originalname}`)
-  },
-})
-
-const upload = multer({storage})
-
 // Endpoint สำหรับการสมัครสมาชิก
 app.post('/api/register', async (req, res) => {
   const { firstname, lastname, user_email, user_password, phone } = req.body;
@@ -190,14 +179,28 @@ app.put('/api/users/:user_id', (req, res) => {
 
 
 //addDog
-app.post('/api/adddog',upload.single('file'), (req, res) => {
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    return cb(null, "./public/images")
+  },
+  filename: function (req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`)
+  },
+})
+
+const upload = multer({ storage })
+
+app.post('/api/adddog',upload.array('files'), (req, res) => {
   // Check if the file was uploaded
-  if (!req.file) {
+  if (!req.files || req.files.length === 0) {
     return res.status(400).send('No file uploaded');
   }
   const { dogs_name, birthday, price, color, description, personality } = req.body;
 
   const sql = 'INSERT INTO dogs (`dogs_name`, `birthday`, `price`, `color`, `description`, `personality`, `image_url`) VALUES (?)';
+
+  const fileNames = req.files.map(file => file.filename);
+
   const values = [
     dogs_name,
     birthday, 
@@ -205,7 +208,7 @@ app.post('/api/adddog',upload.single('file'), (req, res) => {
     color, 
     description, 
     personality,
-    req.file.filename,
+    JSON.stringify(fileNames),
   ]
 
   db.query(sql, [values], (err, result) => {
