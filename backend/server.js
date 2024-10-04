@@ -6,12 +6,14 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv'; 
 import cors from 'cors';
 import bcrypt from 'bcrypt';
+import multer from 'multer';
 
 dotenv.config();
 
 const app = express();
 const port = 5000;
 
+app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -31,6 +33,17 @@ db.connect((err) => {
   }
   console.log('Connected to database');
 });
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    return cb(null, "./public/images")
+  },
+  filename: function (req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`)
+  },
+})
+
+const upload = multer({storage})
 
 // Endpoint สำหรับการสมัครสมาชิก
 app.post('/api/register', async (req, res) => {
@@ -110,7 +123,7 @@ app.post('/api/login', async (req, res) => {
   });
 });
 
-
+//ListUser
 // ดึงรายข้อมูล user มาแสดง
 app.get('/api/users', (req, res) => {
   const sql = 'SELECT user_id, firstname, lastname, user_role FROM users';
@@ -176,6 +189,30 @@ app.put('/api/users/:user_id', (req, res) => {
 });
 
 
+//addDog
+app.post('/api/adddog',upload.single('file'), (req, res) => {
+  // Check if the file was uploaded
+  if (!req.file) {
+    return res.status(400).send('No file uploaded');
+  }
+  const { dogs_name, birthday, price, color, description, personality } = req.body;
+
+  const sql = 'INSERT INTO dogs (`dogs_name`, `birthday`, `price`, `color`, `description`, `personality`, `image_url`) VALUES (?)';
+  const values = [
+    dogs_name,
+    birthday, 
+    price, 
+    color, 
+    description, 
+    personality,
+    req.file.filename,
+  ]
+
+  db.query(sql, [values], (err, result) => {
+    if (err) return res.status(500).send('Error inserting dog: ' + err.message);
+    res.status(201).send('Dog added successfully');
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
