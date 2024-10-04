@@ -222,7 +222,7 @@ function Shop() {
                       {imageUrls.length > 0 ? (
                         <img
                           className="setting-pic justify-content-center img-fluid"
-                          src={`http://localhost:5000/images/${imageUrls[0]}`} // แสดงรูปแรกจาก array
+                          src={`http://localhost:5000${imageUrls[0]}`} // แสดงรูปแรกจาก array
                           alt={product.dogs_name}
                         />
                       ) : (
