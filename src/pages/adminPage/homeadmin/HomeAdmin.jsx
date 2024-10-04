@@ -29,7 +29,7 @@ function HomeAdmin() {
 
   // ลบสุนัข 
   const handleDelete = async () => {
-    
+
   };
 
   // ใช้ useEffect เพื่อติดต่อ API เมื่อ component ถูก mount
@@ -43,40 +43,43 @@ function HomeAdmin() {
         <div className="row pt-5">
           <main className="col-xl-9 col-lg-9 col-md-8 pt-3">
             <h3 className="px-3 py-3 text-center">รายชื่อสุนัข</h3>
-            <table className="table bg-grey border">
-              <thead>
-                <tr>
-                  <th style={{ width: '5%' }}>รหัส</th>
-                  <th style={{ width: '10%' }}>ชื่อสุนัข</th>
-                  <th style={{ width: '5%' }}>วันเกิด</th>
-                  <th style={{ width: '5%' }}>ราคา</th>
-                  <th style={{ width: '7%' }}>สี</th>
-                  <th style={{ width: '3%' }}>&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody>
-                {dogs.map((dog) => (
-                  <tr key={dog.dog_id}>
-                    <td>{dog.dog_id}</td>
-                    <td>{dog.dogs_name}</td>
-                    <td>{formatDate(dog.birthday)}</td>
-                    <td>{dog.price}</td>
-                    <td>{dog.color}</td>
-                    <td>
-                      <a className="hover-icon" href={`editdog/${dog.dog_id}`} aria-label="Edit">
-                        <img className="pic-icon" src={editIcon} alt="Edit" />
-                      </a>
-                      <a className="hover-icon" aria-label="Delete" onClick={() => handleDelete(dog.dog_id)}>
-                        <img className="pic-icon" src={binIcon} alt="Delete" />
-                      </a>
-                    </td>
+            <div className="table-responsive">
+              <table className="table table-striped table-hover bg-light border">
+                <thead className="thead-dark">
+                  <tr>
+                    <th scope="col" style={{ width: '5%' }}>รหัส</th>
+                    <th scope="col" style={{ width: '10%' }}>ชื่อสุนัข</th>
+                    <th scope="col" style={{ width: '10%' }}>วันเกิด</th>
+                    <th scope="col" style={{ width: '5%' }}>ราคา</th>
+                    <th scope="col" style={{ width: '7%' }}>สี</th>
+                    <th scope="col" style={{ width: '10%' }} className="text-center">&nbsp;</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {dogs.map((dog) => (
+                    <tr key={dog.dog_id}>
+                      <td>{dog.dog_id}</td>
+                      <td>{dog.dogs_name}</td>
+                      <td>{formatDate(dog.birthday)}</td>
+                      <td>{dog.price} บาท</td> {/* Optional: Display currency */}
+                      <td>{dog.color}</td>
+                      <td className="text-center">
+                        <a className="hover-icon me-2" href={`editdog/${dog.dog_id}`} aria-label="Edit">
+                          <img className="pic-icon" src={editIcon} alt="Edit" />
+                        </a>
+                        <a className="hover-icon" aria-label="Delete" onClick={() => handleDelete(dog.dog_id)}>
+                          <img className="pic-icon" src={binIcon} alt="Delete" />
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </main>
         </div>
       </div>
+
     </>
   )
 }

@@ -36,7 +36,7 @@ function EditUser() {
       .then(response => response.json())
       .then(() => {
         alert('แก้ไขข้อมูลสำเร็จ');
-        navigate('/list-user'); // กลับไปหน้ารายชื่อสมาชิกหลังจากแก้ไขเสร็จ
+        navigate('/admin/list-user'); // กลับไปหน้ารายชื่อสมาชิกหลังจากแก้ไขเสร็จ
       })
       .catch(error => console.error('Error updating user:', error));
   };
@@ -45,7 +45,7 @@ function EditUser() {
     <>
       <div className="row fix-row">
         <div className="col-12 pt-1">
-          <a className="p-2 d-flex" href="/list-user" style={{ color: 'black', cursor: 'pointer' }}>
+          <a className="p-2 d-flex" href="/admin/list-user" style={{ color: 'black', cursor: 'pointer' }}>
             <img src={ back } alt="Back" style={{ width: '25px' }} />
             ย้อนกลับ
           </a>
