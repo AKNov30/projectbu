@@ -29,8 +29,8 @@ function AddDogForm() {
     formData.append("personality", personality);
     formData.append('file', file)
 
-    axios.post('http://localhost:5000/api/adddog',formData )
-    .then((response) => {
+    axios.post('http://localhost:5000/api/adddog', formData)
+      .then((response) => {
         console.log(response);
         setSuccess(true); // ตั้งค่าสถานะให้แสดง alert เมื่อเพิ่มสำเร็จ
         setError(""); // รีเซ็ตข้อผิดพลาด
@@ -39,39 +39,39 @@ function AddDogForm() {
         console.log(err);
         setError("เกิดข้อผิดพลาดในการเพิ่มสุนัข"); // ตั้งค่าข้อผิดพลาด
       });
-};
+  };
 
-useEffect(() => {
-  if (success) {
-    // ล้างค่าฟอร์ม
-    setDogName("");
-    setBirthDay("");
-    setPrice("");
-    setColor("");
-    setDescription("");
-    setPersonality("");
-    setFile(null);
-    
-    // รีเซ็ต key เพื่อรีเซ็ต file input
-    setFileKey(prevKey => prevKey + 1);
+  useEffect(() => {
+    if (success) {
+      // ล้างค่าฟอร์ม
+      setDogName("");
+      setBirthDay("");
+      setPrice("");
+      setColor("");
+      setDescription("");
+      setPersonality("");
+      setFile(null);
 
-    // ตั้งค่าการรีเซ็ต `success` หลังจาก 3 วินาที
-    const timer = setTimeout(() => {
-      setSuccess(false);
-    }, 3000);
+      // รีเซ็ต key เพื่อรีเซ็ต file input
+      setFileKey(prevKey => prevKey + 1);
 
-    // ทำความสะอาด timer เมื่อ component ถูก unmount หรือเมื่อ `success` เปลี่ยนแปลง
-    return () => clearTimeout(timer);
-  }
-}, [success]);
+      // ตั้งค่าการรีเซ็ต `success` หลังจาก 3 วินาที
+      const timer = setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
 
-const handleFileChange = (e) => {
-  setFile(e.target.files[0]);
-};
+      // ทำความสะอาด timer เมื่อ component ถูก unmount หรือเมื่อ `success` เปลี่ยนแปลง
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   return (
     <>
-       <div className="container-fluid">
+      <div className="container-fluid">
         <div className="row">
           <div className="col-12 pt-3 d-flex justify-content-center">
             <h1>เพิ่มสุนัข</h1>
@@ -79,78 +79,80 @@ const handleFileChange = (e) => {
         </div>
 
         <div className="row">
-          
-          <div className="col-xl-8 pt-3">
-            <div className="row">
-              <div className="col-xl-6 pt-6">
+          <div className="col-xl-8 offset-xl-2 pt-3"> {/* Center the form */}
+            <form>
+              {/* Dog Name */}
+              <div className="mb-3">
                 <label className="form-label">ชื่อสุนัข</label>
                 <input
                   type="text"
                   className="form-control"
                   value={dogname}
                   onChange={(e) => setDogName(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-xl-3 pt-3">
-                <label className="form-label">วันเกิด</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  value={birthDay}
-                  onChange={(e) => setBirthDay(e.target.value)}
+                  required
                 />
               </div>
 
-              <div className="col-xl-3 pt-3">
-                <label className="form-label">ราคา</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
+              {/* Date of Birth and Price */}
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">วันเกิด</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={birthDay}
+                    onChange={(e) => setBirthDay(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">ราคา</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="row">
-              <div className="col-xl-3 pt-3">
-                <label className="form-label">สี</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={color}
-                  onChange={(e) => setColor(e.target.value)}
-                />
+              {/* Color and Personality */}
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">สี</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={color}
+                    onChange={(e) => setColor(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">ลักษณะนิสัย</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={personality}
+                    onChange={(e) => setPersonality(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
 
-              <div className="col-xl-3 pt-3">
-                <label className="form-label">ลักษณะนิสัย</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={personality}
-                  onChange={(e) => setPersonality(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-xl-6 pt-3">
+              {/* Description */}
+              <div className="mb-3">
                 <label className="form-label">หมายเหตุ</label>
                 <textarea
-                  type="text"
                   className="form-control"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-            </div>
 
-            <div className="row">
-              <div className="col-xl-6 pt-3">
+              {/* File Upload */}
+              <div className="mb-3">
                 <label className="form-label">เพิ่มรูป</label>
                 <input
                   key={fileKey}
@@ -159,29 +161,30 @@ const handleFileChange = (e) => {
                   onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
-            </div>
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-xl-4 pt-3"></div>
-          <div className="col-xl-4 pt-5">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={upload}
-              style={{ width: '100%', height: '50px' }}
-            >
-              เพิ่มสุนัข
-            </button>
+              {/* Submit Button */}
+              <div className="text-center mb-3">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={upload}
+                  style={{ width: '100%', height: '50px' }}
+                >
+                  เพิ่มสุนัข
+                </button>
+              </div>
+            </form>
+
+            {/* Success Alert */}
+            {success && (
+              <div className="alert alert-success mt-3" role="alert">
+                เพิ่มสุนัขสำเร็จ
+              </div>
+            )}
           </div>
         </div>
-        {success && ( // แสดง alert หากสถานะ success เป็น true
-          <div className="alert alert-success" role="alert">
-            เพิ่มสุนัขสำเร็จ
-          </div>
-        )}
       </div>
+
     </>
   )
 }
