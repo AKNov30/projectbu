@@ -43,10 +43,42 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/shop" element={<Shop />} />
-        <Route path="/cancle" element={<Cancle />} />
-        <Route path="/detaildog" element={<DetailDog />} />
-        <Route path="/reserve" element={<Reserve />} />
-        <Route path="/history" element={<History />} />
+        {/* <Route path="/cancle" element={<Cancle />} /> */}
+        {/* <Route path="/detaildog" element={<DetailDog />} /> */}
+        {/* <Route path="/reserve" element={<Reserve />} /> */}
+        {/* <Route path="/history" element={<History />} /> */}
+        <Route
+          path="/cancle"
+          element={
+            <PrivateRoute allowedRoles={['member']}>
+              <Cancle />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/detaildog"
+          element={
+            <PrivateRoute allowedRoles={['member']}>
+              <DetailDog />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/reserve"
+          element={
+            <PrivateRoute allowedRoles={['member']}>
+              <Reserve />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <PrivateRoute allowedRoles={['member']}>
+              <History />
+            </PrivateRoute>
+          }
+        />
 
         {/* Admin routes */}
         <Route

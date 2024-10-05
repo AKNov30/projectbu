@@ -120,26 +120,18 @@ function LoginForm() {
                       onChange={handleChange}
                       required
                     />
+                    <a className="d-flex justify-content-end py-1" href="register">สมัครสมาชิก</a>
                   </div>
                 </div>
 
                 <div className="row">
-                  <div className="col-12 d-flex justify-content-end pt-4 px-5">
-                    <button type="submit" className="btn btn-primary">
+                  <div className="d-flex justify-content-center pt-1 px-5 pb-5">
+                    <button type="submit" className="btn btn-primary w-100">
                       ล็อคอิน
                     </button>
                   </div>
                 </div>
               </form>
-
-              <div className="row">
-                <div className="col-12 d-flex justify-content-center pt-4 px-5">
-                  <a className="px-2" href="register">สมัครสมาชิก</a>
-                  {/* ลิงก์ไปหน้าสมัครสมาชิก */}
-                  <a className="px-2" href="home-admin">Admin</a>
-                  {/* ลิงก์ไปหน้าแอดมิน */}
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -49,7 +49,7 @@ function AppbarMain() {
             <li className="nav-item">
               <Link to="/shop" className="nav-link">ร้านค้า</Link>
             </li>
-            {isLoggedIn && ( // ซ่อนเมื่อไม่ได้ login
+            {isLoggedIn && userRole === 'member' && ( // แสดงเมื่อ login และ userRole = member
               <>
                 <li className="nav-item">
                   <Link to="/cancle" className="nav-link">การจอง</Link>
