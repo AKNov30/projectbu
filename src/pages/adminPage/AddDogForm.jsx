@@ -136,13 +136,18 @@ function AddDogForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label className="form-label">สี</label>
-                  <input
-                    type="text"
-                    className="form-control"
+                  <select
+                    className="form-select"
                     value={color}
                     onChange={(e) => setColor(e.target.value)}
                     required
-                  />
+                  >
+                    <option value="">เลือกสี</option> {/* Option for placeholder */}
+                    <option value="น้ำตาล">น้ำตาล</option>
+                    <option value="ดำ">ดำ</option>
+                    <option value="ขาว">ขาว</option>
+                    <option value="ขาว-ดำ">ขาว-ดำ</option>
+                  </select>
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">ลักษณะนิสัย</label>
