@@ -6,7 +6,7 @@ import AppbarMain from "./components/appbar/AppbarMain";
 import AppbarAdmin from "./components/appbar/AppbarAdmin";
 
 //page
-import Shop from "./pages/mainPage/Shop";
+import Shop from "./pages/mainPage/shop/Shop";
 import Home from "./pages/mainPage/Home";
 import Cancle from "./pages/mainPage/Cancle";
 import RegisterForm from "./components/LoginForm/RegisterForm";
@@ -44,7 +44,6 @@ function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/shop" element={<Shop />} />
         {/* <Route path="/cancle" element={<Cancle />} /> */}
-        {/* <Route path="/detaildog" element={<DetailDog />} /> */}
         {/* <Route path="/reserve" element={<Reserve />} /> */}
         {/* <Route path="/history" element={<History />} /> */}
         <Route
@@ -55,14 +54,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/detaildog"
-          element={
-            <PrivateRoute allowedRoles={['member']}>
-              <DetailDog />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/detail-dog/:dog_id"element={<DetailDog />}/>
         <Route
           path="/reserve"
           element={

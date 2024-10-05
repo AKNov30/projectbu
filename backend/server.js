@@ -234,7 +234,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post('/api/adddog', upload.array('files'), (req, res) => {
+app.post('/api/adddog', upload.array('files', 4), (req, res) => {
   // Check if the file was uploaded
   if (!req.files || req.files.length === 0) {
     return res.status(400).json('No file uploaded');
@@ -431,6 +431,21 @@ app.get('/api/shop-dogs', (req, res) => {
       return res.status(500).json('Error fetching shop dogs: ' + err.message);
     }
     res.json(results);
+  });
+});
+
+app.get('/api/dogs/:dog_id', (req, res) => {
+  const { dog_id } = req.params;
+  const sql = 'SELECT dog_id, dogs_name, birthday, price, color, image_url, personality FROM dogs WHERE dog_id = ?';
+  pool.query(sql, [dog_id], (err, results) => {
+    if (err) {
+      console.error('Error fetching dog details:', err);
+      return res.status(500).json({ message: 'Error fetching dog details', error: err.message });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Dog not found' });
+    }
+    res.json(results[0]);
   });
 });
 

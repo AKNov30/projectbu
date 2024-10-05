@@ -64,6 +64,11 @@ function AddDogForm() {
 
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files);
+    const totalFiles = newFiles.length + files.length;
+    if (totalFiles > 4) {
+      setError("เพิ่มรูปภาพได้สูงสุด 4 รูป");
+      return;
+    }
 
     // Concatenate new files without duplicates
     setFiles(prevFiles => {

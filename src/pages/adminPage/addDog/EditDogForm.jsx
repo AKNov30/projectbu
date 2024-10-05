@@ -110,6 +110,12 @@ function EditDogForm() {
     // จัดการการเลือกไฟล์ใหม่
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
+        const totalFiles = existingImages.length - removeImages.length + newFiles.length + selectedFiles.length;
+
+        if (totalFiles > 4) {
+            setError("เพิ่มรูปภาพได้สูงสุด 4 รูป");
+            return;
+        }
         setNewFiles(prevFiles => [...prevFiles, ...selectedFiles]);
     };
 

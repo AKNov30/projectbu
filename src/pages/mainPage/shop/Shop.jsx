@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { search } from '../../assets';
-import { logo } from '../../assets'; // เพิ่มรูป default image ถ้าไม่มีรูป
+import { search } from '../../../assets';
+import { logo } from '../../../assets'; // เพิ่มรูป default image ถ้าไม่มีรูป
+import { Link } from 'react-router-dom';
 
 function Shop() {
   const [products, setProducts] = useState([]);
@@ -109,11 +110,11 @@ function Shop() {
       if (filterPrice === '2024') {
         matchesPrice = price <= 2500;
       } else if (filterPrice === '2023') {
-        matchesPrice = price > 2500 && price <= 3500;
+        matchesPrice = price >= 2500 && price <= 3500;
       } else if (filterPrice === '2022') {
-        matchesPrice = price > 3500 && price <= 4500;
+        matchesPrice = price >= 3500 && price <= 4500;
       } else if (filterPrice === '2021') {
-        matchesPrice = price > 4500 && price <= 5500;
+        matchesPrice = price >= 4500 && price <= 5500;
       }
 
       return matchesSearch && matchesColor && matchesAge && matchesPrice;
@@ -217,18 +218,18 @@ function Shop() {
 
               return (
                 <div className="col-xl-3 col-lg-6 col-md-6 d-md-flex align-items-stretch pt-3" key={product.dog_id}>
-                  <a className="card-setting bg-white" href={product.link}>
+                  <Link to={`/detail-dog/${product.dog_id}`} className="card-setting bg-white"> {/* Use Link here */}
                     <div className="d-flex justify-content-center">
                       {imageUrls.length > 0 ? (
                         <img
                           className="setting-pic justify-content-center img-fluid"
-                          src={`http://localhost:5000${imageUrls[0]}`} // แสดงรูปแรกจาก array
+                          src={`http://localhost:5000${imageUrls[0]}`} // Show the first image from the array
                           alt={product.dogs_name}
                         />
                       ) : (
                         <img
                           className="setting-pic justify-content-center img-fluid"
-                          src={logo} // กำหนด default image
+                          src={logo} // Default image
                           alt={product.dogs_name}
                         />
                       )}
@@ -246,7 +247,7 @@ function Shop() {
                         รายละเอียด
                       </button>
                     </div>
-                  </a>
+                  </Link> {/* Close Link here */}
                 </div>
               );
             })}
