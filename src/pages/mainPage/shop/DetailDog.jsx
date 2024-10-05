@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-import { dogBrown, dogWhite } from '../../assets/' 
+import { dogBrown, dogWhite } from '../../../assets' 
 
 function DetailDog() {
   return (

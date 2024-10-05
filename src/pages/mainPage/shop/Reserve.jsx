@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { dogBrown } from '../../assets/' 
+import { dogBrown } from '../../../assets' 
 
 function Reserve() {
     const [isAccepted, setIsAccepted] = useState(false);

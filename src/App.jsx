@@ -11,8 +11,8 @@ import Home from "./pages/mainPage/Home";
 import Cancle from "./pages/mainPage/Cancle";
 import RegisterForm from "./components/LoginForm/RegisterForm";
 import History from "./pages/mainPage/History";
-import DetailDog from "./components/detaildog/DetailDog";
-import Reserve from "./components/detaildog/Reserve";
+import DetailDog from "./pages/mainPage/shop/DetailDog";
+import Reserve from "./pages/mainPage/shop/Reserve";
 
 import HomeAdmin from "./pages/adminPage/homeadmin/HomeAdmin";
 import EditDogForm from "./pages/adminPage/addDog/EditDogForm";
