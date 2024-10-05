@@ -76,6 +76,14 @@ function App() {
 
         {/* Admin routes */}
         <Route
+          path="/admin"
+          element={
+            <PrivateRoute allowedRoles={['admin']}>
+              <HomeAdmin />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/admin/home-admin"
           element={
             <PrivateRoute allowedRoles={['admin']}>

@@ -33,10 +33,10 @@ function AppbarMain() {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light">
-        <a className="navbar-brand text-logo d-flex" href="">
+        <Link className="navbar-brand text-logo d-flex" to="/">
           <img src={logo} alt="Logo" height="40" className="d-inline-block align-text-top" />
           <div className="pt-1 px-2">PuglifeHouse</div>
-        </a>
+        </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

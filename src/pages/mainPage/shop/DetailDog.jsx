@@ -13,6 +13,9 @@ function DetailDog() {
   const [error, setError] = useState(null); // สถานะข้อผิดพลาด
   const [user, setUser] = useState(null);
 
+   // ดึง user_role จาก localStorage
+   const [userRole, setUserRole] = useState(localStorage.getItem('user_role') || '');
+
   // ฟังก์ชั่นคำนวณอายุจากวันเกิด
   const calculateAge = (birthday) => {
     const birthDate = new Date(birthday);
@@ -84,6 +87,7 @@ function DetailDog() {
   };
 
   useEffect(() => {
+    console.log(userRole)
     fetchDogDetails();
   }, [dog_id]);
 
@@ -140,7 +144,7 @@ function DetailDog() {
             <div className="just-flex-end d-flex pt-3">
               <button type="button" className="btn btn-outline-secondary setting-btn-reserve">โทร</button>
               {/* ถ้าไม่ได้ login หรือ role=admin จะไม่สามารถกดจองได้ */}
-              {user && user.user_role !== 'admin' ? (
+              {userRole === 'member' ? (
                 <Link to="/reserve" className="btn btn-warning setting-btn-reserve mx-2">จอง</Link>
               ) : (
                 <button type="button" className="btn btn-warning setting-btn-reserve mx-2" disabled>จอง</button>
