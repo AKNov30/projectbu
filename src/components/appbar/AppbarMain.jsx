@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"; // นำเข้า useN
 import LoginForm from '../LoginForm/LoginForm';
 
 //image
-import { logo,paws } from '../../assets/' 
+import { logo, paws } from '../../assets/'
 
 function AppbarMain() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token')); // ตรวจสอบสถานะล็อกอิน
@@ -49,12 +49,16 @@ function AppbarMain() {
             <li className="nav-item">
               <Link to="/shop" className="nav-link">ร้านค้า</Link>
             </li>
-            <li className="nav-item">
-              <Link to="/cancle" className="nav-link">การจอง</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/history" className="nav-link">ประวัติการจอง</Link>
-            </li>
+            {isLoggedIn && ( // ซ่อนเมื่อไม่ได้ login
+              <>
+                <li className="nav-item">
+                  <Link to="/cancle" className="nav-link">การจอง</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/history" className="nav-link">ประวัติการจอง</Link>
+                </li>
+              </>
+            )}
             <li className="nav-item">
               <a className="nav-link" href="">ติดต่อฉัน
                 <img src={paws} alt="Logo" height="18" className="pb-1" />
