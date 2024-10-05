@@ -1,17 +1,57 @@
 import React, { useEffect, useState } from 'react';
-
-import { editIcon } from '../../../assets/'
+import { editIcon, binIcon } from '../../../assets/'
 
 function ListUser() {
     const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // ดึงข้อมูลจาก API
         fetch('http://localhost:5000/api/users')
-            .then(response => response.json())
-            .then(data => setUsers(data))
-            .catch(error => console.error('Error fetching users:', error));
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setUsers(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+                toast.error('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้');
+                setLoading(false);
+            });
     }, []);
+
+    const handleDelete = (user_id) => {
+        // ยืนยันการลบ
+        if (!window.confirm('คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้นี้?')) {
+            return;
+        }
+
+        // เรียกใช้งาน API ลบผู้ใช้
+        fetch(`http://localhost:5000/api/users/${user_id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => { throw new Error(errorData.error || 'Network response was not ok') });
+                }
+                return response.json();
+            })
+            .then(data => {
+                // ลบผู้ใช้จาก state
+                setUsers(users.filter(user => user.user_id !== user_id));
+                toast.success(data.message || 'ลบผู้ใช้สำเร็จ');
+            })
+            .catch(error => {
+                console.error('Error deleting user:', error);
+                toast.error(error.message || 'เกิดข้อผิดพลาดในการลบผู้ใช้');
+            });
+    };
 
     return (
         <>
@@ -24,8 +64,7 @@ function ListUser() {
                 </div>
 
                 <div className="row">
-                    <div className="col-xl-1 col-lg-1 col-md-0"></div>
-                    <div className="col-xl-10 col-lg-2 col-md-2 pt-3">
+                    <div className="col-xl-12 col-lg-12 col-md-12 pt-3">
                         <table className="table bg-grey border">
                             <thead>
                                 <tr>
@@ -45,6 +84,9 @@ function ListUser() {
                                             <td className="text-center">
                                                 <a className="hover-icon" href={`/admin/edit/${user.user_id}`}>
                                                     <img className="pic-icon" src={ editIcon } alt="Edit" />
+                                                </a>
+                                                <a className="hover-icon" aria-label="Delete" onClick={() => handleDelete(user.user_id)}>
+                                                    <img className="pic-icon" src={binIcon} alt="Delete" />
                                                 </a>
                                             </td>
                                         </tr>

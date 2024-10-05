@@ -8,6 +8,7 @@ import cors from 'cors';
 import bcrypt from 'bcrypt';
 import multer from 'multer';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 // Initialize environment variables
@@ -191,6 +192,36 @@ app.put('/api/users/:user_id', (req, res) => {
   });
 });
 
+// Endpoint สำหรับลบผู้ใช้
+app.delete('/api/users/:user_id', (req, res) => {
+  const { user_id } = req.params;
+
+  // ตรวจสอบว่าผู้ใช้มีอยู่ในฐานข้อมูลหรือไม่
+  const checkUserSql = 'SELECT * FROM users WHERE user_id = ?';
+  pool.query(checkUserSql, [user_id], (err, results) => {
+    if (err) {
+      console.error('Error checking user:', err);
+      return res.status(500).json({ error: 'Error checking user' });
+    }
+
+    // ถ้าไม่มีผู้ใช้นี้ในฐานข้อมูล
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'ไม่พบผู้ใช้งาน' });
+    }
+
+    // ลบผู้ใช้จากฐานข้อมูล
+    const deleteSql = 'DELETE FROM users WHERE user_id = ?';
+    pool.query(deleteSql, [user_id], (err, result) => {
+      if (err) {
+        console.error('Error deleting user:', err);
+        return res.status(500).json({ error: 'Error deleting user' });
+      }
+      res.status(200).json({ message: 'ผู้ใช้ถูกลบเรียบร้อยแล้ว' });
+    });
+  });
+});
+
+
 // AddDog
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -238,6 +269,50 @@ app.get('/api/dogs', (req, res) => {
     res.json(results);
   });
 });
+
+// Endpoint สำหรับลบสุนัข
+app.delete('/api/dogs/:dog_id', (req, res) => {
+  const { dog_id } = req.params;
+
+  // ตรวจสอบว่าสุนัขที่ต้องการลบมีอยู่ในฐานข้อมูลหรือไม่
+  const checkDogSql = 'SELECT * FROM dogs WHERE dog_id = ?';
+  pool.query(checkDogSql, [dog_id], (err, results) => {
+    if (err) {
+      console.error('Error checking dog:', err);
+      return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการตรวจสอบสุนัข' });
+    }
+
+    // ถ้าไม่มีสุนัขนี้ในฐานข้อมูล
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'ไม่พบสุนัขในระบบ' });
+    }
+
+    const dog = results[0];
+    const imageUrls = JSON.parse(dog.image_url); // แปลง JSON string กลับเป็น array
+
+    // ลบสุนัขจากฐานข้อมูล
+    const deleteDogSql = 'DELETE FROM dogs WHERE dog_id = ?';
+    pool.query(deleteDogSql, [dog_id], (err, result) => {
+      if (err) {
+        console.error('Error deleting dog:', err);
+        return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการลบสุนัข' });
+      }
+
+      // ลบไฟล์รูปภาพจาก public/images
+      imageUrls.forEach(imageUrl => {
+        const filePath = path.join(__dirname, 'public', imageUrl); // สร้าง path สำหรับไฟล์
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.error('Error deleting file:', err);
+          }
+        });
+      });
+
+      res.status(200).json({ message: 'สุนัขถูกลบเรียบร้อยแล้ว' });
+    });
+  });
+});
+
 
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน Shop
 app.get('/api/shop-dogs', (req, res) => {
