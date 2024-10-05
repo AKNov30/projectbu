@@ -24,6 +24,8 @@ import ListUser from "./pages/adminPage/listUser/ListUser";
 import EditUser from "./pages/adminPage/listUser/EditUser";
 import Result from "./pages/adminPage/result/Result";
 
+import Notfound from "./Notfound";
+
 function App() {
   const location = useLocation();
 
@@ -145,7 +147,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        {/* <Route path='*' element={<Notfound />}></Route> */}
+        <Route path='*' element={<Notfound />}></Route>
       </Routes>
       </div>
       </div>
