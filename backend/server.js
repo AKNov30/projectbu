@@ -57,11 +57,11 @@ app.post('/api/register', async (req, res) => {
   pool.query('SELECT * FROM users WHERE user_email = ?', [user_email], async (err, results) => {
     if (err) {
       console.error('Error checking existing user:', err);
-      return res.status(500).send('Error checking existing user'); 
+      return res.status(500).json('Error checking existing user'); 
     }
 
     if (results.length > 0) {
-      return res.status(400).send('อีเมลนี้ถูกใช้งานแล้ว');
+      return res.status(400).json('อีเมลนี้ถูกใช้งานแล้ว');
     }
 
     try {
@@ -73,13 +73,13 @@ app.post('/api/register', async (req, res) => {
       pool.query(sql, [user_email, hashedPassword, firstname, lastname, phone, 'member'], (err, result) => {
         if (err) {
           console.error('Error inserting user:', err);
-          return res.status(500).send('Error inserting user: ' + err.message); 
+          return res.status(500).json('Error inserting user: ' + err.message); 
         }
-        res.status(201).send('User registered successfully');
+        res.status(201).json('User registered successfully');
       });
     } catch (error) {
       console.error('Error hashing password:', error);
-      res.status(500).send('Error hashing password: ' + error.message); 
+      res.status(500).json('Error hashing password: ' + error.message); 
     }
   });
 });
@@ -92,12 +92,12 @@ app.post('/api/login', async (req, res) => {
   pool.query('SELECT * FROM users WHERE user_email = ?', [user_email], async (err, results) => {
     if (err) {
       console.error('Error checking user:', err);
-      return res.status(500).send('Error checking user');
+      return res.status(500).json('Error checking user');
     }
 
     // ถ้าผู้ใช้ไม่มีในฐานข้อมูล
     if (results.length === 0) {
-      return res.status(400).send('อีเมลหรือรหัสผ่านไม่ถูกต้อง');
+      return res.status(400).json('อีเมลหรือรหัสผ่านไม่ถูกต้อง');
     }
 
     const user = results[0];
@@ -106,7 +106,7 @@ app.post('/api/login', async (req, res) => {
       // ตรวจสอบรหัสผ่านที่เข้ารหัส
       const match = await bcrypt.compare(user_password, user.user_password);
       if (!match) {
-        return res.status(400).send('อีเมลหรือรหัสผ่านไม่ถูกต้อง');
+        return res.status(400).json('อีเมลหรือรหัสผ่านไม่ถูกต้อง');
       }
 
       // เข้าสู่ระบบสำเร็จ
@@ -122,7 +122,7 @@ app.post('/api/login', async (req, res) => {
       });
     } catch (error) {
       console.error('Error comparing password:', error);
-      res.status(500).send('Error logging in');
+      res.status(500).json('Error logging in');
     }
   });
 });
@@ -135,7 +135,7 @@ app.get('/api/users', (req, res) => {
   pool.query(sql, (err, results) => {
     if (err) {
       console.error('Error fetching users:', err);
-      return res.status(500).send('Error fetching users');
+      return res.status(500).json('Error fetching users');
     }
     
     res.status(200).json(results);
@@ -150,11 +150,11 @@ app.get('/api/users/:user_id', (req, res) => {
   pool.query(sql, [user_id], (err, results) => {
     if (err) {
       console.error('Error fetching user:', err);
-      return res.status(500).send('Error fetching user');
+      return res.status(500).json('Error fetching user');
     }
 
     if (results.length === 0) {
-      return res.status(404).send('User not found');
+      return res.status(404).json('User not found');
     }
 
     res.status(200).json(results[0]);
@@ -171,12 +171,12 @@ app.put('/api/users/:user_id', (req, res) => {
   pool.query(checkUserSql, [user_id], (err, results) => {
     if (err) {
       console.error('Error checking user:', err);
-      return res.status(500).send('Error checking user');
+      return res.status(500).json('Error checking user');
     }
 
     // ถ้าไม่มีผู้ใช้นี้ในฐานข้อมูล
     if (results.length === 0) {
-      return res.status(404).send('ไม่พบผู้ใช้งาน');
+      return res.status(404).json('ไม่พบผู้ใช้งาน');
     }
 
     // อัปเดตข้อมูลผู้ใช้
@@ -184,9 +184,9 @@ app.put('/api/users/:user_id', (req, res) => {
     pool.query(updateSql, [firstname, lastname, user_email, phone, user_id], (err, result) => {
       if (err) {
         console.error('Error updating user:', err);
-        return res.status(500).send('Error updating user');
+        return res.status(500).json('Error updating user');
       }
-      res.status(200).send('ข้อมูลผู้ใช้ถูกอัปเดตเรียบร้อยแล้ว');
+      res.status(200).json('ข้อมูลผู้ใช้ถูกอัปเดตเรียบร้อยแล้ว');
     });
   });
 });
@@ -206,7 +206,7 @@ const upload = multer({ storage });
 app.post('/api/adddog', upload.array('files'), (req, res) => {
   // Check if the file was uploaded
   if (!req.files || req.files.length === 0) {
-    return res.status(400).send('No file uploaded');
+    return res.status(400).json('No file uploaded');
   }
   const { dogs_name, birthday, price, color, description, personality } = req.body;
 
@@ -225,8 +225,8 @@ app.post('/api/adddog', upload.array('files'), (req, res) => {
   ];
 
   pool.query(sql, values, (err, result) => {
-    if (err) return res.status(500).send('Error inserting dog: ' + err.message);
-    res.status(201).send('Dog added successfully');
+    if (err) return res.status(500).json('Error inserting dog: ' + err.message);
+    res.status(201).json('Dog added successfully');
   });
 });
 
@@ -234,7 +234,7 @@ app.post('/api/adddog', upload.array('files'), (req, res) => {
 app.get('/api/dogs', (req, res) => {
   const sql = 'SELECT dog_id, dogs_name, birthday, price, color FROM dogs';
   pool.query(sql, (err, results) => {
-    if (err) return res.status(500).send('Error fetching dogs: ' + err.message);
+    if (err) return res.status(500).json('Error fetching dogs: ' + err.message);
     res.json(results);
   });
 });
@@ -245,7 +245,7 @@ app.get('/api/shop-dogs', (req, res) => {
   pool.query(sql, (err, results) => {
     if (err) {
       console.error('Error fetching shop dogs:', err);
-      return res.status(500).send('Error fetching shop dogs: ' + err.message);
+      return res.status(500).json('Error fetching shop dogs: ' + err.message);
     }
     res.json(results);
   });
