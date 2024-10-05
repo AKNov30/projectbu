@@ -11,6 +11,7 @@ function DetailDog() {
   const [relatedDogs, setRelatedDogs] = useState([]); // สถานะสำหรับสุนัขที่เกี่ยวข้อง
   const [loading, setLoading] = useState(true); // สถานะการโหลด
   const [error, setError] = useState(null); // สถานะข้อผิดพลาด
+  const [user, setUser] = useState(null);
 
   // ฟังก์ชั่นคำนวณอายุจากวันเกิด
   const calculateAge = (birthday) => {
@@ -55,17 +56,18 @@ function DetailDog() {
 
   // ดึงสุนัขที่เกี่ยวข้องตามสี
   const fetchRelatedDogs = async (color) => {
+    // console.log(typeof dog_id);
     try {
       const response = await axios.get('http://localhost:5000/api/shop-dogs');
       // คัดกรองสุนัขที่มีสีเดียวกันและไม่ใช่ตัวปัจจุบัน
       let related = response.data.filter(
-        (item) => item.color === color && item.dog_id !== dog_id
+        (item) => item.color === color && item.dog_id != dog_id
       );
 
       // ถ้าไม่มีสุนัขที่มีสีเดียวกัน ให้เลือกสุนัขใดก็ได้ที่ไม่ใช่ตัวปัจจุบัน
       if (related.length < 4) {
         const additionalDogs = response.data.filter(
-          (item) => item.dog_id !== dog_id && !related.includes(item)
+          (item) => item.dog_id != dog_id && !related.includes(item)
         );
         // สุ่มสุนัขเพิ่มเติมและเลือกสุนัขที่ต้องการ
         const shuffledAdditionalDogs = additionalDogs.sort(() => 0.5 - Math.random());
@@ -137,7 +139,12 @@ function DetailDog() {
 
             <div className="just-flex-end d-flex pt-3">
               <button type="button" className="btn btn-outline-secondary setting-btn-reserve">โทร</button>
-              <Link to="/reserve" className="btn btn-warning setting-btn-reserve mx-2">จอง</Link>
+              {/* ถ้าไม่ได้ login หรือ role=admin จะไม่สามารถกดจองได้ */}
+              {user && user.user_role !== 'admin' ? (
+                <Link to="/reserve" className="btn btn-warning setting-btn-reserve mx-2">จอง</Link>
+              ) : (
+                <button type="button" className="btn btn-warning setting-btn-reserve mx-2" disabled>จอง</button>
+              )}
             </div>
           </div>
           <div className="col-1 col-md-0"></div>
