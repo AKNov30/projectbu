@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 function AddDogForm() {
@@ -12,6 +12,7 @@ function AddDogForm() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(""); // For displaying errors
   const [fileKey, setFileKey] = useState(0); // For resetting file input
+  const fileInputRef = useRef(null);
 
   const upload = () => {
     if (!dogname || !birthDay || !price || !color || !description || !personality || files.length === 0) {
@@ -62,7 +63,24 @@ function AddDogForm() {
   }, [success]);
 
   const handleFileChange = (e) => {
-    setFiles([...e.target.files]);
+    const newFiles = Array.from(e.target.files);
+
+    // Concatenate new files without duplicates
+    setFiles(prevFiles => {
+      const uniqueFiles = newFiles.filter(newFile =>
+        !prevFiles.some(file => file.name === newFile.name)
+      );
+      return [...prevFiles, ...uniqueFiles];
+    });
+  };
+
+  const handleRemoveFile = (indexToRemove) => {
+    setFiles(files.filter((_, index) => index !== indexToRemove));
+    setFileKey(prevKey => prevKey + 1); // Reset file input key after removing a file
+  };
+
+  const handleClick = () => {
+    fileInputRef.current.click(); // Open file input on click of the "+" button
   };
 
   return (
@@ -157,15 +175,47 @@ function AddDogForm() {
                   className="form-control"
                   multiple
                   onChange={handleFileChange}
+                  ref={fileInputRef}
+                  style={{ display: 'none' }} // Hidden input
                 />
-                <div className="mt-2">
+
+                {/* Display selected images */}
+                <div className="mt-1 d-flex flex-wrap align-items-center">
                   {files.length > 0 && (
-                    <ul>
-                      {Array.from(files).map((file, index) => (
-                        <li key={index}>{file.name}</li>
+                    <div className="d-flex flex-wrap">
+                      {files.map((file, index) => (
+                        <div key={index} className="position-relative m-2">
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={file.name}
+                            className="img-thumbnail"
+                            style={{ width: '100px', height: '100px' }}
+                          />
+                          <button
+                            type="button"
+                            className="btn-close position-absolute top-0 end-0"
+                            onClick={() => handleRemoveFile(index)}
+                          ></button>
+                        </div>
                       ))}
-                    </ul>
+
+                    </div>
                   )}
+                  <div
+                    className="d-flex justify-content-center align-items-center "
+                    style={{
+                      width: '96px',
+                      height: '96px',
+                      border: '2px dashed #555',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                      backgroundColor: '#2b2b2b',
+                      color: '#fff',
+                    }}
+                    onClick={handleClick}
+                  >
+                    <span style={{ fontSize: '40px' }}>+</span>
+                  </div>
                 </div>
               </div>
 
