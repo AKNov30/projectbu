@@ -313,6 +313,114 @@ app.delete('/api/dogs/:dog_id', (req, res) => {
   });
 });
 
+// EditdogForm ดึงข้อมูลสุนัขหนึ่งตัว
+app.get('/api/dogs/:dog_id', (req, res) => {
+  const { dog_id } = req.params;
+
+  const sql = 'SELECT * FROM dogs WHERE dog_id = ?';
+  pool.query(sql, [dog_id], (err, results) => {
+    if (err) {
+      console.error('Error fetching dog:', err);
+      return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการดึงข้อมูลสุนัข' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'ไม่พบสุนัขในระบบ' });
+    }
+
+    res.json(results[0]);
+  });
+});
+
+app.put('/api/dogs/:dog_id', upload.array('files'), (req, res) => {
+  const { dog_id } = req.params;
+  const { dogs_name, birthday, price, color, description, personality, removeImages } = req.body;
+
+  // Initialize fileNames as empty array
+  let fileNames = [];
+  if (req.files && req.files.length > 0) {
+    fileNames = req.files.map(file => `/images/${file.filename}`);
+  }
+
+  // Check if we should append or overwrite existing image URLs
+  const getExistingDogSql = 'SELECT image_url FROM dogs WHERE dog_id = ?';
+  pool.query(getExistingDogSql, [dog_id], (err, results) => {
+    if (err) {
+      console.error('Error fetching existing dog data:', err);
+      return res.status(500).json('Error fetching existing dog data: ' + err.message);
+    }
+
+    // If the dog exists, merge existing image URLs
+    let existingImages = [];
+    if (results.length > 0) {
+      existingImages = JSON.parse(results[0].image_url); // Get existing image URLs
+    }
+
+    // Remove images specified for deletion
+    let imagesToKeep = existingImages;
+    if (removeImages && Array.isArray(removeImages)) {
+      // Identify images that need to be deleted from the filesystem
+      const imagesToDelete = existingImages.filter(image => removeImages.includes(image));
+      
+      // Delete files from the public/images directory
+      imagesToDelete.forEach(image => {
+        const filePath = path.join(__dirname, 'public', image); // Construct the full path for the image
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.error('Error deleting file:', err);
+          }
+        });
+      });
+
+      imagesToKeep = existingImages.filter(image => !removeImages.includes(image));
+    }
+
+    // Combine existing and new image URLs
+    const allImageUrls = [...imagesToKeep, ...fileNames];
+
+    const sql = `
+      UPDATE dogs 
+      SET 
+        dogs_name = ?, 
+        birthday = ?, 
+        price = ?, 
+        color = ?, 
+        description = ?, 
+        personality = ?, 
+        image_url = ?
+      WHERE dog_id = ?
+    `;
+
+    const values = [
+      dogs_name,
+      birthday, 
+      price, 
+      color, 
+      description, 
+      personality,
+      JSON.stringify(allImageUrls), // Combine existing and new URLs
+      dog_id // Condition for updating the specific dog
+    ];
+
+    pool.query(sql, values, (err, result) => {
+      if (err) {
+        console.error('Error updating dog:', err);
+        return res.status(500).json('Error updating dog: ' + err.message);
+      }
+
+      // Check if any rows were affected (indicating the dog was found and updated)
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'ไม่พบสุนัขในระบบ' });
+      }
+
+      res.status(200).json('Dog updated successfully');
+    });
+  });
+});
+
+
+
+
 
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน Shop
 app.get('/api/shop-dogs', (req, res) => {

@@ -15,7 +15,8 @@ import DetailDog from "./components/detaildog/DetailDog";
 import Reserve from "./components/detaildog/Reserve";
 
 import HomeAdmin from "./pages/adminPage/homeadmin/HomeAdmin";
-import AddDogForm from "./pages/adminPage/AddDogForm";
+import EditDogForm from "./pages/adminPage/addDog/EditDogForm";
+import AddDogForm from "./pages/adminPage/addDog/AddDogForm";
 import Reserveadmin from "./pages/adminPage/reserve/Reserveadmin";
 import Reserveinfo from "./pages/adminPage/reserve/Reserveinfo";
 import ChangeDate from "./pages/adminPage/ChangeDate";
@@ -61,6 +62,14 @@ function App() {
           element={
             <PrivateRoute allowedRoles={['admin']}>
               <AddDogForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/editdog/:dogId"
+          element={
+            <PrivateRoute allowedRoles={['admin']}>
+              <EditDogForm />
             </PrivateRoute>
           }
         />
