@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { AlertSave } from '../../../components/alert/Alert';
 
 import { logo, back } from '../../../assets/'
 
@@ -29,8 +30,7 @@ function EditUser() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     // อัปเดตข้อมูลผู้ใช้ในฐานข้อมูลผ่าน API
     fetch(`http://localhost:5000/api/users/${id}`, {
       method: 'PUT',
@@ -120,24 +120,31 @@ function EditUser() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100 ">บันทึก</button>
-        </form>
-        {/* แสดง Alert สำเร็จ */}
-        {showSuccess && (
-          <div className="alert alert-success alert-dismissible fade show mt-3" role="alert">
-            แก้ไขข้อมูลสำเร็จ!
-            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setShowSuccess(false)}></button>
-          </div>
-        )}
+          <AlertSave
+            onConfirm={handleSubmit}
+            title={"คุณแน่ใจหรือไม่ที่จะแก้ไขข้อมูล?"}
+            confirmText={"ยืนยัน"}
+            successMessage={"แก้ไขสำเร็จ"}
+          >
+            <button type="button" className="btn btn-primary w-100">บันทึก</button>
+          </AlertSave>
+      </form>
+      {/* แสดง Alert สำเร็จ */}
+      {showSuccess && (
+        <div className="alert alert-success alert-dismissible fade show mt-3" role="alert">
+          แก้ไขข้อมูลสำเร็จ!
+          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setShowSuccess(false)}></button>
+        </div>
+      )}
 
-        {/* แสดง Alert ข้อผิดพลาด */}
-        {showError && (
-          <div className="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-            เกิดข้อผิดพลาดในการแก้ไขข้อมูล กรุณาลองใหม่อีกครั้ง
-            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setShowError(false)}></button>
-          </div>
-        )}
-      </div>
+      {/* แสดง Alert ข้อผิดพลาด */}
+      {showError && (
+        <div className="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+          เกิดข้อผิดพลาดในการแก้ไขข้อมูล กรุณาลองใหม่อีกครั้ง
+          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setShowError(false)}></button>
+        </div>
+      )}
+    </div >
     </>
   );
 }

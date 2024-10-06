@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { editIcon, binIcon } from '../../../assets/'
+import { AlertDelete } from '../../../components/alert/Alert';
 
 function ListUser() {
     const [users, setUsers] = useState([]);
@@ -26,11 +27,6 @@ function ListUser() {
     }, []);
 
     const handleDelete = (user_id) => {
-        // ยืนยันการลบ
-        if (!window.confirm('คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้นี้?')) {
-            return;
-        }
-
         // เรียกใช้งาน API ลบผู้ใช้
         fetch(`http://localhost:5000/api/users/${user_id}`, {
             method: 'DELETE',
@@ -83,11 +79,20 @@ function ListUser() {
                                             <td>{user.user_role}</td>
                                             <td className="text-center">
                                                 <a className="hover-icon" href={`/admin/edit/${user.user_id}`}>
-                                                    <img className="pic-icon" src={ editIcon } alt="Edit" />
+                                                    <img className="pic-icon" src={editIcon} alt="Edit" />
                                                 </a>
-                                                <a className="hover-icon" aria-label="Delete" onClick={() => handleDelete(user.user_id)}>
-                                                    <img className="pic-icon" src={binIcon} alt="Delete" />
-                                                </a>
+                                                <AlertDelete
+                                                    onDelete={() => handleDelete(user.user_id)}
+                                                    title="คุณแน่ใจหรือไม่ที่จะลบ?"
+                                                    text="คุณจะไม่สามารถกู้คืนได้อีก!"
+                                                    confirmText="ยืนยัน!"
+                                                    successTitle="ลบเรียบร้อย!"
+                                                    successText="สมาชิกได้ถูกลบแล้ว."
+                                                >
+                                                    <a className="hover-icon" aria-label="Delete">
+                                                        <img className="pic-icon" src={binIcon} alt="Delete" />
+                                                    </a>
+                                                </AlertDelete>
                                             </td>
                                         </tr>
                                     ))

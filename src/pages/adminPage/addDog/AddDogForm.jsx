@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { AlertSave } from '../../../components/alert/Alert';
 
 function AddDogForm() {
   const [dogname, setDogName] = useState("");
@@ -231,14 +232,20 @@ function AddDogForm() {
 
               {/* Submit Button */}
               <div className="text-center mb-3">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={upload}
-                  style={{ width: '100%', height: '50px' }}
+                <AlertSave
+                  onConfirm={upload}
+                  title={"คุณแน่ใจหรือไม่ที่จะเพิ่มสุนัข?"}
+                  confirmText={"ยืนยัน"}
+                  successMessage={"เพิ่มสำเร็จ"}
                 >
-                  เพิ่มสุนัข
-                </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    style={{ width: '100%', height: '50px' }}
+                  >
+                    เพิ่มสุนัข
+                  </button>
+                </AlertSave>
               </div>
             </form>
 

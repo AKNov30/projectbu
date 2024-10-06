@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { AlertDelete } from '../../../components/alert/Alert';
 
 import { binIcon, editIcon } from '../../../assets'
 
@@ -28,18 +29,16 @@ function HomeAdmin() {
 
   //ลบสุนัข
   const deleteDog = async (dog_id) => {
-    if (window.confirm('Are you sure you want to delete this dog?')) {
-      try {
-        await axios.delete(`http://localhost:5000/api/dogs/${dog_id}`);
-        // Refresh the dog list after deletion
-        fetchDogs();
-      } catch (error) {
-        console.error('Error deleting dog:', error);
-        alert('Error deleting dog. Please try again.');
-      }
+    try {
+      await axios.delete(`http://localhost:5000/api/dogs/${dog_id}`);
+      // Refresh the dog list after deletion
+      fetchDogs();
+    } catch (error) {
+      console.error('Error deleting dog:', error);
+      alert('Error deleting dog. Please try again.');
     }
   };
-  
+
   // ใช้ useEffect เพื่อติดต่อ API เมื่อ component ถูก mount
   useEffect(() => {
     fetchDogs();
@@ -79,9 +78,16 @@ function HomeAdmin() {
                     <a className="hover-icon me-2" href={`editdog/${dog.dog_id}`} aria-label="Edit">
                       <img className="pic-icon" src={editIcon} alt="Edit" />
                     </a>
-                    <a className="hover-icon" aria-label="Delete" onClick={() => deleteDog(dog.dog_id)}>
+                    <AlertDelete
+                      onDelete={() => deleteDog(dog.dog_id)}
+                      title="คุณแน่ใจหรือไม่ที่จะลบสุนัข?"
+                      text="คุณจะไม่สามารถกู้คืนได้อีก!"
+                      confirmText="ยืนยัน!"
+                      successTitle="ลบเรียบร้อย!"
+                      successText="สุนัขได้ถูกลบแล้ว."
+                      >
                       <img className="pic-icon" src={binIcon} alt="Delete" />
-                    </a>
+                    </AlertDelete>
                   </td>
                 </tr>
               ))}

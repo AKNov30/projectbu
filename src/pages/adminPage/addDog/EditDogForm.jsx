@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom'; // ใช้สำหรับรับ params และนำทาง
+import { AlertSave } from '../../../components/alert/Alert';
 
 function EditDogForm() {
     const { dogId } = useParams(); // รับ dog_id จาก URL
@@ -302,14 +303,20 @@ function EditDogForm() {
 
                             {/* ปุ่มส่งข้อมูล */}
                             <div className="text-center mb-3">
+                                <AlertSave 
+                                onConfirm={updateDog}
+                                title={"คุณแน่ใจหรือไม่ที่จะแก้ไขสุนัข?"}
+                                confirmText={"ยืนยัน"}
+                                successMessage={"แก้ไขสำเร็จ"}
+                                >
                                 <button
                                     type="button"
                                     className="btn btn-primary"
-                                    onClick={updateDog}
                                     style={{ width: '100%', height: '50px' }}
-                                >
+                                    >
                                     แก้ไขข้อมูลสุนัข
                                 </button>
+                                </AlertSave>
                             </div>
                         </form>
 
