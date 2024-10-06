@@ -58,7 +58,7 @@ function App() {
         />
         <Route path="/detail-dog/:dog_id"element={<DetailDog />}/>
         <Route
-          path="/reserve"
+          path="/reserve/:dog_id"
           element={
             <PrivateRoute allowedRoles={['member']}>
               <Reserve />

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import calculateAge from '../../../utils/calculateAge';
 import { search } from '../../../assets';
 import { logo } from '../../../assets'; // เพิ่มรูป default image ถ้าไม่มีรูป
 import { Link } from 'react-router-dom';
@@ -26,50 +27,6 @@ function Shop() {
   useEffect(() => {
     fetchDogs();
   }, []);
-
-  // Function to calculate age based on birthday
-  const calculateAge = (birthday) => {
-    const birthDate = new Date(birthday);
-    const today = new Date();
-
-    let years = today.getFullYear() - birthDate.getFullYear();
-    let months = today.getMonth() - birthDate.getMonth();
-    let days = today.getDate() - birthDate.getDate();
-
-    // ปรับค่าถ้า days < 0
-    if (days < 0) {
-      months -= 1;
-      // จำนวนวันในเดือนก่อนหน้า
-      const previousMonth = new Date(today.getFullYear(), today.getMonth(), 0);
-      days += previousMonth.getDate();
-    }
-
-    // ปรับค่าถ้า months < 0
-    if (months < 0) {
-      years -= 1;
-      months += 12;
-    }
-
-    let ageParts = [];
-
-    // เพิ่มวันหากมากกว่า 0
-    if (days > 0) {
-      ageParts.push(`${days} วัน`);
-    }
-
-    // เพิ่มเดือนหากมากกว่า 0
-    if (months > 0) {
-      ageParts.push(`${months} เดือน`);
-    }
-    
-    // เพิ่มปีหากมากกว่า 0
-    if (years > 0) {
-      ageParts.push(`${years} ปี`);
-    }
-
-    // รวมส่วนต่างๆ เข้าด้วยกัน
-    return ageParts.join(' ');
-  };
 
   // Function to filter products based on search and filters
   const getFilteredProducts = () => {

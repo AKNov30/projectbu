@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import calculateAge from '../../../utils/calculateAge';
 import DogCard from '../../../components/shopcomponent/DogCard'; // สร้างไฟล์ DogCard.jsx สำหรับการใช้งานซ้ำ
 
 function DetailDog() {
@@ -15,34 +16,6 @@ function DetailDog() {
 
    // ดึง user_role จาก localStorage
    const [userRole, setUserRole] = useState(localStorage.getItem('user_role') || '');
-
-  // ฟังก์ชั่นคำนวณอายุจากวันเกิด
-  const calculateAge = (birthday) => {
-    const birthDate = new Date(birthday);
-    const today = new Date();
-
-    let years = today.getFullYear() - birthDate.getFullYear();
-    let months = today.getMonth() - birthDate.getMonth();
-    let days = today.getDate() - birthDate.getDate();
-
-    if (days < 0) {
-      months -= 1;
-      const previousMonth = new Date(today.getFullYear(), today.getMonth(), 0);
-      days += previousMonth.getDate();
-    }
-
-    if (months < 0) {
-      years -= 1;
-      months += 12;
-    }
-
-    let ageParts = [];
-    if (days > 0) ageParts.push(`${days} วัน`);
-    if (months > 0) ageParts.push(`${months} เดือน`);
-    if (years > 0) ageParts.push(`${years} ปี`);
-
-    return ageParts.join(' ');
-  };
 
   // ดึงรายละเอียดสุนัขเฉพาะตัว
   const fetchDogDetails = async () => {
@@ -87,7 +60,6 @@ function DetailDog() {
   };
 
   useEffect(() => {
-    console.log(userRole)
     fetchDogDetails();
   }, [dog_id]);
 
@@ -145,7 +117,7 @@ function DetailDog() {
               <button type="button" className="btn btn-outline-secondary setting-btn-reserve">โทร</button>
               {/* ถ้าไม่ได้ login หรือ role=admin จะไม่สามารถกดจองได้ */}
               {userRole === 'member' ? (
-                <Link to="/reserve" className="btn btn-warning setting-btn-reserve mx-2">จอง</Link>
+                <Link to={`/reserve/${dog.dog_id}`} className="btn btn-warning setting-btn-reserve mx-2">จอง</Link>
               ) : (
                 <button type="button" className="btn btn-warning setting-btn-reserve mx-2" disabled>จอง</button>
               )}

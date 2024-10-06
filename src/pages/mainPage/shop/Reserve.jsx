@@ -1,16 +1,55 @@
-import React, { useState } from 'react';
-
-import { dogBrown } from '../../../assets' 
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import calculateAge from '../../../utils/calculateAge';
+import { dogBrown } from '../../../assets';
 
 function Reserve() {
+    const { dog_id } = useParams(); // Get the dog_id from the URL
+    const [dog, setDog] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // form
     const [isAccepted, setIsAccepted] = useState(false);
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [phone, setPhone] = useState('');
 
-    const handleCheckboxChange = (event) => {
-        setIsAccepted(event.target.checked);
+    // Fetch dog details for reservation
+    const fetchDogDetails = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/dogs/${dog_id}`);
+            // Parse the image_url string to an array
+            const dogData = { ...response.data, image_url: JSON.parse(response.data.image_url) };
+            setDog(dogData);
+        } catch (err) {
+            console.error('Error fetching dog details:', err);
+            setError(err.response?.data?.message || 'Failed to fetch dog details.');
+        } finally {
+            setLoading(false);
+        }
     };
+
+    useEffect(() => {
+        fetchDogDetails();
+    }, [dog_id]);
+
+    const handleCheckboxChange = () => {
+        setIsAccepted((prev) => !prev);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!isAccepted || !date || !time || !phone) {
+            alert('Please fill all fields and accept the terms.');
+            return;
+        }
+    };
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+    if (!dog) return <div>No dog found.</div>;
 
     return (
         <div className="container">
@@ -23,31 +62,35 @@ function Reserve() {
 
             {/* Start Card CSS */}
             <div className="row">
-                <div className="col-xl-1 "></div>
+                <div className="col-xl-1"></div>
                 <div className="col-xl-4 col-lg-5 col-md-5">
-                    <img className="setting-pic-info just-flex-center img-fluid" src={ dogBrown } alt="Dog" />
+                    <img
+                        className="setting-pic-info just-flex-center img-fluid"
+                        src={dog.image_url.length > 0 ? `http://localhost:5000${dog.image_url[0]}` : dogBrown}
+                        alt={dog.dogs_name}
+                    />
                 </div>
                 <div className="col-xl-6 col-lg-5 col-md-6 bg-grey p-3">
-                    <h2>ปั๊กสีน้ำตาลธรรมชาติ</h2>
-                    <h3>฿ 4,500 THB</h3>
+                    <h2>{dog.dogs_name}</h2>
+                    <h3>฿ {dog.price} THB</h3>
                     <h4>รายละเอียด</h4>
-                    <p className="px-3">รหัส : BRP01</p>
-                    <p className="px-3">วันเกิด : 25/09/24 (อายุ 6 วัน)</p>
-                    <p className="px-3">สี : น้ำตาล</p>
-                    <p className="px-3">นิสัย : ร่าเริง กินเก่ง ขี้อ้อน</p>
-                    <p className="px-3">โรคประจำตัว : ไม่มี</p>
-                    <p className="px-3">วัคซีน : พาราอินฟลูเอนซ่าไวรัส,อะดิโนไวรัส2</p>
+                    <p className="px-3">รหัส : {dog.dog_id}</p>
+                    <p className="px-3">
+                        วันเกิด : {new Date(dog.birthday).toLocaleDateString()} (อายุ {calculateAge(dog.birthday)})
+                    </p>
+                    <p className="px-3">สี : {dog.color}</p>
+                    <p className="px-3">นิสัย : {dog.personality}</p>
                 </div>
                 <div className="col-1 col-md-0"></div>
             </div>
 
+            {/* Additional booking fields */}
             <div className="row">
                 <div className="col-1"></div>
                 <div className="col-11 pt-3">
                     <h4>เงื่อนไขการจอง</h4>
                 </div>
             </div>
-
             <div className="row">
                 <div className="col-1"></div>
                 <div className="col-11 pt-1 text-reserve px-5">
@@ -132,8 +175,7 @@ function Reserve() {
                         <a 
                             type="button" 
                             className={`btn btn-success setting-btn-reserve mx-2 ${!isAccepted ? 'disabled' : ''}`} 
-                            href="pay.html" 
-                            id="payBtn" 
+                            href="#" 
                             tabIndex="-1" 
                             aria-disabled={!isAccepted}
                         >
@@ -142,8 +184,6 @@ function Reserve() {
                     </div>
                 </div>
             </div>
-
-            {/* End Card CSS */}
         </div>
     );
 }
