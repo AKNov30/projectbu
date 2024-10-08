@@ -9,6 +9,8 @@ import bcrypt from 'bcrypt';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import qrcode from 'qrcode';
+import promptpayQR from 'promptpay-qr';
 import { fileURLToPath } from 'url';
 
 // Initialize environment variables
@@ -419,9 +421,6 @@ app.put('/api/dogs/:dog_id', upload.array('files'), (req, res) => {
 });
 
 
-
-
-
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน Shop
 app.get('/api/shop-dogs', (req, res) => {
   const sql = 'SELECT dog_id, dogs_name, birthday, price, color, image_url FROM dogs';
@@ -448,6 +447,13 @@ app.get('/api/dogs/:dog_id', (req, res) => {
     res.json(results[0]);
   });
 });
+
+// Endpoint สำหรับการยืนยันการจอง
+app.post('/api/book', async (req, res) => {
+  const { user_id, dog_id, booking_date, pickup_date } = req.body;
+  const sql = 'INSERT INTO dogs (`user_id`, `dog_id`, `pickup_date`) VALUES (?, ?, ?, ?)';
+});
+
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

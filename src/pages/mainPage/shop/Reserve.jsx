@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import calculateAge from '../../../utils/calculateAge';
 import { dogBrown } from '../../../assets';
 
 function Reserve() {
-    const { dog_id } = useParams(); // Get the dog_id from the URL
+    const { dog_id } = useParams(); 
+    const navigate = useNavigate();
     const [dog, setDog] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,7 +15,7 @@ function Reserve() {
     const [isAccepted, setIsAccepted] = useState(false);
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
-    const [phone, setPhone] = useState('');
+    const user_id = localStorage.getItem('user_id');
 
     // Fetch dog details for reservation
     const fetchDogDetails = async () => {
@@ -41,10 +42,15 @@ function Reserve() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!isAccepted || !date || !time || !phone) {
+        if (!isAccepted || !date || !time) {
             alert('Please fill all fields and accept the terms.');
             return;
         }
+         // Calculate half the price for payment
+         const halfPrice = dog.price / 2;
+
+         // Navigate to the Pay component with the price as state
+         navigate('/pay', { state: { price: halfPrice, dog_id, date, time  } });
     };
 
     if (loading) return <div>Loading...</div>;
@@ -126,7 +132,7 @@ function Reserve() {
                         <label className="form-label">วันที่จะเข้ามารับสุนัข</label>
                         <input 
                             className="form-control" 
-                            type="text" 
+                            type="date" 
                             value={date} 
                             onChange={(e) => setDate(e.target.value)} 
                             disabled={!isAccepted} 
@@ -157,26 +163,12 @@ function Reserve() {
                     </div>
                 </div>
 
-                <div className="col-xl-3 col-lg-3 col-md-4 col-6 pt-3">
-                    <div className="form-check text-reserve">
-                        <label className="form-label">เบอร์โทรศัพท์</label>
-                        <input 
-                            className="form-control" 
-                            type="text" 
-                            value={phone} 
-                            onChange={(e) => setPhone(e.target.value)} 
-                            disabled={!isAccepted} 
-                        />
-                    </div>
-                </div>
-
                 <div className="col-xl-2 col-lg-4 col-md-4 col-12 py-4">
                     <div className="just-flex-end d-flex pt-3">
                         <a 
                             type="button" 
                             className={`btn btn-success setting-btn-reserve mx-2 ${!isAccepted ? 'disabled' : ''}`} 
-                            href="#" 
-                            tabIndex="-1" 
+                            onClick={handleSubmit}
                             aria-disabled={!isAccepted}
                         >
                             ชำระเงิน

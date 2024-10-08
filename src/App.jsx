@@ -13,6 +13,7 @@ import RegisterForm from "./components/LoginForm/RegisterForm";
 import History from "./pages/mainPage/History";
 import DetailDog from "./pages/mainPage/shop/DetailDog";
 import Reserve from "./pages/mainPage/shop/Reserve";
+import Pay from "./pages/mainPage/shop/Pay";
 
 import HomeAdmin from "./pages/adminPage/homeadmin/HomeAdmin";
 import EditDogForm from "./pages/adminPage/addDog/EditDogForm";
@@ -62,6 +63,14 @@ function App() {
           element={
             <PrivateRoute allowedRoles={['member']}>
               <Reserve />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/pay"
+          element={
+            <PrivateRoute allowedRoles={['member']}>
+              <Pay />
             </PrivateRoute>
           }
         />
