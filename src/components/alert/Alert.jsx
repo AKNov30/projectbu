@@ -8,6 +8,7 @@ export const AlertSave = ({
     onConfirm,
     children,
     successMessage,
+    failMessage
 }) => {
     const showSaveAlert = () => {
         Swal.fire({
@@ -17,8 +18,15 @@ export const AlertSave = ({
             cancelButtonText: "Cancel",
         }).then((result) => {
             if (result.isConfirmed) {
-                onConfirm();
-                Swal.fire(successMessage || "Saved!", "", "success");
+                // Call onConfirm and store its return value
+                const isSuccess = onConfirm();
+                
+                // Check if onConfirm returned false
+                if (isSuccess === false) {
+                    Swal.fire(failMessage || "Fail!", "", "error"); // Use "error" for a fail message
+                } else {
+                    Swal.fire(successMessage || "Saved!", "", "success");
+                }
             }
         });
     };

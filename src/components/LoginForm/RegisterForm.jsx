@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
-import { logo, back } from '../../assets/' 
+import { logo, back } from '../../assets/'
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -42,7 +43,12 @@ const RegisterForm = () => {
 
     try {
       const response = await axios.post('http://localhost:5000/api/register', formData);
-      alert(response.data); // แสดงข้อความเมื่อสมัครสมาชิกสำเร็จ
+      Swal.fire({
+        title: 'สมัครสมาชิกสำเร็จ!',
+        text: response.data || "Saved!",
+        icon: 'success',
+        confirmButtonText: 'ตกลง',
+      });
       setFormData({
         firstname: '',
         lastname: '',
@@ -58,12 +64,6 @@ const RegisterForm = () => {
 
   return (
     <>
-    {/* ข้อความแสดงข้อผิดพลาดหรือความสำเร็จ */}
-
-  <div className="col-12 text-center">
-    {error && <div className="alert alert-danger">{error}</div>}
-    {success && <div className="alert alert-success">{success}</div>}
-  </div>
       <div className="container">
         {/* Back Button */}
         <div className="row fix-row">
@@ -73,7 +73,7 @@ const RegisterForm = () => {
               href="shop"
               style={{ color: 'black', cursor: 'pointer' }}
             >
-              <img src={ back } style={{ width: '25px' }} alt="Back" />
+              <img src={back} style={{ width: '25px' }} alt="Back" />
               ย้อนกลับ
             </a>
           </div>
@@ -82,7 +82,7 @@ const RegisterForm = () => {
         {/* Logo */}
         <div className="row">
           <div className="col-12 pt-3 d-flex justify-content-center">
-            <img src={ logo } style={{ width: '100px' }} alt="Banner Image" />
+            <img src={logo} style={{ width: '100px' }} alt="Banner Image" />
           </div>
         </div>
 
@@ -108,85 +108,89 @@ const RegisterForm = () => {
                 required
               />
             </div>
-              <div className="col-xl-2 pt-3">
-                <label className="form-label">นามสกุล</label>
-                <input
-                  type="text"
-                  name="lastname"
-                  className="form-control"
-                  value={formData.lastname}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div> 
-              
-
-            <div className="row">
-              <div className="col-xl-4 pt-3"></div>
-              <div className="col-xl-4 pt-3">
-                <label className="form-label">อีเมล์(ใช้เป็น Username)</label>
-                <input
-                  type="email"
-                  name="user_email"
-                  className="form-control"
-                  value={formData.user_email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+            <div className="col-xl-2 pt-3">
+              <label className="form-label">นามสกุล</label>
+              <input
+                type="text"
+                name="lastname"
+                className="form-control"
+                value={formData.lastname}
+                onChange={handleChange}
+                required
+              />
             </div>
+          </div>
 
-            <div className="row">
+
+          <div className="row">
             <div className="col-xl-4 pt-3"></div>
-              <div className="col-xl-4 pt-3">
-                <label className="form-label">รหัสผ่าน</label>
-                <input
-                  type="password"
-                  name="user_password"
-                  className="form-control"
-                  value={formData.user_password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+            <div className="col-xl-4 pt-3">
+              <label className="form-label">อีเมล์(ใช้เป็น Username)</label>
+              <input
+                type="email"
+                name="user_email"
+                className="form-control"
+                value={formData.user_email}
+                onChange={handleChange}
+                required
+              />
             </div>
+          </div>
 
-            <div className="row">
+          <div className="row">
             <div className="col-xl-4 pt-3"></div>
-              <div className="col-xl-4 pt-3">
-                <label className="form-label">ยืนยันรหัสผ่าน</label>
-                <input
-                  type="password"
-                  name="user_password_confirm"
-                  className="form-control"
-                  value={formData.user_password_confirm}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+            <div className="col-xl-4 pt-3">
+              <label className="form-label">รหัสผ่าน</label>
+              <input
+                type="password"
+                name="user_password"
+                className="form-control"
+                value={formData.user_password}
+                onChange={handleChange}
+                required
+              />
             </div>
+          </div>
 
-            <div className="row">
+          <div className="row">
             <div className="col-xl-4 pt-3"></div>
-              <div className="col-xl-4 pt-3">
-                <label className="form-label">เบอร์โทรศัพท์</label>
-                <input
-                  type="text"
-                  name="phone"
-                  className="form-control"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                />
+            <div className="col-xl-4 pt-3">
+              <label className="form-label">ยืนยันรหัสผ่าน</label>
+              <input
+                type="password"
+                name="user_password_confirm"
+                className="form-control"
+                value={formData.user_password_confirm}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-xl-4 pt-3"></div>
+            <div className="col-xl-4 pt-3">
+              <label className="form-label">เบอร์โทรศัพท์</label>
+              <input
+                type="text"
+                name="phone"
+                className="form-control"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-xl-4 pt-3"></div>
+            <div className="col-xl-4 pt-3">
+              <button type="submit" className="btn btn-primary" style={{ width: '100%', height: '50px' }}>สมัครสมาชิก</button>
+              <div className="pt-3">
+                {error && <div className="alert alert-danger">{error}</div>}
+                {success && <div className="alert alert-success">{success}</div>}
               </div>
             </div>
-
-            <div className="row">
-              <div className="col-xl-4 pt-3"></div>
-                <div className="col-xl-4 pt-5">
-                  <button type="submit" className="btn btn-primary" style={{ width: '100%', height: '50px' }}>สมัครสมาชิก</button>
-                </div>
           </div>
         </form>
       </div>

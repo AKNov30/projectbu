@@ -303,11 +303,19 @@ function EditDogForm() {
 
                             {/* ปุ่มส่งข้อมูล */}
                             <div className="text-center mb-3">
-                                <AlertSave 
-                                onConfirm={updateDog}
+                                <AlertSave
+                                onConfirm={() => {
+                                    if (!dogname || !birthDay || !price || !color || !description || !personality) {
+                                        setError("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+                                        return false;
+                                    }else{
+                                        updateDog();
+                                    }
+                                  }}
                                 title={"คุณแน่ใจหรือไม่ที่จะแก้ไขสุนัข?"}
                                 confirmText={"ยืนยัน"}
                                 successMessage={"แก้ไขสำเร็จ"}
+                                failMessage={"แก้ไขไม่สำเร็จ"}
                                 >
                                 <button
                                     type="button"

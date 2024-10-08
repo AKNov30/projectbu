@@ -16,10 +16,6 @@ function AddDogForm() {
   const fileInputRef = useRef(null);
 
   const upload = () => {
-    if (!dogname || !birthDay || !price || !color || !description || !personality || files.length === 0) {
-      setError("กรุณากรอกข้อมูลให้ครบทุกช่อง");
-      return;
-    }
 
     const formData = new FormData();
     formData.append("dogs_name", dogname);
@@ -233,9 +229,17 @@ function AddDogForm() {
               {/* Submit Button */}
               <div className="text-center mb-3">
                 <AlertSave
-                  onConfirm={upload}
+                  onConfirm={() => {
+                    if (!dogname || !birthDay || !price || !color || !description || !personality || files.length === 0) {
+                      setError("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+                      return false
+                    }else{
+                      upload();
+                    }
+                  }}
                   title={"คุณแน่ใจหรือไม่ที่จะเพิ่มสุนัข?"}
                   confirmText={"ยืนยัน"}
+                  failMessage={"เพิ่มไม่สำเร็จ"}
                   successMessage={"เพิ่มสำเร็จ"}
                 >
                   <button
