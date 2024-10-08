@@ -451,8 +451,37 @@ app.get('/api/dogs/:dog_id', (req, res) => {
 // Endpoint สำหรับการยืนยันการจอง
 app.post('/api/book', async (req, res) => {
   const { user_id, dog_id, booking_date, pickup_date } = req.body;
-  const sql = 'INSERT INTO dogs (`user_id`, `dog_id`, `pickup_date`) VALUES (?, ?, ?, ?)';
+
+  // SQL query to insert a new booking
+  const sqlInsertBooking = `
+      INSERT INTO bookings 
+      (user_id, dog_id, booking_date, pickup_date, status) 
+      VALUES (?, ?, ?, ?, ?)`;
+
+  const status = 'pending'; // Default status for new bookings
+
+  try {
+    // Insert booking into the bookings table
+    const [result] = await pool.promise().execute(sqlInsertBooking, [user_id, dog_id, booking_date, pickup_date, status]);
+
+    // SQL query to update the status in the dogs table to match the booking status
+    const sqlUpdateDogStatus = `
+        UPDATE dogs 
+        SET status = ? 
+        WHERE dog_id = ?`;
+
+    // Update the dog status to match the booking status
+    await pool.promise().execute(sqlUpdateDogStatus, [status, dog_id]);
+
+    // Return success response with booking ID
+    res.status(200).json({ booking_id: result.insertId, message: 'Booking successful!' });
+  } catch (error) {
+    console.error('Error inserting booking:', error);
+    res.status(500).json({ message: 'Error processing booking', error: error.message });
+  }
 });
+
+
 
 
 app.listen(port, () => {
