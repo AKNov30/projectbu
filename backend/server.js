@@ -243,7 +243,7 @@ app.post('/api/adddog', upload.array('files', 4), (req, res) => {
   }
   const { dogs_name, birthday, price, color, description, personality } = req.body;
 
-  const sql = 'INSERT INTO dogs (`dogs_name`, `birthday`, `price`, `color`, `description`, `personality`, `image_url`) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const sql = 'INSERT INTO dogs (`dogs_name`, `birthday`, `price`, `color`, `description`, `personality`, `image_url`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
   const fileNames = req.files.map(file => `/images/${file.filename}`);
 
@@ -255,6 +255,7 @@ app.post('/api/adddog', upload.array('files', 4), (req, res) => {
     description, 
     personality,
     JSON.stringify(fileNames), // เก็บเป็น JSON string
+    'available',
   ];
 
   pool.query(sql, values, (err, result) => {
@@ -423,7 +424,7 @@ app.put('/api/dogs/:dog_id', upload.array('files'), (req, res) => {
 
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน Shop
 app.get('/api/shop-dogs', (req, res) => {
-  const sql = 'SELECT dog_id, dogs_name, birthday, price, color, image_url FROM dogs';
+  const sql = 'SELECT dog_id, dogs_name, birthday, price, color, image_url FROM dogs WHERE status = "available"';
   pool.query(sql, (err, results) => {
     if (err) {
       console.error('Error fetching shop dogs:', err);
@@ -450,13 +451,13 @@ app.get('/api/dogs/:dog_id', (req, res) => {
 
 // Endpoint สำหรับการยืนยันการจอง
 app.post('/api/book', async (req, res) => {
-  const { user_id, dog_id, booking_date, pickup_date } = req.body;
+  const { user_id, dog_id, booking_date, pickup_date, phone } = req.body;
 
   // SQL query to insert a new booking
   const sqlInsertBooking = `
       INSERT INTO bookings 
-      (user_id, dog_id, booking_date, pickup_date, status) 
-      VALUES (?, ?, ?, ?, ?)`;
+      (user_id, dog_id, booking_date, pickup_date, status, phone) 
+      VALUES (?, ?, ?, ?, ?, ?)`;
 
   const status = 'pending'; // Default status for new bookings
 

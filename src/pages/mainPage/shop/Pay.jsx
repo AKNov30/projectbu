@@ -5,18 +5,18 @@ import axios from 'axios';
 function Pay() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { price, dog_id, date, time } = location.state || {};
+    const { price, dog_id, date, time, phone } = location.state || {};
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null); // For error messages
 
     const handleBooking = async () => {
         const user_id = localStorage.getItem('user_id'); // Retrieve user_id from localStorage
-        console.log('Booking Data:', {
-            user_id: parseInt(user_id, 10),
-            dog_id: parseInt(dog_id, 10),
-            booking_date: date,
-            pickup_date: time,
-        });
+        // console.log('Booking Data:', {
+        //     user_id: parseInt(user_id, 10),
+        //     dog_id: parseInt(dog_id, 10),
+        //     booking_date: date,
+        //     pickup_date: time,
+        // });
         setLoading(true);
         setError(null); // Reset error state before making the request
 
@@ -25,8 +25,9 @@ function Pay() {
             const bookingData = {
                 user_id: parseInt(user_id),
                 dog_id: parseInt(dog_id),
-                booking_date:date, // ควรเป็นรูปแบบวันที่ที่ Backend รองรับ
-                pickup_date:time,  // ควรเป็นรูปแบบเวลา/วันที่ที่ Backend รองรับ
+                booking_date:date, 
+                pickup_date:time,  
+                phone:phone,
             };
 
             // ส่ง POST request ไปยัง Backend

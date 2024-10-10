@@ -15,6 +15,7 @@ function Reserve() {
     const [isAccepted, setIsAccepted] = useState(false);
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
+    const [phone, setPhone] = useState('');
     const user_id = localStorage.getItem('user_id');
 
     // Fetch dog details for reservation
@@ -42,7 +43,7 @@ function Reserve() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!isAccepted || !date || !time) {
+        if (!isAccepted || !date || !time || !phone) {
             alert('Please fill all fields and accept the terms.');
             return;
         }
@@ -50,7 +51,7 @@ function Reserve() {
          const halfPrice = dog.price / 2;
 
          // Navigate to the Pay component with the price as state
-         navigate('/pay', { state: { price: halfPrice, dog_id, date, time  } });
+         navigate('/pay', { state: { price: halfPrice, dog_id, date, time, phone } });
     };
 
     if (loading) return <div>Loading...</div>;
@@ -160,6 +161,19 @@ function Reserve() {
                             <option value="14:00">14:00 น</option>
                             <option value="14:30">14:30 น</option>
                         </select>
+                    </div>
+                </div>
+
+                <div className="col-xl-3 col-lg-3 col-md-4 col-6 pt-3">
+                    <div className="form-check">
+                        <label className="form-label">เบอร์โทรศัพท์</label>
+                        <input 
+                            className="form-control" 
+                            type="text" 
+                            value={phone} 
+                            onChange={(e) => setPhone(e.target.value)} 
+                            disabled={!isAccepted} 
+                        />
                     </div>
                 </div>
 
