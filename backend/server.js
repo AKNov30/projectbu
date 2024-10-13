@@ -540,6 +540,36 @@ app.get('/api/user-dogs', (req, res) => {
       AND bookings.status NOT IN ('canceled', 'successful');
   `;
 
+  //แสดงประวัติการจอง
+  app.get('/api/history', (req, res) => {
+    const user_id = req.query.user_id;
+    
+    const sql = `
+      SELECT 
+        bookings.booking_id, 
+        bookings.user_id, 
+        bookings.dog_id,
+        bookings.booking_date,
+        bookings.created_at,
+        bookings.status,
+        dogs.dogs_name, 
+        dogs.price
+      FROM bookings
+      JOIN dogs ON bookings.dog_id = dogs.dog_id
+      WHERE bookings.user_id = ? AND bookings.status IN ('canceled', 'successful');
+    `;
+  
+    pool.query(sql, [user_id], (err, results) => {
+      if (err) {
+        console.error('Error fetching data:', err);
+        return res.status(500).json({ error: 'Error fetching data' });
+      }
+  
+      res.status(200).json(results);
+    });
+  });
+  
+
   // Endpoint สำหรับอัปโหลดสลิป
   app.post('/api/upload-slip/:booking_id', upload.single('slip'), async (req, res) => {
     const { booking_id } = req.params;

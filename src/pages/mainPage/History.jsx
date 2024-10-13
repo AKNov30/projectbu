@@ -1,46 +1,50 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-
-import { search } from '../../assets/' 
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { search } from '../../assets/';
 
 function History() {
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('ทั้งหมด');
+    const [bookings, setBookings] = useState([]);
+    const [error, setError] = useState(null);
 
-    // ข้อมูลตัวอย่าง สามารถเปลี่ยนเป็นข้อมูลจาก API ได้
-    const bookings = [
-        {
-            bookingDate: '27/11/2024',
-            code: 'BRP03',
-            itemName: 'ปั๊กสีน้ำตาลธรรมชาติ',
-            price: '2,250',
-            pickupDate: '28/11/2024',
-            status: 'สำเร็จ'
-        },
-        {
-            bookingDate: '21/11/2024',
-            code: 'BRP02',
-            itemName: 'ปั๊กสีน้ำตาลธรรมชาติ',
-            price: '2,250',
-            pickupDate: '24/11/2024',
-            status: 'สำเร็จ'
-        },
-        {
-            bookingDate: '19/11/2024',
-            code: 'BRP01',
-            itemName: 'ปั๊กสีน้ำตาลธรรมชาติ',
-            price: '2,250',
-            pickupDate: '-',
-            status: 'ยกเลิกการจอง'
-        }
-    ];
+    useEffect(() => {
+        const user_id = localStorage.getItem('user_id'); // Get user ID from localStorage
+        
+        const fetchBookingData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/history`, {
+                    params: { user_id },
+                });
+                setBookings(response.data);
+            } catch (error) {
+                console.error('Error fetching booking data:', error);
+                setError('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง');
+            }
+        };
 
-    // ฟังก์ชันสำหรับการค้นหาและกรองข้อมูล
-    const filteredBookings = bookings.filter(booking => {
-        const matchesSearch = booking.code.includes(searchTerm) || booking.itemName.includes(searchTerm);
+        fetchBookingData();
+    }, []);
+
+    if (error) {
+        return <div>{error}</div>; // Display error message if there's an error
+    }
+
+    // Filter bookings by search term and status
+    const filteredBookings = bookings.filter((booking) => {
+        const matchesSearch = booking.dogs_name.includes(searchTerm) || booking.dog_id.toString().includes(searchTerm);
         const matchesStatus = statusFilter === 'ทั้งหมด' || booking.status === statusFilter;
         return matchesSearch && matchesStatus;
     });
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+    };
 
     return (
         <div className="container">
@@ -74,14 +78,14 @@ function History() {
                         onChange={(e) => setStatusFilter(e.target.value)}
                     >
                         <option value="ทั้งหมด">ทั้งหมด</option>
-                        <option value="สำเร็จ">สำเร็จ</option>
-                        <option value="ยกเลิกการจอง">ยกเลิกการจอง</option>
+                        <option value="successful">สำเร็จ</option>
+                        <option value="canceled">ยกเลิกการจอง</option>
                     </select>
                 </div>
 
                 <div className="col-xl-1 col-lg-1 col-md-1 col-1 d-flex mt-2">
-                    <div className="" onClick={() => { /* เพิ่มฟังก์ชันการค้นหาเพิ่มเติมถ้าจำเป็น */ }}>
-                        <img src={ search } alt="Search" height="25" className="btn-search" />
+                    <div onClick={() => { /* Add search functionality if needed */ }}>
+                        <img src={search} alt="Search" height="25" className="btn-search" />
                     </div>
                 </div>
             </div>
@@ -103,15 +107,15 @@ function History() {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredBookings.length > 0 ? (
+                        {filteredBookings.length > 0 ? (
                                 filteredBookings.map((booking, index) => (
                                     <tr key={index}>
-                                        <td>{booking.bookingDate}</td>
-                                        <td>{booking.code}</td>
-                                        <td>{booking.itemName}</td>
+                                        <td>{formatDate(booking.created_at)}</td>
+                                        <td>{booking.dog_id}</td>
+                                        <td>{booking.dogs_name}</td>
                                         <td>{booking.price}</td>
-                                        <td>{booking.pickupDate}</td>
-                                        <td>{booking.status}</td>
+                                        <td>{formatDate(booking.booking_date)}</td>
+                                        <td>{booking.status === 'successful' ? 'สำเร็จ' : 'ยกเลิกการจอง'}</td>
                                     </tr>
                                 ))
                             ) : (
@@ -125,7 +129,7 @@ function History() {
             </div>
             {/* End Table Section */}
         </div>
-  )
+    );
 }
 
-export default History
+export default History;
