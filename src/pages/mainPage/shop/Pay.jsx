@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { AlertSave } from '../../../components/alert/Alert';
 import axios from 'axios';
 
 function Pay() {
@@ -62,7 +63,6 @@ function Pay() {
             });
 
             if (response.status === 200) {
-                alert('การจองสำเร็จ!');
                 navigate('/cancle');
             } else {
                 setError('การจองไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
@@ -106,11 +106,11 @@ function Pay() {
                 {/* Input สำหรับการอัปโหลดรูปสลิป */}
                 <div className="col-12 d-flex justify-content-center py-3">
                     <div className="col-4">
-                        <input 
+                        <input
                             class="form-control"
-                            type="file" 
-                            accept="image/*" 
-                            onChange={handleFileChange} 
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
                             disabled={loading}
                         />
                     </div>
@@ -123,15 +123,21 @@ function Pay() {
                 )}
 
                 <div className="col-12 d-flex justify-content-center py-3">
-                    <button
-                        type="button"
-                        className="btn btn-primary setting-btn-reserve"
-                        id="confirmPayment"
-                        onClick={handleBooking}
-                        disabled={loading}
-                    >
-                        {loading ? 'กำลังดำเนินการ...' : 'ยืนยันการชำระเงิน'}
-                    </button>
+                    <AlertSave
+                        onConfirm={handleBooking}
+                        title={"คุณยืนยันหรือไม่ที่จะจองสุนัข?"}
+                        confirmText={"ยืนยัน"}
+                        failMessage={"เพิ่มไม่สำเร็จ"}
+                        successMessage={"จองสำเร็จสำเร็จ"}>
+                        <button
+                            type="button"
+                            className="btn btn-primary setting-btn-reserve"
+                            id="confirmPayment"
+                            disabled={loading}
+                        >
+                            {loading ? 'กำลังดำเนินการ...' : 'ยืนยันการชำระเงิน'}
+                        </button>
+                    </AlertSave>
                 </div>
             </div>
         </div>

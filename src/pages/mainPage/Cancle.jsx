@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { AlertSave, AlertDelete } from '../../components/alert/Alert';
 
 function Cancle() {
     const [bookingData, setBookingData] = useState(null);
+    const [selectedSlip, setSelectedSlip] = useState(null); // เก็บไฟล์ที่เลือก
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -23,6 +25,58 @@ function Cancle() {
 
         fetchBookingData();
     }, []);
+
+    if (error) {
+        return <div>{error}</div>; // แสดงข้อความ error ถ้ามีข้อผิดพลาดในการดึงข้อมูล
+    }
+
+    if (!bookingData) {
+        return <div>กำลังโหลดข้อมูลการจอง...</div>; // แสดงข้อความ "กำลังโหลด" ขณะดึงข้อมูล
+    }
+
+    const handleFileChange = (e) => {
+        setSelectedSlip(e.target.files[0]); // เก็บไฟล์ที่ผู้ใช้เลือกไว้ใน state
+    };
+
+    const handleUploadSlip = async (bookingId) => {
+        if (!selectedSlip) {
+            alert('กรุณาอัปโหลดสลิป');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('slip', selectedSlip); // เพิ่มไฟล์สลิปลงใน FormData
+
+        try {
+            const response = await axios.post(`http://localhost:5000/api/upload-slip/${bookingId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            setSelectedSlip(null); // เคลียร์ไฟล์ที่อัปโหลด
+        } catch (error) {
+            console.error('Error uploading slip:', error);
+            alert('เกิดข้อผิดพลาดในการอัปโหลดสลิป');
+        }
+    };
+
+
+    const handleCancelBooking = async (bookingId, dogId) => {
+        try {
+            await axios.put(`http://localhost:5000/api/cancel-booking`, {
+                booking_id: bookingId,
+                dog_id: dogId,
+            });
+            // ดึงข้อมูลการจองใหม่หลังจากยกเลิกสำเร็จ
+            const user_id = localStorage.getItem('user_id');
+            const response = await axios.get(`http://localhost:5000/api/user-dogs`, {
+                params: { user_id }
+            });
+            setBookingData(response.data);
+        } catch (error) {
+            console.error('Error canceling booking:', error);
+        }
+    };
 
     if (error) {
         return <div>{error}</div>; // แสดงข้อความ error ถ้ามีข้อผิดพลาดในการดึงข้อมูล
@@ -119,23 +173,38 @@ function Cancle() {
                                     รวมเป็น : {booking.price / 2}
                                 </div>
                                 <div className="col-6 ">
-                                {booking.slip_url === null ? (
-                                    <>
-                                        <label htmlFor="formFileSm" className="form-label m-0 text-danger">อัปโหลดสลิป</label>
-                                        <input className="form-control form-control-sm" id="formFileSm" type="file" />
-                                        <button type="button" className="btn btn-success m-1">
-                                            ยืนยัน
+                                    {booking.slip_url === null ? (
+                                        <>
+                                            <label htmlFor="formFileSm" className="form-label m-0 text-danger">อัปโหลดสลิป</label>
+                                            <input className="form-control form-control-sm" id="formFileSm" type="file" onChange={handleFileChange} />
+                                            <AlertSave
+                                                onConfirm={() => handleUploadSlip(booking.booking_id)}
+                                                title={"ยืนยันที่จะส่งสลิป?"}
+                                                confirmText={"ยืนยัน"}
+                                                successMessage={"อัพโหลดสำเร็จ"}
+                                            >
+                                                <button type="button" className="btn btn-success m-1">
+                                                    ยืนยัน
+                                                </button>
+                                            </AlertSave>
+                                        </>
+                                    ) : (
+                                        <div className="pt-1">
+                                            <p className="m-0 p-0 text-success">สลิปได้ถูกอัปโหลดแล้ว</p>
+                                        </div>
+                                    )}
+                                    <AlertDelete
+                                        onDelete={() => handleCancelBooking(booking.booking_id, booking.dog_id)} // ฟังก์ชันที่จะถูกเรียกเมื่อผู้ใช้ยืนยันการลบ
+                                        title="คุณแน่ใจที่จะยกเลิกการจอง?" // ข้อความถามการยืนยัน
+                                        text="การยกเลิกการจองจะไม่สามารถคืนเงินจองได้"
+                                        confirmText="ยกเลิกการจอง"
+                                        successTitle="ยกเลิกการจองเสร็จสิ้น"
+                                    >
+                                        <button type="button" className="btn btn-danger">
+                                            ยกเลิกการจอง
                                         </button>
-                                    </>
-                                ) : (
-                                    <div className="pt-1">
-                                        <p className="m-0 p-0 text-success">สลิปได้ถูกอัปโหลดแล้ว</p>
-                                    </div>
-                                )}
+                                    </AlertDelete>
 
-                                    <button type="button" className="btn btn-danger">
-                                        ยกเลิกการจอง
-                                    </button>
                                 </div>
                             </div>
                         </div>

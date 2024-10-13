@@ -511,7 +511,7 @@ app.post('/api/book', upload.single('slip'), async (req, res) => {
   }
 });
 
-// การจอง
+// แสดงรายการการจอง
 app.get('/api/user-dogs', (req, res) => {
   const user_id = req.query.user_id; // รับ user_id จาก query string
 
@@ -536,8 +536,55 @@ app.get('/api/user-dogs', (req, res) => {
       FROM bookings
       JOIN dogs ON bookings.dog_id = dogs.dog_id
       JOIN users ON bookings.user_id = users.user_id
-      WHERE bookings.user_id = ?;
+      WHERE bookings.user_id = ? 
+      AND bookings.status NOT IN ('canceled', 'successful');
   `;
+
+  // Endpoint สำหรับอัปโหลดสลิป
+  app.post('/api/upload-slip/:booking_id', upload.single('slip'), async (req, res) => {
+    const { booking_id } = req.params;
+  
+    // Check if file was uploaded
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+  
+    const slipUrl = `/images/${req.file.filename}`; // Get the file URL
+  
+    // Update the booking with the slip URL
+    const sqlUpdateSlip = 'UPDATE bookings SET slip_url = ? WHERE booking_id = ?';
+  
+    try {
+      await pool.promise().execute(sqlUpdateSlip, [slipUrl, booking_id]);
+  
+      res.status(200).json({ message: 'Slip uploaded successfully', slipUrl });
+    } catch (error) {
+      console.error('Error uploading slip:', error);
+      res.status(500).json({ message: 'Error uploading slip', error: error.message });
+    }
+  });
+  
+
+  //ยกเลิกการจอง
+  app.put('/api/cancel-booking', async (req, res) => {
+    const { booking_id, dog_id } = req.body;
+
+    const sqlUpdateBooking = 'UPDATE bookings SET status = ? WHERE booking_id = ?';
+    const sqlUpdateDog = 'UPDATE dogs SET status = ? WHERE dog_id = ?';
+
+    try {
+        // อัปเดตสถานะการจองเป็น canceled
+        await pool.promise().execute(sqlUpdateBooking, ['canceled', booking_id]);
+
+        // อัปเดตสถานะสุนัขเป็น available
+        await pool.promise().execute(sqlUpdateDog, ['available', dog_id]);
+
+        res.status(200).json({ message: 'การจองถูกยกเลิกเรียบร้อยแล้ว' });
+    } catch (error) {
+        console.error('Error canceling booking:', error);
+        res.status(500).json({ message: 'Error canceling booking', error: error.message });
+    }
+});
 
   pool.query(sql, [user_id], (err, results) => {
       if (err) {
