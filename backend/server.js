@@ -476,20 +476,23 @@ app.post('/api/generate-qr', async (req, res) => {
 
 
 // Endpoint สำหรับการยืนยันการจอง
-app.post('/api/book', async (req, res) => {
+app.post('/api/book', upload.single('slip'), async (req, res) => {
   const { user_id, dog_id, booking_date, pickup_date, phone } = req.body;
+
+  // ตรวจสอบว่ามีไฟล์สลิปถูกอัปโหลดหรือไม่
+  const slipUrl = req.file ? `/images/${req.file.filename}` : null;
 
   // SQL query to insert a new booking
   const sqlInsertBooking = `
       INSERT INTO bookings 
-      (user_id, dog_id, booking_date, pickup_date, status, phone) 
-      VALUES (?, ?, ?, ?, ?, ?)`;
+      (user_id, dog_id, booking_date, pickup_date, status, phone, slip_url) 
+      VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
   const status = 'pending'; // Default status for new bookings
 
   try {
     // Insert booking into the bookings table
-    const [result] = await pool.promise().execute(sqlInsertBooking, [user_id, dog_id, booking_date, pickup_date, status, phone]);
+    const [result] = await pool.promise().execute(sqlInsertBooking, [user_id, dog_id, booking_date, pickup_date, status, phone, slipUrl]);
 
     // SQL query to update the status in the dogs table to match the booking status
     const sqlUpdateDogStatus = `

@@ -6,22 +6,20 @@ function Pay() {
     const location = useLocation();
     const navigate = useNavigate();
     const { price, dog_id, date, time, phone } = location.state || {};
-    // const price = 1
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null); // For error messages
-    const [qrCodeUrl, setQrCodeUrl] = useState(null); // สำหรับเก็บ URL ของ QR Code
+    const [error, setError] = useState(null);
+    const [qrCodeUrl, setQrCodeUrl] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null); // เก็บข้อมูลไฟล์ที่ถูกอัปโหลด
 
     // ฟังก์ชันดึง QR Code จาก API ฝั่งเซิร์ฟเวอร์
     useEffect(() => {
         const generateQRCode = async () => {
-            console.log(price)
             try {
                 const response = await axios.post('http://localhost:5000/api/generate-qr', {
                     price,
                     promptpayNumber: '0910586742' // เบอร์พร้อมเพย์ที่จะใช้ในการชำระเงิน
                 });
 
-                // เก็บ URL ของ QR Code ไว้ใน state เพื่อแสดงผล
                 setQrCodeUrl(response.data.qrCodeUrl);
             } catch (error) {
                 console.error('Error generating QR Code:', error);
@@ -32,44 +30,48 @@ function Pay() {
         generateQRCode();
     }, [price]);
 
+    // ฟังก์ชันจัดการการอัปโหลดไฟล์
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]); // เก็บไฟล์ที่ถูกเลือกใน state
+    };
+
     const handleBooking = async () => {
-        const user_id = localStorage.getItem('user_id'); // Retrieve user_id from localStorage
-        // console.log('Booking Data:', {
-        //     user_id: parseInt(user_id, 10),
-        //     dog_id: parseInt(dog_id, 10),
-        //     booking_date: date,
-        //     pickup_date: time,
-        // });
+        const user_id = localStorage.getItem('user_id');
         setLoading(true);
-        setError(null); // Reset error state before making the request
+        setError(null);
 
         try {
-            // เตรียมข้อมูลที่จะส่งไปยัง Backend
-            const bookingData = {
-                user_id: parseInt(user_id),
-                dog_id: parseInt(dog_id),
-                booking_date: date,
-                pickup_date: time,
-                phone: phone,
-            };
+            // เตรียมข้อมูลสำหรับการอัปโหลด
+            const formData = new FormData();
+            formData.append('user_id', parseInt(user_id));
+            formData.append('dog_id', parseInt(dog_id));
+            formData.append('booking_date', date);
+            formData.append('pickup_date', time);
+            formData.append('phone', phone);
+
+            // ถ้ามีการเลือกไฟล์ ให้เพิ่มไฟล์เข้าไปใน formData
+            if (selectedFile) {
+                formData.append('slip', selectedFile); // เพิ่มไฟล์ที่เลือกเข้าไปใน formData
+            }
 
             // ส่ง POST request ไปยัง Backend
-            const response = await axios.post('http://localhost:5000/api/book', bookingData);
+            const response = await axios.post('http://localhost:5000/api/book', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
 
             if (response.status === 200) {
-                // การจองสำเร็จ
                 alert('การจองสำเร็จ!');
-                // นำทางไปยังหน้าถัดไป หรือรีเฟรชหน้า
                 navigate('/cancle');
             } else {
-                // จัดการกับสถานะที่ไม่ใช่ 200
                 setError('การจองไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
             }
         } catch (error) {
-            setError('เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์'); // Handle error
+            setError('เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์');
             console.error('Error:', error);
         } finally {
-            setLoading(false); // Always set loading to false at the end
+            setLoading(false);
         }
     };
 
@@ -84,7 +86,6 @@ function Pay() {
             <div className="row bg-grey pt-5">
                 <div className="col-12 d-flex justify-content-center">
                     <div className="bg-white">
-                        {/* แสดง QR Code ถ้าโหลดสำเร็จ */}
                         {qrCodeUrl ? (
                             <img src={qrCodeUrl} alt="PromptPay QR Code" height="300" />
                         ) : (
@@ -102,6 +103,19 @@ function Pay() {
                     <p>(ชำระเงิน ชำระอีก 50% ในวันที่เดินทางมารับสุนัข)</p>
                 </div>
 
+                {/* Input สำหรับการอัปโหลดรูปสลิป */}
+                <div className="col-12 d-flex justify-content-center py-3">
+                    <div className="col-4">
+                        <input 
+                            class="form-control"
+                            type="file" 
+                            accept="image/*" 
+                            onChange={handleFileChange} 
+                            disabled={loading}
+                        />
+                    </div>
+                </div>
+
                 {error && (
                     <div className="col-12 d-flex justify-content-center py-3">
                         <p className="text-danger">{error}</p>
@@ -113,7 +127,7 @@ function Pay() {
                         type="button"
                         className="btn btn-primary setting-btn-reserve"
                         id="confirmPayment"
-                        onClick={handleBooking} // Call the function on click
+                        onClick={handleBooking}
                         disabled={loading}
                     >
                         {loading ? 'กำลังดำเนินการ...' : 'ยืนยันการชำระเงิน'}
