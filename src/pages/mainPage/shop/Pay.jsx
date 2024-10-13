@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -6,8 +6,31 @@ function Pay() {
     const location = useLocation();
     const navigate = useNavigate();
     const { price, dog_id, date, time, phone } = location.state || {};
+    // const price = 1
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null); // For error messages
+    const [qrCodeUrl, setQrCodeUrl] = useState(null); // สำหรับเก็บ URL ของ QR Code
+
+    // ฟังก์ชันดึง QR Code จาก API ฝั่งเซิร์ฟเวอร์
+    useEffect(() => {
+        const generateQRCode = async () => {
+            console.log(price)
+            try {
+                const response = await axios.post('http://localhost:5000/api/generate-qr', {
+                    price,
+                    promptpayNumber: '0910586742' // เบอร์พร้อมเพย์ที่จะใช้ในการชำระเงิน
+                });
+
+                // เก็บ URL ของ QR Code ไว้ใน state เพื่อแสดงผล
+                setQrCodeUrl(response.data.qrCodeUrl);
+            } catch (error) {
+                console.error('Error generating QR Code:', error);
+                setError('เกิดข้อผิดพลาดในการสร้าง QR Code');
+            }
+        };
+
+        generateQRCode();
+    }, [price]);
 
     const handleBooking = async () => {
         const user_id = localStorage.getItem('user_id'); // Retrieve user_id from localStorage
@@ -25,9 +48,9 @@ function Pay() {
             const bookingData = {
                 user_id: parseInt(user_id),
                 dog_id: parseInt(dog_id),
-                booking_date:date, 
-                pickup_date:time,  
-                phone:phone,
+                booking_date: date,
+                pickup_date: time,
+                phone: phone,
             };
 
             // ส่ง POST request ไปยัง Backend
@@ -37,7 +60,7 @@ function Pay() {
                 // การจองสำเร็จ
                 alert('การจองสำเร็จ!');
                 // นำทางไปยังหน้าถัดไป หรือรีเฟรชหน้า
-                navigate('/cancle'); 
+                navigate('/cancle');
             } else {
                 // จัดการกับสถานะที่ไม่ใช่ 200
                 setError('การจองไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
@@ -61,8 +84,14 @@ function Pay() {
             <div className="row bg-grey pt-5">
                 <div className="col-12 d-flex justify-content-center">
                     <div className="bg-white">
-                        <img className="setting-pic-pay" height="300" src="image/pay.png" alt="Payment" />
-                        {/* QR code here */}
+                        {/* แสดง QR Code ถ้าโหลดสำเร็จ */}
+                        {qrCodeUrl ? (
+                            <img src={qrCodeUrl} alt="PromptPay QR Code" height="300" />
+                        ) : (
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -80,9 +109,9 @@ function Pay() {
                 )}
 
                 <div className="col-12 d-flex justify-content-center py-3">
-                    <button 
-                        type="button" 
-                        className="btn btn-primary setting-btn-reserve" 
+                    <button
+                        type="button"
+                        className="btn btn-primary setting-btn-reserve"
                         id="confirmPayment"
                         onClick={handleBooking} // Call the function on click
                         disabled={loading}

@@ -9,9 +9,9 @@ import bcrypt from 'bcrypt';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import qrcode from 'qrcode';
-import promptpayQR from 'promptpay-qr';
 import { fileURLToPath } from 'url';
+import promptpayQR from 'promptpay-qr'; 
+import qrcode from 'qrcode';  
 
 // Initialize environment variables
 dotenv.config();
@@ -449,6 +449,32 @@ app.get('/api/dogs/:dog_id', (req, res) => {
   });
 });
 
+// สร้าง PromptPay QR Code 
+app.post('/api/generate-qr', async (req, res) => {
+  const { price, promptpayNumber } = req.body;
+
+  try {
+    // สร้างข้อมูล PromptPay QR
+    const qrData = promptpayQR(promptpayNumber, { amount: price });
+
+    // สร้างภาพ QR Code จากข้อมูลที่ได้
+    qrcode.toDataURL(qrData, (err, url) => {
+      if (err) {
+        console.error('Error generating QR Code image:', err);
+        return res.status(500).json({ error: 'Error generating QR Code image' });
+      }
+
+      // ส่ง URL ของภาพ QR Code กลับไปที่ฝั่งไคลเอนต์
+      res.status(200).json({ qrCodeUrl: url });
+    });
+  } catch (error) {
+    console.error('Error generating PromptPay QR Code:', error);
+    res.status(500).json({ error: 'Error generating PromptPay QR Code' });
+  }
+});
+
+
+
 // Endpoint สำหรับการยืนยันการจอง
 app.post('/api/book', async (req, res) => {
   const { user_id, dog_id, booking_date, pickup_date, phone } = req.body;
@@ -463,7 +489,7 @@ app.post('/api/book', async (req, res) => {
 
   try {
     // Insert booking into the bookings table
-    const [result] = await pool.promise().execute(sqlInsertBooking, [user_id, dog_id, booking_date, pickup_date, status]);
+    const [result] = await pool.promise().execute(sqlInsertBooking, [user_id, dog_id, booking_date, pickup_date, status, phone]);
 
     // SQL query to update the status in the dogs table to match the booking status
     const sqlUpdateDogStatus = `
@@ -481,8 +507,6 @@ app.post('/api/book', async (req, res) => {
     res.status(500).json({ message: 'Error processing booking', error: error.message });
   }
 });
-
-
 
 
 app.listen(port, () => {
