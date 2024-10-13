@@ -522,16 +522,17 @@ app.get('/api/user-dogs', (req, res) => {
           bookings.dog_id,
           bookings.phone, 
           bookings.created_at,
+          bookings.booking_date, 
+          bookings.pickup_date, 
+          bookings.status,
+          bookings.slip_url,
           dogs.dogs_name, 
           dogs.price, 
           dogs.color, 
           dogs.image_url, 
           users.firstname, 
           users.lastname,
-          users.user_email, 
-          bookings.booking_date, 
-          bookings.pickup_date, 
-          bookings.status 
+          users.user_email
       FROM bookings
       JOIN dogs ON bookings.dog_id = dogs.dog_id
       JOIN users ON bookings.user_id = users.user_id
