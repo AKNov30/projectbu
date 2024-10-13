@@ -511,6 +511,44 @@ app.post('/api/book', upload.single('slip'), async (req, res) => {
   }
 });
 
+// การจอง
+app.get('/api/user-dogs', (req, res) => {
+  const user_id = req.query.user_id; // รับ user_id จาก query string
+
+  const sql = `
+      SELECT 
+          bookings.booking_id, 
+          bookings.user_id, 
+          bookings.dog_id,
+          bookings.phone, 
+          bookings.created_at,
+          dogs.dogs_name, 
+          dogs.price, 
+          dogs.color, 
+          dogs.image_url, 
+          users.firstname, 
+          users.lastname,
+          users.user_email, 
+          bookings.booking_date, 
+          bookings.pickup_date, 
+          bookings.status 
+      FROM bookings
+      JOIN dogs ON bookings.dog_id = dogs.dog_id
+      JOIN users ON bookings.user_id = users.user_id
+      WHERE bookings.user_id = ?;
+  `;
+
+  pool.query(sql, [user_id], (err, results) => {
+      if (err) {
+          console.error('Error fetching data:', err);
+          return res.status(500).json({ error: 'Error fetching data' });
+      }
+
+      res.status(200).json(results);
+  });
+});
+
+
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
