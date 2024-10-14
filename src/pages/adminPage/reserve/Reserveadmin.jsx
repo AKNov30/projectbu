@@ -28,6 +28,7 @@ function Reserveadmin() {
     ];
 
     return (
+        <>
         <div className="container-fluid">
             <div className="row">
                 <div className="col-12 pt-3 d-flex justify-content-center">
@@ -38,7 +39,7 @@ function Reserveadmin() {
             <div className="row">
                 <div className="col-xl-1 col-lg-1 col-md-0"></div>
                 <div className="col-xl-10 col-lg-2 col-md-2 pt-3">
-                    <table className="table bg-grey border">
+                    <table className="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th style={{ width: "3%" }}>&nbsp;</th>
@@ -79,6 +80,7 @@ function Reserveadmin() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

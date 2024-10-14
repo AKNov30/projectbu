@@ -31,7 +31,7 @@ function Result() {
             <div className="row">
                 <div className="col-xl-1 col-lg-1 col-md-0"></div>
                 <div className="col-xl-10 col-lg-2 col-md-2 pt-3">
-                    <table className="table bg-grey border">
+                    <table className="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th className="text-center" style={{ width: '1%' }}>รายการ</th>

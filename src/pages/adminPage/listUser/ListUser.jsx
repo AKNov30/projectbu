@@ -61,7 +61,7 @@ function ListUser() {
 
                 <div className="row">
                     <div className="col-xl-12 col-lg-12 col-md-12 pt-3">
-                        <table className="table bg-grey border">
+                        <table className="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th className="text-center" style={{ width: '5%' }}>รหัส</th>

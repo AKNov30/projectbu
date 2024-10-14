@@ -48,15 +48,14 @@ function HomeAdmin() {
     <>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-1"></div>
           <div className="col-11 pt-3 d-flex justify-content-center">
             <h1>รายชื่อสุนัข</h1>
           </div>
         </div>
 
-        <div className="table-responsive">
-          <table className="table table-striped table-hover bg-light border">
-            <thead className="thead-dark">
+        <div>
+          <table className="table table-striped table-hover">
+            <thead>
               <tr>
                 <th scope="col" style={{ width: '5%' }}>รหัส</th>
                 <th scope="col" style={{ width: '10%' }}>ชื่อสุนัข</th>
@@ -68,7 +67,7 @@ function HomeAdmin() {
             </thead>
             <tbody>
               {dogs.map((dog) => (
-                <tr key={dog.dog_id}>
+                <tr key={dog.dog_id} className=''>
                   <td>{dog.dog_id}</td>
                   <td>{dog.dogs_name}</td>
                   <td>{formatDate(dog.birthday)}</td>
