@@ -34,7 +34,7 @@ function DetailDog() {
   const fetchRelatedDogs = async (color) => {
     // console.log(typeof dog_id);
     try {
-      const response = await axios.get('http://localhost:5000/api/shop-dogs');
+      const response = await axios.get('http://localhost:5000/api/all-dogs');
       // คัดกรองสุนัขที่มีสีเดียวกันและไม่ใช่ตัวปัจจุบัน
       let related = response.data.filter(
         (item) => item.color === color && item.dog_id != dog_id

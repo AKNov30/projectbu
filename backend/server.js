@@ -464,18 +464,99 @@ app.put('/api/dogs/:dog_id', upload.array('files'), (req, res) => {
   });
 });
 
+// ดึงสุนัข status = "available"
+app.get('/api/all-dogs', (req, res) => {
+  const sql = 'SELECT * FROM dogs WHERE status = "available"';
+
+  pool.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching available dogs:', err);
+      return res.status(500).json({ message: 'Error fetching available dogs' });
+    }
+    res.json(results); // ส่งข้อมูลสุนัขที่มีสถานะ available กลับไปในรูปแบบ JSON
+  });
+});
+
 
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน Shop
 app.get('/api/shop-dogs', (req, res) => {
-  const sql = 'SELECT dog_id, dogs_name, birthday, price, color, image_url FROM dogs WHERE status = "available"';
+  const { page = 1, limit = 10, color, age, price } = req.query;
+  const offset = (page - 1) * limit;
+
+  let sql = 'SELECT dog_id, dogs_name, birthday, price, color, image_url FROM dogs WHERE status = "available"';
+  let countSql = 'SELECT COUNT(*) AS total FROM dogs WHERE status = "available"';
+  const filters = [];
+
+  if (color && color !== 'ทั้งหมด') {
+    filters.push(`color = "${color}"`);
+  }
+
+  if (age && age !== 'ทั้งหมด') {
+    const ageInDays = {
+      '14d': 14,
+      '28d': 28,
+      '2m': 60,
+      '3m': 90
+    }[age];
+
+    if (ageInDays) {
+      filters.push(`DATEDIFF(CURDATE(), birthday) <= ${ageInDays}`);
+    }
+  }
+
+  if (price && price !== 'all') {
+    const priceRange = {
+      '2024': [0, 2500],
+      '2023': [2500, 3500],
+      '2022': [3500, 4500],
+      '2021': [4500, 5500]
+    }[price];
+
+    if (priceRange) {
+      filters.push(`price BETWEEN ${priceRange[0]} AND ${priceRange[1]}`);
+    }
+  }
+
+  if (filters.length) {
+    const filterString = filters.join(' AND ');
+    sql += ` AND ${filterString}`;
+    countSql += ` AND ${filterString}`;
+  }
+
+  sql += ` LIMIT ${limit} OFFSET ${offset}`;
+
+  // Query to get total count of available dogs for pagination
+pool.query(countSql, (err, countResult) => {
+  if (err) {
+    console.error('Error counting shop dogs:', err);
+    return res.status(500).json('Error counting shop dogs: ' + err.message);
+  }
+
+  const totalItems = countResult[0].total;
+  const totalPages = Math.ceil(totalItems / limit);
+
+  console.log('Total items:', totalItems); // Debug จำนวนรายการทั้งหมด
+  console.log('Total pages:', totalPages); // Debug จำนวนหน้าที่คำนวณได้
+
+  // Query to get filtered data
   pool.query(sql, (err, results) => {
     if (err) {
       console.error('Error fetching shop dogs:', err);
       return res.status(500).json('Error fetching shop dogs: ' + err.message);
     }
-    res.json(results);
+
+    // ส่งข้อมูลสุนัขพร้อมกับ totalPages กลับไป
+    res.json({
+      dogs: results,  // ข้อมูลสุนัขที่ถูกกรองแล้ว
+      totalPages      // จำนวนหน้าทั้งหมด
+    });
   });
 });
+
+
+});
+
+
 
 app.get('/api/dogs/:dog_id', (req, res) => {
   const { dog_id } = req.params;
