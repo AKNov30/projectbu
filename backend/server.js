@@ -483,7 +483,7 @@ app.put("/api/dogs/:dog_id", upload.array("files"), (req, res) => {
       description,
       personality,
       JSON.stringify(allImageUrls),
-      dog_id, 
+      dog_id,
     ];
 
     pool.query(sql, values, (err, result) => {
@@ -502,7 +502,7 @@ app.put("/api/dogs/:dog_id", upload.array("files"), (req, res) => {
 });
 
 //แสดงประวัติการจอง page admin/change-date
-app.get('/api/change-date', (req, res) => {
+app.get("/api/change-date", (req, res) => {
   const sql = `
     SELECT 
       b.booking_id, 
@@ -527,7 +527,7 @@ app.get('/api/change-date', (req, res) => {
   `;
   pool.query(sql, (err, result) => {
     if (err) {
-      return res.status(500).json({ error: 'Database query error' });
+      return res.status(500).json({ error: "Database query error" });
     }
 
     result = result.map((row) => {
@@ -535,16 +535,17 @@ app.get('/api/change-date', (req, res) => {
 
       // ตรวจสอบว่า image_url เป็น JSON string หรือไม่
       try {
-        imageUrlArray = JSON.parse(row.image_url);  // แปลง JSON string เป็นอาเรย์
+        imageUrlArray = JSON.parse(row.image_url); // แปลง JSON string เป็นอาเรย์
       } catch (error) {
-        imageUrlArray = [row.image_url];  // ถ้าไม่ใช่ JSON string ใช้เป็นสตริงธรรมดา
+        imageUrlArray = [row.image_url]; // ถ้าไม่ใช่ JSON string ใช้เป็นสตริงธรรมดา
       }
 
       // เลือกใช้รูปแรกจากอาเรย์ (ถ้ามี) และตรวจสอบว่า URL มี "/images/" อยู่แล้วหรือไม่
       const firstImageUrl = imageUrlArray.length > 0 ? imageUrlArray[0] : null;
-      const finalImageUrl = firstImageUrl && firstImageUrl.startsWith('/images/')
-        ? `http://localhost:5000${firstImageUrl}` // ถ้ามีพาธ "/images/" อยู่แล้ว
-        : `http://localhost:5000/images/${firstImageUrl}`; // ถ้ายังไม่มี "/images/"
+      const finalImageUrl =
+        firstImageUrl && firstImageUrl.startsWith("/images/")
+          ? `http://localhost:5000${firstImageUrl}` // ถ้ามีพาธ "/images/" อยู่แล้ว
+          : `http://localhost:5000/images/${firstImageUrl}`; // ถ้ายังไม่มี "/images/"
 
       return {
         ...row,
@@ -557,13 +558,15 @@ app.get('/api/change-date', (req, res) => {
 });
 
 // put date,time
-app.put('/api/change-date/:booking_id', (req, res) => {
+app.put("/api/change-date/:booking_id", (req, res) => {
   const { booking_id } = req.params; // รับ booking_id จาก URL parameter
   const { booking_date, pickup_date } = req.body; // รับ booking_date และ pickup_date จาก request body
 
   // ตรวจสอบว่ามีข้อมูลที่จำเป็นหรือไม่
   if (!booking_date || !pickup_date) {
-    return res.status(400).json({ error: 'กรุณาใส่ข้อมูลวันที่และเวลาให้ครบถ้วน' });
+    return res
+      .status(400)
+      .json({ error: "กรุณาใส่ข้อมูลวันที่และเวลาให้ครบถ้วน" });
   }
 
   // SQL query สำหรับอัปเดตข้อมูล booking_date และ pickup_date ตาม booking_id
@@ -576,15 +579,15 @@ app.put('/api/change-date/:booking_id', (req, res) => {
   // รันคำสั่ง SQL และส่งข้อมูลไปยังฐานข้อมูล
   pool.query(sql, [booking_date, pickup_date, booking_id], (err, result) => {
     if (err) {
-      return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล' });
+      return res.status(500).json({ error: "เกิดข้อผิดพลาดในการอัปเดตข้อมูล" });
     }
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'ไม่พบรายการจองนี้' });
+      return res.status(404).json({ error: "ไม่พบรายการจองนี้" });
     }
 
     // ส่งผลลัพธ์กลับไปที่ฟรอนต์เอนด์เมื่ออัปเดตเสร็จสิ้น
-    res.json({ message: 'อัปเดตข้อมูลสำเร็จ' });
+    res.json({ message: "อัปเดตข้อมูลสำเร็จ" });
   });
 });
 
@@ -598,6 +601,40 @@ app.get("/api/all-dogs", (req, res) => {
       return res.status(500).json({ message: "Error fetching available dogs" });
     }
     res.json(results); // ส่งข้อมูลสุนัขที่มีสถานะ available กลับไปในรูปแบบ JSON
+  });
+});
+
+// reserve-admin
+app.get("/api/reserve-admin", (req, res) => {
+  const sql = `
+    SELECT 
+      users.user_id,
+      users.firstname,
+      users.lastname,
+      users.user_email,
+      bookings.booking_id,
+      bookings.dog_id,
+      bookings.created_at,
+      bookings.booking_date,
+      bookings.pickup_date,
+      bookings.phone,
+      bookings.status,
+      dogs.image_url
+    FROM 
+      users
+    INNER JOIN 
+      bookings ON users.user_id = bookings.user_id
+    INNER JOIN 
+      dogs ON bookings.dog_id = dogs.dog_id
+    WHERE bookings.status = "pending";
+    `;
+
+  pool.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching reservations:", err);
+      return res.status(500).json({ message: "Error fetching reservations" });
+    }
+    res.json(results); // ส่งข้อมูลการจองที่มีสถานะ pending กลับไปในรูปแบบ JSON
   });
 });
 

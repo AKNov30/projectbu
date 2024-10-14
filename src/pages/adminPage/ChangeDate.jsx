@@ -52,9 +52,9 @@ function ChangeDate() {
             .then((response) => response.json())
             .then((data) => {
                 if (data.error) {
-                    alert('เกิดข้อผิดพลาด: ' + data.error);
+                    console.log('เกิดข้อผิดพลาด: ' + data.error);
                 } else {
-                    alert('อัปเดตข้อมูลสำเร็จ');
+                    console.log('อัปเดตข้อมูลสำเร็จ');
                     // คุณอาจต้องการรีเฟรชข้อมูลหรือทำการอัปเดตใน UI
                 }
             })

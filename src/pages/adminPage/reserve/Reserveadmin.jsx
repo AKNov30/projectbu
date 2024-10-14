@@ -1,85 +1,96 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import { dogBrown, dogBlack } from '../../../assets/' 
+import axios from 'axios';
+import { logo } from '../../../assets';
 
 function Reserveadmin() {
-    const reservations = [
-        {
-            image: dogBrown,
-            name: "สิทธิโชค จันทร์ทรง",
-            email: "Sittichok@juns@bumail.net",
-            phone: "087-994-8760",
-            code: "BRP02",
-            bookingDate: "10/09/2024",
-            pickupDate: "14/09/2024",
-            time: "14.00"
-        },
-        {
-            image: dogBlack,
-            name: "สิทธิโชค จันทร์ทรง",
-            email: "Sittichok@juns@bumail.net",
-            phone: "087-994-8760",
-            code: "BRP01",
-            bookingDate: "10/09/2024",
-            pickupDate: "14/09/2024",
-            time: "14.00"
-        }
-    ];
+    const [reservations, setReservations] = useState([]); // state สำหรับเก็บข้อมูลการจอง
+
+    // ดึงข้อมูลจาก API 
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/reserve-admin')
+            .then(response => {
+                setReservations(response.data); // อัพเดทข้อมูลการจองจาก API
+            })
+            .catch(error => {
+                console.error("Error fetching reservation data:", error);
+            });
+    }, []);
 
     return (
         <>
-        <div className="container-fluid">
-            <div className="row">
-                <div className="col-12 pt-3 d-flex justify-content-center">
-                    <h1>เช็ครายการจอง</h1>
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-12 pt-3 d-flex justify-content-center">
+                        <h1>เช็ครายการจอง</h1>
+                    </div>
                 </div>
-            </div>
 
-            <div className="row">
-                <div className="col-xl-1 col-lg-1 col-md-0"></div>
-                <div className="col-xl-10 col-lg-2 col-md-2 pt-3">
-                    <table className="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th style={{ width: "3%" }}>&nbsp;</th>
-                                <th style={{ width: "15%" }}>ผู้จอง</th>
-                                <th style={{ width: "3%" }}>รหัส</th>
-                                <th style={{ width: "3%" }}>วันจอง</th>
-                                <th style={{ width: "3%" }}>วันที่รับ</th>
-                                <th style={{ width: "3%" }}>เวลา</th>
-                                <th style={{ width: "3%" }}>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {reservations.map((reservation, index) => (
-                                <tr key={index}>
-                                    <td className="text-center">
-                                        <img src={reservation.image} alt="Logo" height="80" className="d-inline-block align-text-top" />
-                                    </td>
-                                    <td>
-                                        {reservation.name}<br />
-                                        {reservation.email}<br />
-                                        {reservation.phone}
-                                    </td>
-                                    <td>{reservation.code}</td>
-                                    <td>{reservation.bookingDate}</td>
-                                    <td>{reservation.pickupDate}</td>
-                                    <td>{reservation.time}</td>
-                                    <td>
-                                        <div>
-                                            <Link to={`/admin/reserve/${reservation.code}`} className="btn btn-warning" style={{ width: "100%" }}>
-                                                รายละเอียด
-                                            </Link>
-                                        </div>
-                                    </td>
+                <div className="row">
+                    <div className="col-xl-1 col-lg-1 col-md-0"></div>
+                    <div className="col-xl-10 col-lg-2 col-md-2 pt-3">
+                        <table className="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style={{ width: "3%" }}>&nbsp;</th>
+                                    <th style={{ width: "15%" }}>ผู้จอง</th>
+                                    <th style={{ width: "3%" }}>รหัส</th>
+                                    <th style={{ width: "3%" }}>วันจอง</th>
+                                    <th style={{ width: "3%" }}>วันที่รับ</th>
+                                    <th style={{ width: "3%" }}>เวลา</th>
+                                    <th style={{ width: "3%" }}>&nbsp;</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {reservations.length > 0 ? (
+                                    reservations.map((reservation, index) => {
+                                        // แยก array ของ image_url อย่างระมัดระวัง
+                                        const rawImageUrls = reservation.image_url || '[]';
+                                        const imageUrls = rawImageUrls.replace(/^\[|\]$/g, '').split(',').map(url => url.trim().replace(/['"]+/g, ''));
+                                        const firstImage = imageUrls[0] ? `http://localhost:5000${imageUrls[0]}` : logo; // เลือกรูปแรก หรือใช้รูป default
+
+                                        return (
+                                            <tr key={index}>
+                                                <td className="text-center">
+                                                    <img src={firstImage} alt="Dog" height="80" className="d-inline-block align-text-top" />
+                                                </td>
+                                                <td>
+                                                    {reservation.firstname} {reservation.lastname}<br />
+                                                    {reservation.user_email}<br />
+                                                    {reservation.phone}
+                                                </td>
+                                                <td>{reservation.booking_id}</td>
+                                                <td>{new Date(reservation.created_at).toLocaleDateString('th-TH', {
+                                                    day: '2-digit',
+                                                    month: '2-digit',
+                                                    year: 'numeric'
+                                                })}</td>
+                                                <td>{new Date(reservation.booking_date).toLocaleDateString('th-TH', {
+                                                    day: '2-digit',
+                                                    month: '2-digit',
+                                                    year: 'numeric'
+                                                })}</td>
+                                                <td>{reservation.pickup_time}</td>
+                                                <td>
+                                                    <div>
+                                                        <Link to={`/admin/reserve/${reservation.booking_id}`} className="btn btn-warning" style={{ width: "100%" }}>
+                                                            รายละเอียด
+                                                        </Link>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                ) : (
+                                    <tr>
+                                        <td colSpan="7" className="text-center">ไม่มีข้อมูลการจอง</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
         </>
     );
 }
