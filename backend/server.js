@@ -133,17 +133,38 @@ app.post('/api/login', async (req, res) => {
 // ListUser
 // ดึงรายข้อมูล user มาแสดง
 app.get('/api/users', (req, res) => {
-  const sql = 'SELECT user_id, firstname, lastname, user_role FROM users';
+  const page = parseInt(req.query.page) || 1; // หน้าที่ต้องการแสดง, ค่า default คือหน้า 1
+  const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า, ค่า default คือ 10
+  const offset = (page - 1) * limit; // จุดเริ่มต้นของข้อมูลในหน้านั้น ๆ
 
-  pool.query(sql, (err, results) => {
+  const sql = `SELECT user_id, firstname, lastname, user_role FROM users LIMIT ? OFFSET ?`;
+
+  pool.query(sql, [limit, offset], (err, results) => {
     if (err) {
       console.error('Error fetching users:', err);
       return res.status(500).json('Error fetching users');
     }
-    
-    res.status(200).json(results);
+
+    const countSql = 'SELECT COUNT(*) AS total FROM users'; // ดึงจำนวนทั้งหมดของผู้ใช้เพื่อนำไปคำนวณจำนวนหน้า
+    pool.query(countSql, (countErr, countResult) => {
+      if (countErr) {
+        console.error('Error fetching total users count:', countErr);
+        return res.status(500).json('Error fetching total users count');
+      }
+
+      const totalUsers = countResult[0].total;
+      const totalPages = Math.ceil(totalUsers / limit);
+
+      res.status(200).json({
+        users: results,
+        totalPages,
+        currentPage: page,
+        totalUsers,
+      });
+    });
   });
 });
+
 
 // ดึงข้อมูลผู้ใช้ตาม user_id 
 app.get('/api/users/:user_id', (req, res) => {
@@ -266,12 +287,34 @@ app.post('/api/adddog', upload.array('files', 4), (req, res) => {
 
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน home-admin
 app.get('/api/dogs', (req, res) => {
-  const sql = 'SELECT dog_id, dogs_name, birthday, price, color FROM dogs';
-  pool.query(sql, (err, results) => {
+  const page = parseInt(req.query.page) || 1; // หน้าที่ต้องการแสดง, ค่า default คือหน้า 1
+  const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า, ค่า default คือ 10
+  const offset = (page - 1) * limit; // จุดเริ่มต้นของข้อมูลในหน้านั้น ๆ
+
+  const sql = `SELECT dog_id, dogs_name, birthday, price, color FROM dogs LIMIT ? OFFSET ?`;
+  pool.query(sql, [limit, offset], (err, results) => {
     if (err) return res.status(500).json('Error fetching dogs: ' + err.message);
-    res.json(results);
+
+    // คำสั่งเพื่อดึงจำนวนข้อมูลทั้งหมดเพื่อนำไปคำนวณจำนวนหน้า
+    const countSql = 'SELECT COUNT(*) AS total FROM dogs';
+    pool.query(countSql, (countErr, countResult) => {
+      if (countErr) {
+        return res.status(500).json('Error fetching total dogs count: ' + countErr.message);
+      }
+
+      const totalDogs = countResult[0].total;
+      const totalPages = Math.ceil(totalDogs / limit); // จำนวนหน้าทั้งหมด
+
+      res.json({
+        dogs: results,
+        totalPages,
+        currentPage: page,
+        totalDogs,
+      });
+    });
   });
 });
+
 
 // Endpoint สำหรับลบสุนัข
 app.delete('/api/dogs/:dog_id', (req, res) => {

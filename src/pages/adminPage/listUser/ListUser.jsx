@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { editIcon, binIcon } from '../../../assets/'
+import { editIcon, binIcon } from '../../../assets/';
 import { AlertDelete } from '../../../components/alert/Alert';
 
 function ListUser() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1); // state เก็บหน้าปัจจุบัน
+    const [totalPages, setTotalPages] = useState(1); // state เก็บจำนวนหน้าทั้งหมด
 
     useEffect(() => {
-        // ดึงข้อมูลจาก API
-        fetch('http://localhost:5000/api/users')
+        fetchUsers(currentPage);
+    }, [currentPage]);
+
+    const fetchUsers = (page) => {
+        setLoading(true);
+        fetch(`http://localhost:5000/api/users?page=${page}&limit=14`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -16,7 +22,8 @@ function ListUser() {
                 return response.json();
             })
             .then(data => {
-                setUsers(data);
+                setUsers(data.users);
+                setTotalPages(data.totalPages); // เก็บจำนวนหน้าทั้งหมด
                 setLoading(false);
             })
             .catch(error => {
@@ -24,10 +31,9 @@ function ListUser() {
                 toast.error('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้');
                 setLoading(false);
             });
-    }, []);
+    };
 
     const handleDelete = (user_id) => {
-        // เรียกใช้งาน API ลบผู้ใช้
         fetch(`http://localhost:5000/api/users/${user_id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
@@ -39,7 +45,6 @@ function ListUser() {
                 return response.json();
             })
             .then(data => {
-                // ลบผู้ใช้จาก state
                 setUsers(users.filter(user => user.user_id !== user_id));
                 toast.success(data.message || 'ลบผู้ใช้สำเร็จ');
             })
@@ -47,6 +52,10 @@ function ListUser() {
                 console.error('Error deleting user:', error);
                 toast.error(error.message || 'เกิดข้อผิดพลาดในการลบผู้ใช้');
             });
+    };
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page); // เปลี่ยนหน้าปัจจุบันเมื่อกดเปลี่ยนหน้า
     };
 
     return (
@@ -103,11 +112,28 @@ function ListUser() {
                                 )}
                             </tbody>
                         </table>
+
+                        {/* ปุ่ม Pagination */}
+                        <nav aria-label="Page navigation">
+                            <ul className="pagination justify-content-center">
+                                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                    <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>ก่อนหน้า</button>
+                                </li>
+                                {[...Array(totalPages).keys()].map(page => (
+                                    <li key={page + 1} className={`page-item ${currentPage === page + 1 ? 'active' : ''}`}>
+                                        <button className="page-link" onClick={() => handlePageChange(page + 1)}>{page + 1}</button>
+                                    </li>
+                                ))}
+                                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                                    <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>ถัดไป</button>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
         </>
-    )
+    );
 }
 
-export default ListUser
+export default ListUser;
