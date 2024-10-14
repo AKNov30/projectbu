@@ -14,6 +14,7 @@ import History from "./pages/mainPage/History";
 import DetailDog from "./pages/mainPage/shop/DetailDog";
 import Reserve from "./pages/mainPage/shop/Reserve";
 import Pay from "./pages/mainPage/shop/Pay";
+import Contact from "./pages/mainPage/Contact";
 
 import HomeAdmin from "./pages/adminPage/homeadmin/HomeAdmin";
 import EditDogForm from "./pages/adminPage/addDog/EditDogForm";
@@ -45,6 +46,7 @@ function App() {
         {/* Public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<RegisterForm />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/shop" element={<Shop />} />
         {/* <Route path="/cancle" element={<Cancle />} /> */}
         {/* <Route path="/reserve" element={<Reserve />} /> */}

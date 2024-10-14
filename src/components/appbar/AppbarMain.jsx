@@ -60,9 +60,9 @@ function AppbarMain() {
               </>
             )}
             <li className="nav-item">
-              <a className="nav-link" href="">ติดต่อฉัน
+              <Link to="/contact" className="nav-link">ติดต่อฉัน
                 <img src={paws} alt="Logo" height="18" className="pb-1" />
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
