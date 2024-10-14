@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { logo } from '../../assets';
+import { AlertSave } from '../../components/alert/Alert';
 
 function ChangeDate() {
     const [reservations, setReservations] = useState([]);
@@ -25,6 +26,41 @@ function ChangeDate() {
     const handleTimeChange = (e, bookingId) => {
         const newTimeSelections = { ...timeSelections, [bookingId]: e.target.value };
         setTimeSelections(newTimeSelections);  // อัปเดตเวลาที่เลือกสำหรับแต่ละรายการ
+    };
+
+    const handleSave = (bookingId) => {
+        // ดึงค่าของวันที่และเวลาใหม่จาก input fields
+        const selectedDate = document.querySelector(`input[type="date"][data-id="${bookingId}"]`).value;
+        const selectedTime = timeSelections[bookingId];
+
+        // ตรวจสอบว่าผู้ใช้ได้เลือกทั้งวันที่และเวลาหรือไม่ (validate)
+        if (!selectedDate || !selectedTime) {
+            return false;  
+        }
+
+        // ส่งข้อมูลไปยังเซิร์ฟเวอร์ผ่าน PUT request
+        fetch(`http://localhost:5000/api/change-date/${bookingId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                booking_date: selectedDate,  // วันที่ที่เลือก
+                pickup_date: selectedTime,   // เวลาที่เลือก
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    alert('เกิดข้อผิดพลาด: ' + data.error);
+                } else {
+                    alert('อัปเดตข้อมูลสำเร็จ');
+                    // คุณอาจต้องการรีเฟรชข้อมูลหรือทำการอัปเดตใน UI
+                }
+            })
+            .catch((error) => {
+                console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+            });
     };
 
     return (
@@ -106,7 +142,7 @@ function ChangeDate() {
 
 
                                             <td>
-                                                <input className="form-control" type="date" placeholder="เปลี่ยนวันที่" />
+                                                <input className="form-control" type="date" placeholder="เปลี่ยนวันที่" data-id={reservation.booking_id} />
                                             </td>
                                             <td>
                                                 <select
@@ -128,7 +164,15 @@ function ChangeDate() {
                                                 </select>
                                             </td>
                                             <td>
-                                                <button type="button" className="btn btn-success" style={{ width: '100%' }}>บันทึก</button>
+                                                <AlertSave
+                                                    onConfirm={() => handleSave(reservation.booking_id)}
+                                                    failMessage={"กรุณาเลือกวันที่และเวลา"}
+                                                    title={"คุณแน่ใจหรือไม่ที่จะแก้ไขข้อมูล?"}
+                                                    confirmText={"ยืนยัน"}
+                                                    successMessage={"แก้ไขสำเร็จ"}
+                                                >
+                                                    <button type="button" className="btn btn-success" style={{ width: '100%' }}>บันทึก</button>
+                                                </AlertSave>
                                             </td>
                                         </tr>
                                     );

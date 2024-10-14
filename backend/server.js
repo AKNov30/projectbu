@@ -556,7 +556,37 @@ app.get('/api/change-date', (req, res) => {
   });
 });
 
-// Star
+// put date,time
+app.put('/api/change-date/:booking_id', (req, res) => {
+  const { booking_id } = req.params; // รับ booking_id จาก URL parameter
+  const { booking_date, pickup_date } = req.body; // รับ booking_date และ pickup_date จาก request body
+
+  // ตรวจสอบว่ามีข้อมูลที่จำเป็นหรือไม่
+  if (!booking_date || !pickup_date) {
+    return res.status(400).json({ error: 'กรุณาใส่ข้อมูลวันที่และเวลาให้ครบถ้วน' });
+  }
+
+  // SQL query สำหรับอัปเดตข้อมูล booking_date และ pickup_date ตาม booking_id
+  const sql = `
+    UPDATE bookings 
+    SET booking_date = ?, pickup_date = ? 
+    WHERE booking_id = ?;
+  `;
+
+  // รันคำสั่ง SQL และส่งข้อมูลไปยังฐานข้อมูล
+  pool.query(sql, [booking_date, pickup_date, booking_id], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'ไม่พบรายการจองนี้' });
+    }
+
+    // ส่งผลลัพธ์กลับไปที่ฟรอนต์เอนด์เมื่ออัปเดตเสร็จสิ้น
+    res.json({ message: 'อัปเดตข้อมูลสำเร็จ' });
+  });
+});
 
 // ดึงสุนัข status = "available"
 app.get("/api/all-dogs", (req, res) => {
@@ -649,6 +679,7 @@ app.get("/api/shop-dogs", (req, res) => {
   });
 });
 
+// detaildog
 app.get("/api/dogs/:dog_id", (req, res) => {
   const { dog_id } = req.params;
   const sql =
@@ -740,7 +771,7 @@ app.post("/api/book", upload.single("slip"), async (req, res) => {
   }
 });
 
-// แสดงรายการการจอง
+// แสดงรายการการจองของ user
 app.get("/api/user-dogs", (req, res) => {
   const user_id = req.query.user_id; // รับ user_id จาก query string
 

@@ -22,19 +22,19 @@ const calculateAge = (birthday) => {
 
     let ageParts = [];
 
-    // Add days if more than 0
-    if (days > 0) {
-        ageParts.push(`${days} วัน`);
+    // Add years if more than 0
+    if (years > 0) {
+        ageParts.push(`${years} ปี`);
     }
-
+    
     // Add months if more than 0
     if (months > 0) {
         ageParts.push(`${months} เดือน`);
     }
-
-    // Add years if more than 0
-    if (years > 0) {
-        ageParts.push(`${years} ปี`);
+    
+    // Add days if more than 0
+    if (days > 0) {
+        ageParts.push(`${days} วัน`);
     }
 
     // Combine parts
