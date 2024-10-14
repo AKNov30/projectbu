@@ -14,8 +14,8 @@ function DetailDog() {
   const [error, setError] = useState(null); // สถานะข้อผิดพลาด
   const [user, setUser] = useState(null);
 
-   // ดึง user_role จาก localStorage
-   const [userRole, setUserRole] = useState(localStorage.getItem('user_role') || '');
+  // ดึง user_role จาก localStorage
+  const [userRole, setUserRole] = useState(localStorage.getItem('user_role') || '');
 
   // ดึงรายละเอียดสุนัขเฉพาะตัว
   const fetchDogDetails = async () => {
@@ -108,7 +108,11 @@ function DetailDog() {
             <h4>รายละเอียด</h4>
             <p className="px-3">รหัส : {dog.dog_id}</p>
             <p className="px-3">
-              วันเกิด : {new Date(dog.birthday).toLocaleDateString()} (อายุ {calculateAge(dog.birthday)})
+              วันเกิด : {new Date(dog.birthday).toLocaleDateString('th-TH', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+              })} (อายุ {calculateAge(dog.birthday)})
             </p>
             <p className="px-3">สี : {dog.color}</p>
             <p className="px-3">นิสัย : {dog.personality}</p>

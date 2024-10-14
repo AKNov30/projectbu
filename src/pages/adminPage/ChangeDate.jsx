@@ -90,8 +90,16 @@ function ChangeDate() {
                                                 {reservation.phone}
                                             </td>
                                             <td>{reservation.dog_id}</td>
-                                            <td>{new Date(reservation.created_at).toLocaleDateString()}</td>
-                                            <td>{new Date(reservation.booking_date).toLocaleDateString()}</td>
+                                            <td>{new Date(reservation.created_at).toLocaleDateString('th-TH', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric'
+                                            })}</td>
+                                            <td>{new Date(reservation.booking_date).toLocaleDateString('th-TH', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric'
+                                            })}</td>
                                             <td>
                                                 {reservation.pickup_date ? reservation.pickup_date.slice(0, 5) : 'N/A'}
                                             </td>
