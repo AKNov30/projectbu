@@ -482,8 +482,8 @@ app.put("/api/dogs/:dog_id", upload.array("files"), (req, res) => {
       color,
       description,
       personality,
-      JSON.stringify(allImageUrls), // Combine existing and new URLs
-      dog_id, // Condition for updating the specific dog
+      JSON.stringify(allImageUrls),
+      dog_id, 
     ];
 
     pool.query(sql, values, (err, result) => {
@@ -492,7 +492,6 @@ app.put("/api/dogs/:dog_id", upload.array("files"), (req, res) => {
         return res.status(500).json("Error updating dog: " + err.message);
       }
 
-      // Check if any rows were affected (indicating the dog was found and updated)
       if (result.affectedRows === 0) {
         return res.status(404).json({ error: "ไม่พบสุนัขในระบบ" });
       }
@@ -523,7 +522,8 @@ app.get('/api/change-date', (req, res) => {
       u.user_email
     FROM bookings b
     JOIN dogs d ON b.dog_id = d.dog_id
-    JOIN users u ON b.user_id = u.user_id;
+    JOIN users u ON b.user_id = u.user_id
+    WHERE b.status IN ('successful', 'pending');
   `;
   pool.query(sql, (err, result) => {
     if (err) {
@@ -555,9 +555,6 @@ app.get('/api/change-date', (req, res) => {
     res.json(result);
   });
 });
-
-
-
 
 // Star
 
@@ -725,16 +722,13 @@ app.post("/api/book", upload.single("slip"), async (req, res) => {
         slipUrl,
       ]);
 
-    // SQL query to update the status in the dogs table to match the booking status
     const sqlUpdateDogStatus = `
         UPDATE dogs 
         SET status = ? 
         WHERE dog_id = ?`;
 
-    // Update the dog status to match the booking status
     await pool.promise().execute(sqlUpdateDogStatus, [status, dog_id]);
 
-    // Return success response with booking ID
     res
       .status(200)
       .json({ booking_id: result.insertId, message: "Booking successful!" });
