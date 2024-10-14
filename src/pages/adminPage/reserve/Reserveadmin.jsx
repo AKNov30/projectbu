@@ -70,7 +70,7 @@ function Reserveadmin() {
                                                     month: '2-digit',
                                                     year: 'numeric'
                                                 })}</td>
-                                                <td>{reservation.pickup_time}</td>
+                                                <td>{reservation.pickup_date ? reservation.pickup_date.slice(0, 5) : 'N/A'}</td>
                                                 <td>
                                                     <div>
                                                         <Link to={`/admin/reserve/${reservation.booking_id}`} className="btn btn-warning" style={{ width: "100%" }}>
