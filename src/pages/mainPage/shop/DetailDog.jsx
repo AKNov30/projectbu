@@ -83,11 +83,11 @@ function DetailDog() {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container">
         {/* หัวข้อ */}
         <div className="row">
           <div className="col-1"></div>
-          <div className="col-xl-2 pt-3">
+          <div className="col-xl-2 pt-3 pb-2">
             <h1>รายละเอียด</h1>
           </div>
         </div>
@@ -95,7 +95,7 @@ function DetailDog() {
         {/* ส่วนรายละเอียดสุนัข */}
         <div className="row">
           <div className="col-xl-1 col-lg-1 col-md-0"></div>
-          <div className="col-xl-3 col-lg-5 col-md-5">
+          <div className="col-xl-4 col-lg-5 col-md-5">
             <img
               className="setting-pic-info just-flex-center img-fluid"
               src={imageUrls.length > 0 ? `http://localhost:5000${imageUrls[0]}` : dogBrown}
@@ -104,21 +104,21 @@ function DetailDog() {
           </div>
           <div className="col-xl-7 col-lg-5 col-md-6 bg-grey p-3">
             <h2>{dog.dogs_name}</h2>
-            <h3>฿ {dog.price} THB</h3>
-            <h4>รายละเอียด</h4>
-            <p className="px-3">รหัส : {dog.dog_id}</p>
-            <p className="px-3">
-              วันเกิด : {new Date(dog.birthday).toLocaleDateString('th-TH', {
+            <h3>ราคา : {dog.price} THB</h3>
+            <h4 class="px-3">รายละเอียด</h4>
+            <div className="dog-info-grid px-5">
+              <div>รหัส</div> <div>: {dog.dog_id}</div>
+              <div>วันเกิด</div> 
+              <div>: {new Date(dog.birthday).toLocaleDateString('th-TH', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric'
-              })} (อายุ {calculateAge(dog.birthday)})
-            </p>
-            <p className="px-3">สี : {dog.color}</p>
-            <p className="px-3">นิสัย : {dog.personality}</p>
-
+              })} (อายุ {calculateAge(dog.birthday)})</div>
+              <div>สี</div> <div>: {dog.color}</div>
+              <div>นิสัย</div> <div>: {dog.personality}</div>
+            </div>
             <div className="just-flex-end d-flex pt-3">
-              <button type="button" className="btn btn-outline-secondary setting-btn-reserve">โทร</button>
+              
               {/* ถ้าไม่ได้ login หรือ role=admin จะไม่สามารถกดจองได้ */}
               {userRole === 'member' ? (
                 <Link to={`/reserve/${dog.dog_id}`} className="btn btn-warning setting-btn-reserve mx-2">จอง</Link>
@@ -126,6 +126,7 @@ function DetailDog() {
                 <button type="button" className="btn btn-warning setting-btn-reserve mx-2" disabled>จอง</button>
               )}
             </div>
+            <div class="d-flex justify-content-center pt-4">มีข้อมูลสอบถามเพิ่มเติมโปรดติดต่อ 087-994-8760</div>
           </div>
           <div className="col-1 col-md-0"></div>
         </div>
@@ -148,11 +149,10 @@ function DetailDog() {
         {/* ส่วนสุนัขที่เกี่ยวข้อง */}
         <div className="row">
           <div className="col-1"></div>
-          <div className="col-10">
-            <hr />
-            <p>คุณอาจสนใจ</p>
+          <div className="col-11">
+            <hr/>
+            <h4>คุณอาจสนใจ</h4>
           </div>
-          <div className="col-1"></div>
         </div>
 
         <div className="row">

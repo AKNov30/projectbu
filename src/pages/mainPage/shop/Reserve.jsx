@@ -80,13 +80,19 @@ function Reserve() {
                 <div className="col-xl-6 col-lg-5 col-md-6 bg-grey p-3">
                     <h2>{dog.dogs_name}</h2>
                     <h3>฿ {dog.price} THB</h3>
-                    <h4>รายละเอียด</h4>
-                    <p className="px-3">รหัส : {dog.dog_id}</p>
-                    <p className="px-3">
-                        วันเกิด : {new Date(dog.birthday).toLocaleDateString()} (อายุ {calculateAge(dog.birthday)})
-                    </p>
-                    <p className="px-3">สี : {dog.color}</p>
-                    <p className="px-3">นิสัย : {dog.personality}</p>
+                    <h4 class="px-4">รายละเอียด</h4>
+                    <div className="dog-info-grid px-5">
+                        <div>รหัส</div> <div>: {dog.dog_id}</div>
+                        <div>วันเกิด</div> 
+                        <div>: {new Date(dog.birthday).toLocaleDateString('th-TH', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        })} (อายุ {calculateAge(dog.birthday)})</div>
+                        <div>สี</div> <div>: {dog.color}</div>
+                        <div>นิสัย</div> <div>: {dog.personality}</div>
+                    </div>
+                    <div class="d-flex justify-content-center pt-5">มีข้อมูลสอบถามเพิ่มเติมโปรดติดต่อ 087-994-8760</div>
                 </div>
                 <div className="col-1 col-md-0"></div>
             </div>
@@ -191,6 +197,7 @@ function Reserve() {
                 </div>
             </div>
         </div>
+        
     );
 }
 

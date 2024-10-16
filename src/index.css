@@ -172,6 +172,7 @@ a {
 /*--- Background ---*/
 .bg-grey{
     background: var(--theme-light);
+    border-radius: 10px;
 }
 .bg-grey-reserve{
     background: var(--theme-light);
@@ -229,6 +230,70 @@ table tbody tr:nth-child(even) {
 .bg-grey-reserve:nth-child(odd) {
     background-color: #ffffff; /* สีสำหรับแถวคี่ */
 }
+
+.dog-info-grid {
+    display: grid;
+    grid-template-columns: auto 1fr; /* คอลัมน์แรกมีขนาดอัตโนมัติ คอลัมน์ที่สองเติมเต็มพื้นที่ที่เหลือ */
+    gap: 10px 20px; /* ช่องว่างระหว่างแถวและคอลัมน์ */
+    align-items: center; /* จัดข้อความให้อยู่กลางในแนวตั้ง */
+}
+.underline{
+    border-bottom: 3px solid #a38369;
+    padding-top: 10px;
+    width: 82%;
+}
+.form-select {
+    border: 2px solid #D1CCC0;
+    border-radius: 7px;
+    transition: transform 0.3s ease;
+}
+.form-select:hover {
+    transform: scale(1.03);
+}
+.form-select:focus {
+    outline: none;
+    border-color: var(--theme);
+    box-shadow: 0 0 0 2px rgba(240, 226, 188, 0.966);
+}
+.form-control {
+    border: 2px solid #D1CCC0;
+    border-radius: 7px;
+    transition: transform 0.3s ease;
+}
+.form-control:hover {
+    transform: scale(1.03);
+}
+.form-control:focus {
+    outline: none;
+    border-color: var(--theme);
+    box-shadow: 0 0 0 2px rgba(240, 226, 188, 0.966);
+}
+.btn{
+    transition: transform 0.3s ease;
+}
+.btn:hover{
+    transform: scale(1.03);
+}
+hr {
+    margin: 1rem 0;
+    color: #e4a450;
+    border: 2px solid #e4a450 ;
+    border-top: var(--bs-border-width) solid;
+    opacity: 1;
+
+}
+.form-check-label{
+    font-size: 20px;
+}
+.nav-item:hover{
+    color: #000000;
+    border-radius: 10px;
+    background-color: #ffe1c6;
+}
+
+
+
+
 
 
 /*--------------------------------------------------------

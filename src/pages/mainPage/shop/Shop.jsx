@@ -61,26 +61,14 @@ function Shop() {
     <>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-xl-1 col-lg-1 col-md-0"></div>
-          <div className="col-xl-2 col-lg-2 col-md-2 pt-3">
-            <h1>Shop</h1>
+
+          <div className="col-xl-12 col-lg-12 col-md-12 pt-5 d-flex justify-content-center">
+            <h1 class="text-logo">PUGLIFE HOUSE SHOP</h1>
           </div>
         </div>
 
         {/* Search and Filters */}
-        <div className="row">
-          <div className="col-xl-2 col-lg-1 col-md-0"></div>
-
-          <div className="col-xl-3 col-lg-3 col-md-4 col-6">
-            <label>ค้นหา</label>
-            <input
-              type="search"
-              className="form-control rounded"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+        <div className="row d-flex justify-content-center pt-4">
 
           <div className="col-xl-1 col-lg-2 col-md-2 col-3">
             <label>สี</label>
@@ -126,9 +114,7 @@ function Shop() {
               <option value="2021">4500-5500</option>
             </select>
           </div>
-          <div className="col-xl-1 col-lg-1 col-md-1 col-1">
-                <img src={search} alt="Logo" height="25" class="btn-search" />
-          </div>
+          <div class="underline"></div>
         </div>
 
         {/* Display filtered products */}
