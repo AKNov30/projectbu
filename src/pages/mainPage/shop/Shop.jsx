@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import calculateAge from '../../../utils/calculateAge';
 import { search } from '../../../assets';
 import DogCardMain from '../../../components/shopcomponent/DogCardMain';
-import API_URL from '../../../config/apiConfig';
+import api from '../../../config/apiConfig';
 
 function Shop() {
   const [products, setProducts] = useState([]);
@@ -16,7 +15,7 @@ function Shop() {
   // Fetch dog data from API
   const fetchDogs = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/shop-dogs`, {
+      const response = await api.get('/api/shop-dogs', {
         params: {
           page: currentPage,
           limit: 8,

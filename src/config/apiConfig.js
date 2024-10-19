@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 let apiUrl;
 
 if (import.meta.env.VITE_API_URL) {
@@ -6,6 +8,8 @@ if (import.meta.env.VITE_API_URL) {
     apiUrl = 'http://localhost:5000';
 }
 
-const API_URL = apiUrl;
+const apiInstance = axios.create({
+    baseURL: apiUrl
+});
 
-export default API_URL;
+export default apiInstance;
