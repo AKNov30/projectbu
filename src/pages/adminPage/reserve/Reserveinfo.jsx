@@ -1,36 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-import { dogBrown } from '../../../assets/'
+import axios from 'axios';
+import ImageModal from '../../../components/ImageModal/ImageModal';
 
 const Reserveinfo = () => {
-    // Access the parameters from the URL
-    const { id } = useParams(); // Assuming your URL has a parameter named `id`
+    const { id } = useParams();
+    const [reservationDetails, setReservationDetails] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalImageUrl, setModalImageUrl] = useState('');
 
-    // You can fetch the reservation details based on the `id`
-    // For demonstration purposes, let's create a mock object
-    const reservationDetails = {
-        dog: {
-            name: "ปั๊กสีน้ำตาลธรรมชาติ",
-            price: 4500,
-            code: "BRP01",
-            imageUrl: dogBrown
-        },
-        user: {
-            name: "สิทธิโชค จันทร์ทรง",
-            email: "Sittichok.Juns@bumail.net",
-            phone: "087-994-8760"
-        },
-        booking: {
-            bookingDate: "29/11/2023",
-            pickupDate: "30/11/2023",
-            pickupTime: "14:30"
-        },
-        priceDetails: {
-            originalPrice: 4500,
-            discount: 2250,
-            total: 2250
-        }
+    useEffect(() => {
+        axios.get(`http://localhost:5000/api/reserve-admin/${id}`)
+            .then(response => {
+                setReservationDetails(response.data);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error("Error fetching reservation details:", err);
+                setError("Error fetching reservation details");
+                setLoading(false);
+            });
+    }, [id]);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
+
+    if (!reservationDetails) {
+        return <p>No reservation found.</p>;
+    }
+
+    // แปลง array ของ image_url ให้เป็นรูปแบบที่ถูกต้อง
+    const imageUrls = reservationDetails.image_url.replace(/^\[|\]$/g, '').split(',').map(url => url.trim().replace(/['"]+/g, ''));
+    const firstImageUrl = imageUrls.length > 0 ? `http://localhost:5000${imageUrls[0]}` : 'default-image-path.png';
+
+    const openModal = (imageUrl) => {
+        setModalImageUrl(`http://localhost:5000${imageUrl}`);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalImageUrl('');
     };
 
     return (
@@ -44,40 +61,47 @@ const Reserveinfo = () => {
                 <div className="col-xl-2 col-lg-2 col-md-3 pt-2 text-center">
                     <img
                         className="setting-pic-cancle just-flex-center img-fluid"
-                        src={reservationDetails.dog.imageUrl}
+                        src={firstImageUrl}
                         alt="Dog"
                     />
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-3 pt-4">
                     <h3 className="font-weight-bold">รายละเอียดสุนัข</h3>
                     <p className="font-weight-normal">
-                        ชื่อ: {reservationDetails.dog.name}<br />
-                        ราคา: ฿ {reservationDetails.dog.price} THB<br />
-                        รหัส: {reservationDetails.dog.code}
+                        ชื่อ: {reservationDetails.dogs_name}<br />
+                        ราคา: ฿ {reservationDetails.price} THB<br />
+                        รหัส: {reservationDetails.dog_id}
                     </p>
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-3 pt-4">
                     <h3 className="font-weight-bold">ข้อมูลผู้จอง</h3>
                     <p className="font-weight-normal">
-                        {reservationDetails.user.name}<br />
-                        {reservationDetails.user.email}<br />
-                        {reservationDetails.user.phone}
+                        {reservationDetails.firstname} {reservationDetails.lastname}<br />
+                        {reservationDetails.user_email}<br />
+                        {reservationDetails.phone}
                     </p>
                 </div>
                 <div className="col-xl-2 col-lg-2 col-md-3 pt-4">
                     <h3 className="font-weight-bold">ข้อมูลการจอง</h3>
                     <p className="font-weight-normal">
-                        วันที่จอง: {reservationDetails.booking.bookingDate}<br />
-                        วันที่รับ: {reservationDetails.booking.pickupDate}<br />
-                        เวลาที่รับ: {reservationDetails.booking.pickupTime}<br />
+                        วันที่จอง: {new Date(reservationDetails.created_at).toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        })}<br />
+                        วันที่รับ: {new Date(reservationDetails.booking_date).toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        })}<br />
+                        เวลาที่รับ: {reservationDetails.pickup_date.slice(0, 5)}<br />
                     </p>
                 </div>
                 <div className="col-xl-2 col-lg-2 col-md-3 pt-4">
                     <h3 className="font-weight-bold">ราคา</h3>
                     <p className="font-weight-normal">
-                        ราคา: {reservationDetails.priceDetails.originalPrice} THB<br />
-                        ส่วนลด: {reservationDetails.priceDetails.discount} THB<br />
-                        รวมเป็น: {reservationDetails.priceDetails.total} THB<br />
+                        ราคา: {reservationDetails.price} THB<br />
+                        รวมเป็น: {reservationDetails.price} THB<br />
                     </p>
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-end align-items-center">
@@ -92,11 +116,19 @@ const Reserveinfo = () => {
                 </div>
                 <div className="col-xl-3 col-lg-4 col-md-3">
                     <div className="pt-2">
+                        <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => openModal(reservationDetails.slip_url)}>สลิปการจอง</a><br />
                         <label htmlFor="formFile" className="form-label">แนบหลักฐานการโอน</label>
                         <input className="form-control" type="file" id="formFile" />
                     </div>
                 </div>
             </div>
+
+            {/* Modal slip */}
+            <ImageModal
+                isOpen={isModalOpen}
+                imageUrl={modalImageUrl}
+                onClose={closeModal}
+            />
         </>
     );
 };

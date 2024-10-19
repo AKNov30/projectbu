@@ -638,6 +638,50 @@ app.get("/api/reserve-admin", (req, res) => {
   });
 });
 
+// reserve-admin-info
+app.get("/api/reserve-admin/:id", (req, res) => {
+  const reservationId = req.params.id;
+  const sql = `
+      SELECT 
+          dogs.dogs_name,
+          dogs.dog_id,
+          dogs.price,
+          dogs.image_url,
+          bookings.booking_id,
+          bookings.created_at,
+          bookings.booking_date,
+          bookings.pickup_date,
+          bookings.phone,
+          bookings.slip_url,
+          users.user_id,
+          users.firstname,
+          users.lastname,
+          users.user_email
+      FROM 
+          projectbu.dogs AS dogs
+      JOIN 
+          projectbu.bookings AS bookings ON dogs.dog_id = bookings.dog_id
+      JOIN 
+          projectbu.users AS users ON bookings.user_id = users.user_id
+      WHERE
+          bookings.booking_id = ?;
+  `;
+
+  pool.query(sql, [reservationId], (err, results) => {
+      if (err) {
+          console.error("Error fetching reservation:", err);
+          return res.status(500).json({ message: "Error fetching reservation", error: err });
+      }
+      if (results.length === 0) {
+          return res.status(404).json({ message: "Reservation not found" });
+      }
+      res.json(results[0]);
+  });
+});
+
+
+
+
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน Shop
 app.get("/api/shop-dogs", (req, res) => {
   const { page = 1, limit = 10, color, age, price } = req.query;
