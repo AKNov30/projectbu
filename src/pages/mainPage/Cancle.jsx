@@ -106,9 +106,8 @@ function Cancle() {
         <>
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-1"></div>
-                    <div className="col-xl-2 col-lg-2 pt-3">
-                        <h1>การจอง</h1>
+                    <div className="col-xl-12 col-lg-2 py-4 d-flex justify-content-center">
+                        <h1>รายละเอียดการจอง</h1>
                     </div>
                 </div>
 
@@ -123,73 +122,94 @@ function Cancle() {
 
                     return (
                         <div className="row bg-grey mb-3" key={index}>
-                            <div className="col-xl-1 col-lg-0 col-md-0"></div>
-                            <div className="col-xl-2 col-lg-2 col-md-3 pt-2">
+                            <div className="col-xl-2 col-lg-2 col-md-3 d-flex align-items-center justify-content-center">
                                 <img
                                     className="setting-pic-cancle just-flex-center img-fluid"
                                     src={imageUrls.length > 0 ? `http://localhost:5000${imageUrls[0]}` : dogBrown} // ใช้รูปแรกจาก array หรือรูปสำรอง
                                     alt="dog"
                                 />
                             </div>
-                            <div className="col-xl-2 col-lg-2 col-md-2" style={{ paddingTop: '35px' }}>
-                                <div style={{ fontSize: '18px' }}>
-                                    {booking.dogs_name}<br />
-                                    ฿ {booking.price} THB<br />
-                                    รหัส : {booking.dog_id}
+                            
+                            <div className="col-xl-2 col-lg-2 col-md-2 d-flex align-items-center justify-content-center">
+                                <div>
+                                    <div className="d-flex justify-content-center pb-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                                        ข้อมูลสุนัข
+                                    </div>
+                                    <div className="underline-pink d-flex justify-content-center"></div>
+                                    <div className="pt-2" style={{ fontSize: '16px' }}>
+                                        รหัส : {booking.dog_id}<br />
+                                        ชื่อสุนัข : {booking.dogs_name}<br />
+                                        ราคาสุนัข : {booking.price} THB
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="col-xl-2 col-lg-3 col-md-4 pt-4">
-                                <div style={{ fontSize: '20px', fontWeight: 'bold' }}>
-                                    ข้อมูลผู้จอง
-                                </div>
-                                <div style={{ fontSize: '18px' }}>
-                                    ผู้จอง: {booking.firstname} {booking.lastname}<br />
-                                    อีเมล: {booking.user_email}<br />
-                                    เบอร์: {booking.phone}
-                                </div>
-                            </div>
-
-                            <div className="col-xl-2 col-lg-3 col-md-3 pt-4">
-                                <div style={{ fontSize: '20px', fontWeight: 'bold' }}>
-                                    ข้อมูลการจอง
-                                </div>
-                                <div style={{ fontSize: '18px' }}>
-                                    วันที่จอง : {formatDate(booking.created_at)}<br />
-                                    วันที่รับ : {formatDate(booking.booking_date)}<br />
-                                    เวลาที่รับ : {formatTime(booking.pickup_date)}<br />
-                                    สถานะ : {booking.status === 'pending' ? 'รอดำเนินการ' : 'yess'}
+                            <div className="col-xl-2 col-lg-3 col-md-4 d-flex align-items-center justify-content-center">
+                                <div>
+                                    <div className="d-flex justify-content-center pb-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                                        ข้อมูลผู้จอง
+                                    </div>
+                                    <div className="underline-pink d-flex justify-content-center"></div>
+                                    <div className="pt-2" style={{ fontSize: '16px' }}>
+                                        ผู้จอง: {booking.firstname} {booking.lastname}<br />
+                                        อีเมล: {booking.user_email}<br />
+                                        เบอร์: {booking.phone}
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="col-xl-3 col-lg-2 col-md-3 py-4">
-                                <div style={{ fontSize: '18px', paddingLeft: '30px' }}>
-                                    ค่าจอง : {booking.price / 2}<br />
+                            <div className="col-xl-2 col-lg-3 col-md-3 d-flex align-items-center justify-content-center">
+                                <div>
+                                    <div className="d-flex justify-content-center pb-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                                        ข้อมูลการจอง
+                                    </div>
+                                    <div className="underline-pink d-flex justify-content-center"></div>
+                                    <div className="pt-2" style={{ fontSize: '16px' }}>
+                                        วันที่จอง : {formatDate(booking.created_at)}<br />
+                                        วันที่รับ : {formatDate(booking.booking_date)} ({formatTime(booking.pickup_date)} น.)<br/>
+                                        สถานะ : {booking.status === 'pending' ? 'รอดำเนินการ' : 'yess'}
+                                    </div>
                                 </div>
-                                <div style={{ fontSize: '18px', paddingLeft: '30px' }}>
-                                    ส่วนลด : 0<br />
+                            </div>
+
+                            <div className="col-xl-2 col-lg-2 col-md-3 d-flex align-items-center justify-content-center">
+                                <div>
+                                    <div className="d-flex justify-content-center pb-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                                        สรุป
+                                    </div>
+                                    <div className="underline-pink d-flex justify-content-center"></div>
+                                    
+                                    <div className="pt-2" style={{ fontSize: '16px'}}>
+                                        ค่าจอง : {booking.price / 2}<br/>
+                                    </div>
+                                    <div style={{ fontSize: '16px'}}>
+                                        ส่วนลด : 0<br />
+                                    </div>
+                                    <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'red'}}>
+                                        รวมเป็น : {booking.price / 2}
+                                    </div>
                                 </div>
-                                <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'red', paddingLeft: '30px' }}>
-                                    รวมเป็น : {booking.price / 2}
-                                </div>
-                                <div className="col-6 ">
+                            </div>
+
+                            <div className="col-xl-2 col-lg-2 col-md-3 d-flex align-items-center justify-content-center">
+                                <div className="col-12">
                                     {booking.slip_url === null ? (
                                         <>
                                             <label htmlFor="formFileSm" className="form-label m-0 text-danger">อัปโหลดสลิป</label>
-                                            <input className="form-control form-control-sm" id="formFileSm" type="file" onChange={handleFileChange} />
+                                            <input className="form-control form-control-sm mb-2" id="formFileSm" type="file" onChange={handleFileChange} />
                                             <AlertSave
                                                 onConfirm={() => handleUploadSlip(booking.booking_id)}
                                                 title={"ยืนยันที่จะส่งสลิป?"}
                                                 confirmText={"ยืนยัน"}
                                                 successMessage={"อัพโหลดสำเร็จ"}
                                             >
-                                                <button type="button" className="btn btn-success m-1">
+                                                <button type="button" className="btn btn-success">
                                                     ยืนยัน
                                                 </button>
                                             </AlertSave>
                                         </>
                                     ) : (
-                                        <div className="pt-1">
+                                        <div className="pb-2">
                                             <p className="m-0 p-0 text-success">สลิปได้ถูกอัปโหลดแล้ว</p>
                                         </div>
                                     )}
@@ -200,13 +220,15 @@ function Cancle() {
                                         confirmText="ยกเลิกการจอง"
                                         successTitle="ยกเลิกการจองเสร็จสิ้น"
                                     >
-                                        <button type="button" className="btn btn-danger">
+                                        <button type="button" className="btn btn-danger mx-2">
                                             ยกเลิกการจอง
                                         </button>
                                     </AlertDelete>
 
                                 </div>
                             </div>
+
+
                         </div>
                     );
                 })}

@@ -25,6 +25,9 @@
     --font-h2: 26px;
     --font-h1: 28px;
 }
+h1 h2 h3 h4{
+    font-weight: bold !important;
+}
 a {
     color: var(--bs-link-color);
      text-decoration: none;
@@ -241,6 +244,10 @@ table tbody tr:nth-child(even) {
     border-bottom: 3px solid #a38369;
     padding-top: 10px;
     width: 82%;
+}
+.underline-pink{
+    border-bottom: 3px solid #D9A299;
+    width: 100%;
 }
 .form-select {
     border: 2px solid #D1CCC0;

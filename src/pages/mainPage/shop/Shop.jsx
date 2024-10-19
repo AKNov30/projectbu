@@ -68,7 +68,7 @@ function Shop() {
         </div>
 
         {/* Search and Filters */}
-        <div className="row d-flex justify-content-center pt-4">
+        <div className="row d-flex justify-content-center py-4">
 
           <div className="col-xl-1 col-lg-2 col-md-2 col-3">
             <label>สี</label>
@@ -108,17 +108,50 @@ function Shop() {
               onChange={(e) => setFilterPrice(e.target.value)}
             >
               <option value="all">ทั้งหมด</option>
-              <option value="2024">0-2500</option>
-              <option value="2023">2500-3500</option>
-              <option value="2022">3500-4500</option>
-              <option value="2021">4500-5500</option>
+              <option value="2024">0 - 2,500</option>
+              <option value="2023">2,500 - 3,500</option>
+              <option value="2022">3,500 - 4,500</option>
+              <option value="2021">4,500 - 5,500</option>
             </select>
           </div>
           <div class="underline"></div>
         </div>
 
+        <nav aria-label="Page navigation">
+          <ul className="pagination justify-content-center mt-2">
+            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+              <button
+                className="page-link btn btn-primary"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}  // ปิดการใช้งานปุ่มหากเป็นหน้าที่ 1
+              >
+                Previous
+              </button>
+            </li>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                <button
+                  className="page-link btn btn-outline-primary"
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+              <button
+                className="page-link btn btn-primary"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}  // ปิดการใช้งานปุ่มหากเป็นหน้าสุดท้าย
+              >
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
+
         {/* Display filtered products */}
-        <div className="row mt-4">
+        <div className="row">
           <div className="col-lg-10 m-auto">
             <div className="row">
               {filteredProducts.map((product) => {
