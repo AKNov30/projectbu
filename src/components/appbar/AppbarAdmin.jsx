@@ -7,8 +7,8 @@ import { doc2Admin, listAdmin, docAdmin, dogAdmin } from '../../assets'
 function AppbarAdmin() {
   return (
     <>
-          <nav className="head-admin pt-2 row">
-            <h3 className="px-3 text-admin">Admin</h3>
+          <nav className="head-admin pt-3 row">
+
             <div className='d-flex p-2'>
               <img className="pic-admin" src={ dogAdmin } alt="Add Dog" />
               <Link to="/admin/home-admin" className="nav-link">รายชื่อสุนัข</Link>

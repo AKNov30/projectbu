@@ -19,7 +19,7 @@ function Reserveadmin() {
 
     return (
         <>
-            <div className="container-fluid">
+            <div className="container">
                 <div className="row">
                     <div className="col-12 pt-3 d-flex justify-content-center">
                         <h1>เช็ครายการจอง</h1>

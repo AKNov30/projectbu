@@ -48,9 +48,9 @@ function History() {
 
     return (
         <div className="container">
-            <div className="row pt-5">
-                <div className="col-xl-11 col-lg-2 col-md-2 pt-3 text-center">
-                    <h3>ประวัติการจอง</h3>
+            <div className="row">
+                <div className="col-xl-12 col-lg-2 col-md-2 py-4 text-center">
+                    <h2>ประวัติการจอง</h2>
                 </div>
             </div>
 
@@ -81,18 +81,13 @@ function History() {
                     </select>
                 </div>
 
-                <div className="col-xl-1 col-lg-1 col-md-1 col-1 d-flex mt-2">
-                    <div onClick={() => { /* Add search functionality if needed */ }}>
-                        <img src={search} alt="Search" height="25" className="btn-search" />
-                    </div>
-                </div>
             </div>
             {/* End Search Section */}
 
             {/* Start Table Section */}
             <div className="row">
-                <div className="col-xl-11 col-lg-2 col-md-2 pt-3">
-                    <table className="table bg-grey border">
+                <div className="col-xl-12 col-lg-2 col-md-2 pt-3">
+                    <table className="table table-striped table-hover border">
                         <thead>
                             <tr>
                                 <th scope="col">วันที่จอง</th>

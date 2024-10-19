@@ -87,7 +87,7 @@ function AddDogForm() {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container">
         <div className="row">
           <div className="col-12 pt-3 d-flex justify-content-center">
             <h1>เพิ่มสุนัข</h1>
@@ -98,7 +98,7 @@ function AddDogForm() {
           <div className="col-xl-8 offset-xl-2 pt-3">
             <form>
               {/* Dog Name */}
-              <div className="mb-3">
+              <div className="row mb-3">
                 <label className="form-label">ชื่อสุนัข</label>
                 <input
                   type="text"

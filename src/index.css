@@ -25,6 +25,9 @@
     --font-h2: 26px;
     --font-h1: 28px;
 }
+body {
+    overflow-x: hidden;
+}
 
 .bg-tri{
     background-image:url('\assets\bg.png');
@@ -38,17 +41,23 @@ a {
 }
 /*--- Navbar ---*/
 .navbar{
-    background-color: var(--theme);
+    background-color: #C1A68D;
 }
 .text-logo{
     color: var(--brown) !important;;
     font-weight: bold;
 }
 .nav-link{
-    color: var(--brown) !important;
+    color:#000000;
+    transition: transform 0.5s ease !important;
 }
-.nav-link:hover{
-    color: var(--brown-light) !important;
+.nav-item{
+    color: #000000 !important;
+    transition: transform 0.5s ease !important;
+}
+.nav-item:hover{
+    border-radius: 7px;
+    background-color: #B19880;
 }
 .icon-nav{
     height: 15px;
@@ -250,7 +259,11 @@ table tbody tr:nth-child(even) {
     width: 82%;
 }
 .underline-pink{
-    border-bottom: 3px solid #D9A299;
+    border-bottom: 3px solid #C1A68D;
+    width: 100%;
+}
+.border_right{
+    border-right: 3px solid #C1A68D;
     width: 100%;
 }
 .form-select {
@@ -296,15 +309,30 @@ hr {
 .form-check-label{
     font-size: 20px;
 }
-.nav-item:hover{
-    color: #000000;
-    border-radius: 10px;
-    background-color: #ffe1c6;
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+    --bs-table-color-type: var(--bs-table-striped-color);
+    --bs-table-bg-type: var(--theme-light);
 }
+.table-hover>tbody>tr:hover>* {
+    --bs-table-color-state: var(--bs-table-hover-color);
+    --bs-table-bg-state: var(--theme-light);
+}
+.head-table {
+    background-color: var(--theme);
+    color: var(--white);
+    font-weight:bold;
+}
+.head-table-in-table {
+    background-color: var(--theme-lighter)!important;
+}
+.border {
+    border: 1px solid var(--brown) !important;
+}
+.row {
+    /* --bs-gutter-x: 1.5rem; */
 
-
-
-
+}
 
 
 /*--------------------------------------------------------

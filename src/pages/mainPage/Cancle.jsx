@@ -107,7 +107,7 @@ function Cancle() {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-xl-12 col-lg-2 py-4 d-flex justify-content-center">
-                        <h1>รายละเอียดการจอง</h1>
+                        <h2>รายละเอียดการจอง</h2>
                     </div>
                 </div>
 
@@ -130,7 +130,7 @@ function Cancle() {
                                 />
                             </div>
                             
-                            <div className="col-xl-2 col-lg-2 col-md-2 d-flex align-items-center justify-content-center">
+                            <div className="col-xl-7 col-lg-2 col-md-2 d-flex align-items-center justify-content-between">
                                 <div>
                                     <div className="d-flex justify-content-center pb-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
                                         ข้อมูลสุนัข
@@ -142,9 +142,7 @@ function Cancle() {
                                         ราคาสุนัข : {booking.price} THB
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="col-xl-2 col-lg-3 col-md-4 d-flex align-items-center justify-content-center">
                                 <div>
                                     <div className="d-flex justify-content-center pb-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
                                         ข้อมูลผู้จอง
@@ -156,9 +154,7 @@ function Cancle() {
                                         เบอร์: {booking.phone}
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="col-xl-2 col-lg-3 col-md-3 d-flex align-items-center justify-content-center">
                                 <div>
                                     <div className="d-flex justify-content-center pb-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
                                         ข้อมูลการจอง
@@ -170,9 +166,7 @@ function Cancle() {
                                         สถานะ : {booking.status === 'pending' ? 'รอดำเนินการ' : 'yess'}
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="col-xl-2 col-lg-2 col-md-3 d-flex align-items-center justify-content-center">
                                 <div>
                                     <div className="d-flex justify-content-center pb-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
                                         สรุป
@@ -191,8 +185,9 @@ function Cancle() {
                                 </div>
                             </div>
 
-                            <div className="col-xl-2 col-lg-2 col-md-3 d-flex align-items-center justify-content-center">
-                                <div className="col-12">
+
+                            <div className="col-xl-3 col-lg-2 col-md-3 d-flex align-items-center justify-content-center">
+                                <div>
                                     {booking.slip_url === null ? (
                                         <>
                                             <label htmlFor="formFileSm" className="form-label m-0 text-danger">อัปโหลดสลิป</label>

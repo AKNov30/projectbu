@@ -62,7 +62,7 @@ function Shop() {
       <div className="container-fluid">
         <div className="row">
 
-          <div className="col-xl-12 col-lg-12 col-md-12 pt-5 d-flex justify-content-center">
+          <div className="col-xl-12 col-lg-12 col-md-12 pt-4 d-flex justify-content-center">
             <h1 class="text-logo">PUGLIFE HOUSE SHOP</h1>
           </div>
         </div>

@@ -53,16 +53,16 @@ function HomeAdmin() {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container">
         <div className="row">
-          <div className="col-11 pt-3 d-flex justify-content-center">
+          <div className="col-12 pt-3 d-flex justify-content-center">
             <h1>รายชื่อสุนัข</h1>
           </div>
         </div>
 
         <div>
           <table className="table table-striped table-hover">
-            <thead>
+            <thead className='head-table'>
               <tr>
                 <th scope="col" style={{ width: '5%' }}>รหัส</th>
                 <th scope="col" style={{ width: '10%' }}>ชื่อสุนัข</th>

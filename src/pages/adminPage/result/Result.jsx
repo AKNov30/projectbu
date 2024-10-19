@@ -5,16 +5,14 @@ import { print, search } from '../../../assets/'
 function Result() {
   return (
     <>
-    <div className="container-fluid">
+    <div className="container">
             <div className="row">
-                <div className="col-1"></div>
-                <div className="col-11 pt-3 d-flex justify-content-center">
+                <div className="col-12 pt-3 d-flex justify-content-center">
                     <h1>สรุปยอด</h1>
                 </div>
             </div>
 
             <div className="row">
-                <div className="col-1"></div>
                 <div className="col-xl-2 col-lg-2 col-md-2 col-2">
                     <label className="form-label">ตั้งแต่วันที่</label>
                     <input className="form-control" type="text" id="datepicker" />
@@ -29,8 +27,7 @@ function Result() {
             </div>
 
             <div className="row">
-                <div className="col-xl-1 col-lg-1 col-md-0"></div>
-                <div className="col-xl-10 col-lg-2 col-md-2 pt-3">
+                <div className="col-xl-12 col-lg-2 col-md-2 pt-3">
                     <table className="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -39,11 +36,11 @@ function Result() {
                                 <th style={{ width: '8%' }}>วันที่จอง</th>
                                 <th style={{ width: '8%' }}>วันที่ขาย</th>
                                 <th style={{ width: '3%' }}>รหัส</th>
-                                <th style={{ width: '6%' }}>ชื่อรายการ</th>
+                                <th style={{ width: '12%' }}>ชื่อรายการ</th>
                                 <th style={{ width: '3%' }}>ราคา(บาท)</th>
                                 <th style={{ width: '3%' }}>ส่วนลด</th>
                                 <th style={{ width: '4%' }}>รวมเป็น</th>
-                                <th style={{ width: '1%' }}>ใบเสร็จ</th>
+                                <th style={{ width: '3%' }}>ใบเสร็จ</th>
                             </tr>
                         </thead>
                         <tbody>

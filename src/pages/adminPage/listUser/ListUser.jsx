@@ -60,10 +60,9 @@ function ListUser() {
 
     return (
         <>
-            <div className="container-fluid">
+            <div className="container">
                 <div className="row">
-                    <div className="col-1"></div>
-                    <div className="col-11 pt-3 d-flex justify-content-center">
+                    <div className="col-12 pt-3 d-flex justify-content-center">
                         <h1>รายชื่อสมาชิก</h1>
                     </div>
                 </div>

@@ -65,10 +65,9 @@ function ChangeDate() {
 
     return (
         <>
-            <div className="container-fluid">
+            <div className="container">
                 <div className="row">
-                    <div className="col-1"></div>
-                    <div className="col-11 pt-3 d-flex justify-content-center">
+                    <div className="col-12 pt-3 d-flex justify-content-center">
                         <h1>เลื่อนวันรับ</h1>
                     </div>
                 </div>
@@ -80,14 +79,14 @@ function ChangeDate() {
                             <thead>
                                 <tr>
                                     <th className="text-center" style={{ width: '80px' }}>&nbsp;</th>
-                                    <th style={{ width: '200px' }}>ผู้จอง</th>
-                                    <th style={{ width: '100px' }}>รหัส</th>
-                                    <th style={{ width: '120px' }}>วันจอง</th>
-                                    <th style={{ width: '120px' }}>วันที่รับ</th>
-                                    <th style={{ width: '120px' }}>เวลาที่รับ</th>
-                                    <th style={{ width: '120px' }}>เลื่อนวันที่เป็น</th>
-                                    <th style={{ width: '120px' }}>เลื่อนเวลาเป็น</th>
-                                    <th style={{ width: '80px' }}>&nbsp;</th>
+                                    <th>ผู้จอง</th>
+                                    <th>รหัส</th>
+                                    <th>วันจอง</th>
+                                    <th>วันที่รับ</th>
+                                    <th>เวลาที่รับ</th>
+                                    <th>เลื่อนวันที่เป็น</th>
+                                    <th>เลื่อนเวลาเป็น</th>
+                                    <th>&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody>
