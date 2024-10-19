@@ -49,7 +49,6 @@ function History() {
     return (
         <div className="container">
             <div className="row pt-5">
-                <div className="col-xl-1 col-lg-1 col-md-0"></div>
                 <div className="col-xl-11 col-lg-2 col-md-2 pt-3 text-center">
                     <h3>ประวัติการจอง</h3>
                 </div>
@@ -57,7 +56,6 @@ function History() {
 
             {/* Start Search Section */}
             <div className="row mt-4">
-                <div className="col-xl-1 col-lg-1 col-md-0"></div>
 
                 <div className="col-xl-3 col-lg-3 col-md-4 col-6 mb-3">
                     <label className="form-label">ค้นหา</label>
@@ -92,8 +90,7 @@ function History() {
             {/* End Search Section */}
 
             {/* Start Table Section */}
-            <div className="row mt-4">
-                <div className="col-xl-1 col-lg-1 col-md-0"></div>
+            <div className="row">
                 <div className="col-xl-11 col-lg-2 col-md-2 pt-3">
                     <table className="table bg-grey border">
                         <thead>
