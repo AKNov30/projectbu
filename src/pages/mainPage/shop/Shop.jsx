@@ -27,8 +27,6 @@ function Shop() {
         }
       });
   
-      console.log('Response data:', response.data); // ตรวจสอบข้อมูล response
-  
       setProducts(response.data.dogs);  // ดึงข้อมูลสุนัขจาก body
       setTotalPages(response.data.totalPages);  // ดึง totalPages จาก body
     } catch (error) {
@@ -64,7 +62,7 @@ function Shop() {
         <div className="row">
 
           <div className="col-xl-12 col-lg-12 col-md-12 pt-4 d-flex justify-content-center">
-            <h1 class="text-logo">PUGLIFE HOUSE SHOP</h1>
+            <h1 className="text-logo">PUGLIFE HOUSE SHOP</h1>
           </div>
         </div>
 
@@ -115,7 +113,7 @@ function Shop() {
               <option value="2021">4,500 - 5,500</option>
             </select>
           </div>
-          <div class="underline"></div>
+          <div className="underline"></div>
         </div>
 
         <nav aria-label="Page navigation">

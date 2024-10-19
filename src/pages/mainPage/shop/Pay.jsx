@@ -107,7 +107,7 @@ function Pay() {
                 <div className="col-12 d-flex justify-content-center py-3">
                     <div className="col-4">
                         <input
-                            class="form-control"
+                            className="form-control"
                             type="file"
                             accept="image/*"
                             onChange={handleFileChange}

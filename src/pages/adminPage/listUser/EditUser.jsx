@@ -67,7 +67,7 @@ function EditUser() {
       </div>
 
       <div className="container">
-        <div class="row">
+        <div className="row">
           <div className="col-12 pt-3 d-flex justify-content-center">
             <img src={logo} style={{ width: '100px' }} alt="Banner Image" />
           </div>

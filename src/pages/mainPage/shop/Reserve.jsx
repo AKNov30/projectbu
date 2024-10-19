@@ -80,7 +80,7 @@ function Reserve() {
                 <div className="col-xl-6 col-lg-5 col-md-6 bg-grey p-3">
                     <h2>{dog.dogs_name}</h2>
                     <h3>฿ {dog.price} THB</h3>
-                    <h4 class="px-4">รายละเอียด</h4>
+                    <h4 className="px-4">รายละเอียด</h4>
                     <div className="dog-info-grid px-5">
                         <div>รหัส</div> <div>: {dog.dog_id}</div>
                         <div>วันเกิด</div> 
@@ -92,7 +92,7 @@ function Reserve() {
                         <div>สี</div> <div>: {dog.color}</div>
                         <div>นิสัย</div> <div>: {dog.personality}</div>
                     </div>
-                    <div class="d-flex justify-content-center pt-5">มีข้อมูลสอบถามเพิ่มเติมโปรดติดต่อ 087-994-8760</div>
+                    <div className="d-flex justify-content-center pt-5">มีข้อมูลสอบถามเพิ่มเติมโปรดติดต่อ 087-994-8760</div>
                 </div>
                 <div className="col-1 col-md-0"></div>
             </div>
