@@ -13,7 +13,6 @@ function Shop() {
   const [filterPrice, setFilterPrice] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
   // Fetch dog data from API
   const fetchDogs = async () => {
     try {
