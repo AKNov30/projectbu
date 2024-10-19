@@ -21,6 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+// const port = process.env.SV_PORT || 5000;
 const port = 5000;
 
 // Serve static files from 'public/images' directory
@@ -557,7 +558,7 @@ app.get("/api/change-date", (req, res) => {
   });
 });
 
-// put date,time
+// change-date put date,time
 app.put("/api/change-date/:booking_id", (req, res) => {
   const { booking_id } = req.params; // รับ booking_id จาก URL parameter
   const { booking_date, pickup_date } = req.body; // รับ booking_date และ pickup_date จาก request body

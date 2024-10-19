@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ImageModal from '../../../components/ImageModal/ImageModal';
+import { AlertSave, AlertDelete } from '../../../components/alert/Alert';
 
 const Reserveinfo = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [reservationDetails, setReservationDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -23,6 +25,21 @@ const Reserveinfo = () => {
                 setLoading(false);
             });
     }, [id]);
+
+    const cancelBooking = async (bookingId, dogId) => {
+        try {
+            const response = await axios.put('http://localhost:5000/api/cancel-booking', {
+                booking_id: bookingId,
+                dog_id: dogId,
+            });
+
+            AlertSave("การจองถูกยกเลิกเรียบร้อยแล้ว");
+            navigate('/admin/reserve-admin'); 
+        } catch (err) {
+            console.error("Error canceling booking:", err);
+            alert("ไม่สามารถยกเลิกการจองได้ โปรดลองใหม่อีกครั้ง");
+        }
+    };
 
     if (loading) {
         return <p>Loading...</p>;
@@ -105,12 +122,20 @@ const Reserveinfo = () => {
                     </p>
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-end align-items-center">
-                    <button type="button" className="btn btn-danger setting-btn-reserve" id="cancelreserve">
-                        ยกเลิกจอง
-                    </button>
+                    <AlertDelete
+                        onDelete={() => cancelBooking(reservationDetails.booking_id, reservationDetails.dog_id)}
+                        title="คุณแน่ใจที่จะยกเลิกการจอง?" 
+                        text="การยกเลิกการจองจะไม่สามารถคืนเงินจองได้"
+                        confirmText="ยกเลิกการจอง"
+                        successTitle="ยกเลิกการจองเสร็จสิ้น"
+                    >
+                        <button type="button" className="btn btn-danger setting-btn-reserve" id="cancelreserve">
+                            ยกเลิกจอง
+                        </button>
+                    </AlertDelete>
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-center align-items-center">
-                    <button type="button" className="btn btn-success setting-btn-reserve" id="confirmreserve">
+                <button type="button" className="btn btn-success setting-btn-reserve" id="confirmreserve">
                         ยืนยันการรับ
                     </button>
                 </div>
