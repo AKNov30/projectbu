@@ -3,6 +3,7 @@ import axios from 'axios';
 import calculateAge from '../../../utils/calculateAge';
 import { search } from '../../../assets';
 import DogCardMain from '../../../components/shopcomponent/DogCardMain';
+import API_URL from '../../../config/apiConfig';
 
 function Shop() {
   const [products, setProducts] = useState([]);
@@ -16,7 +17,7 @@ function Shop() {
   // Fetch dog data from API
   const fetchDogs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/shop-dogs', {
+      const response = await axios.get(`${API_URL}/api/shop-dogs`, {
         params: {
           page: currentPage,
           limit: 8,

@@ -21,8 +21,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-// const port = process.env.SV_PORT || 5000; **รอแก้**
-const port = 5000;
+const port = process.env.SV_PORT || 5000; //**test**
+// const port = 5000;
 
 // Serve static files from 'public/images' directory
 app.use("/images", express.static(path.join(__dirname, "public/images")));
