@@ -34,7 +34,7 @@ const Reserveinfo = () => {
             });
 
             AlertSave("การจองถูกยกเลิกเรียบร้อยแล้ว");
-            navigate('/admin/reserve-admin'); 
+            navigate('/admin/reserve-admin');
         } catch (err) {
             console.error("Error canceling booking:", err);
             alert("ไม่สามารถยกเลิกการจองได้ โปรดลองใหม่อีกครั้ง");
@@ -124,7 +124,7 @@ const Reserveinfo = () => {
                 <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-end align-items-center">
                     <AlertDelete
                         onDelete={() => cancelBooking(reservationDetails.booking_id, reservationDetails.dog_id)}
-                        title="คุณแน่ใจที่จะยกเลิกการจอง?" 
+                        title="คุณแน่ใจที่จะยกเลิกการจอง?"
                         text="การยกเลิกการจองจะไม่สามารถคืนเงินจองได้"
                         confirmText="ยกเลิกการจอง"
                         successTitle="ยกเลิกการจองเสร็จสิ้น"
@@ -135,16 +135,30 @@ const Reserveinfo = () => {
                     </AlertDelete>
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-center align-items-center">
-                <button type="button" className="btn btn-success setting-btn-reserve" id="confirmreserve">
+                    <button type="button" className="btn btn-success setting-btn-reserve" id="confirmreserve">
                         ยืนยันการรับ
                     </button>
                 </div>
                 <div className="col-xl-3 col-lg-4 col-md-3">
                     <div className="pt-2">
-                        <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => openModal(reservationDetails.slip_url)}>สลิปการจอง</a><br />
+                        {reservationDetails.slip_url ? (
+                            <>
+                                <a
+                                    className="text-primary"
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => openModal(reservationDetails.slip_url)}
+                                >
+                                    สลิปการจอง
+                                </a>
+                            </>
+                        ) : (
+                            <a className="text-danger" style={{ cursor: 'no-drop' }}>ยังไม่ได้ชำระการจอง</a>
+                        )}
+                        <br />
                         <label htmlFor="formFile" className="form-label">แนบหลักฐานการโอน</label>
                         <input className="form-control" type="file" id="formFile" />
                     </div>
+
                 </div>
             </div>
 
