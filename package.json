@@ -10,9 +10,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "install": "npm install && cd frontend && npm install && cd ../backend && npm install",
-    "build-frontend": "cd frontend && npm install && npm run build",
-    "heroku-postbuild": "npm run build-frontend"
+    "install": "npm install && cd frontend && npm install && cd ../backend && npm install"
   },
   "keywords": [],
   "author": "",
