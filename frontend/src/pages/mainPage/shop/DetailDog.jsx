@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import api, { apiUrl } from '../../../config/apiConfig';
 import calculateAge from '../../../utils/calculateAge';
 import DogCard from '../../../components/shopcomponent/DogCard'; // สร้างไฟล์ DogCard.jsx สำหรับการใช้งานซ้ำ
 
@@ -20,7 +20,7 @@ function DetailDog() {
   // ดึงรายละเอียดสุนัขเฉพาะตัว
   const fetchDogDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/dogs/${dog_id}`);
+      const response = await api.get(`/api/dogs/${dog_id}`);
       setDog(response.data);
     } catch (err) {
       console.error('Error fetching dog details:', err);
@@ -34,7 +34,7 @@ function DetailDog() {
   const fetchRelatedDogs = async (color) => {
     // console.log(typeof dog_id);
     try {
-      const response = await axios.get('http://localhost:5000/api/all-dogs');
+      const response = await api.get('/api/all-dogs');
       // คัดกรองสุนัขที่มีสีเดียวกันและไม่ใช่ตัวปัจจุบัน
       let related = response.data.filter(
         (item) => item.color === color && item.dog_id != dog_id
@@ -98,7 +98,7 @@ function DetailDog() {
           <div className="col-xl-4 col-lg-5 col-md-5">
             <img
               className="setting-pic-info just-flex-center img-fluid"
-              src={imageUrls.length > 0 ? `http://localhost:5000${imageUrls[0]}` : dogBrown}
+              src={imageUrls.length > 0 ? `${apiUrl}${imageUrls[0]}` : dogBrown}
               alt={dog.dogs_name}
             />
           </div>
@@ -139,7 +139,7 @@ function DetailDog() {
               <img
                 key={index}
                 className="setting-pic-info-small just-flex-center img-fluid me-2"
-                src={`http://localhost:5000${url}`}
+                src={`${apiUrl}${url}`}
                 alt={`${dog.dogs_name} ${index + 2}`}
               />
             ))}

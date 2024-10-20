@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { logo } from '../../assets';
 import { AlertSave } from '../../components/alert/Alert';
+import api, { apiUrl } from '../../config/apiConfig';
 
 function ChangeDate() {
     const [reservations, setReservations] = useState([]);
     const [timeSelections, setTimeSelections] = useState({});
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/change-date')
+        fetch(`${apiUrl}/api/change-date`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
@@ -39,7 +40,7 @@ function ChangeDate() {
         }
 
         // ส่งข้อมูลไปยังเซิร์ฟเวอร์ผ่าน PUT request
-        fetch(`http://localhost:5000/api/change-date/${bookingId}`, {
+        fetch(`${apiUrl}/api/change-date/${bookingId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

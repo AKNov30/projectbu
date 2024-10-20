@@ -1,8 +1,8 @@
 // src/components/Register.js
 
 import React, { useState } from 'react';
-import axios from 'axios';
 import Swal from 'sweetalert2';
+import api from '../../config/apiConfig';
 
 import { logo, back } from '../../assets/'
 
@@ -42,7 +42,7 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/register', formData);
+      const response = await api.post('/api/register', formData);
       Swal.fire({
         title: 'สมัครสมาชิกสำเร็จ!',
         text: response.data || "Saved!",

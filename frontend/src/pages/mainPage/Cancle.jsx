@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api, { apiUrl } from '../../config/apiConfig';
 import { AlertSave, AlertDelete } from '../../components/alert/Alert';
 
 function Cancle() {
@@ -13,7 +13,7 @@ function Cancle() {
         // ดึงข้อมูลการจองของผู้ใช้จาก API
         const fetchBookingData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/user-dogs`, {
+                const response = await api.get(`/api/user-dogs`, {
                     params: { user_id }
                 });
                 setBookingData(response.data); // เก็บข้อมูลการจองไว้ใน state
@@ -48,7 +48,7 @@ function Cancle() {
         formData.append('slip', selectedSlip); // เพิ่มไฟล์สลิปลงใน FormData
 
         try {
-            const response = await axios.post(`http://localhost:5000/api/upload-slip/${bookingId}`, formData, {
+            const response = await api.post(`/api/upload-slip/${bookingId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -63,13 +63,13 @@ function Cancle() {
 
     const handleCancelBooking = async (bookingId, dogId) => {
         try {
-            await axios.put(`http://localhost:5000/api/cancel-booking`, {
+            await api.put(`/api/cancel-booking`, {
                 booking_id: bookingId,
                 dog_id: dogId,
             });
             // ดึงข้อมูลการจองใหม่หลังจากยกเลิกสำเร็จ
             const user_id = localStorage.getItem('user_id');
-            const response = await axios.get(`http://localhost:5000/api/user-dogs`, {
+            const response = await api.get(`/api/user-dogs`, {
                 params: { user_id }
             });
             setBookingData(response.data);
@@ -125,7 +125,7 @@ function Cancle() {
                             <div className="col-xl-2 col-lg-2 col-md-3 d-flex align-items-center justify-content-center">
                                 <img
                                     className="setting-pic-cancle just-flex-center img-fluid"
-                                    src={imageUrls.length > 0 ? `http://localhost:5000${imageUrls[0]}` : dogBrown} // ใช้รูปแรกจาก array หรือรูปสำรอง
+                                    src={imageUrls.length > 0 ? `${apiUrl}${imageUrls[0]}` : dogBrown} // ใช้รูปแรกจาก array หรือรูปสำรอง
                                     alt="dog"
                                 />
                             </div>

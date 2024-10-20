@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api, { apiUrl } from '../../../config/apiConfig';
 import { logo } from '../../../assets';
 
 function Reserveadmin() {
@@ -8,7 +8,7 @@ function Reserveadmin() {
 
     // ดึงข้อมูลจาก API 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/reserve-admin')
+        api.get('/api/reserve-admin')
             .then(response => {
                 setReservations(response.data); // อัพเดทข้อมูลการจองจาก API
             })
@@ -47,7 +47,7 @@ function Reserveadmin() {
                                         // แยก array ของ image_url อย่างระมัดระวัง
                                         const rawImageUrls = reservation.image_url || '[]';
                                         const imageUrls = rawImageUrls.replace(/^\[|\]$/g, '').split(',').map(url => url.trim().replace(/['"]+/g, ''));
-                                        const firstImage = imageUrls[0] ? `http://localhost:5000${imageUrls[0]}` : logo; // เลือกรูปแรก หรือใช้รูป default
+                                        const firstImage = imageUrls[0] ? `${apiUrl}${imageUrls[0]}` : logo; // เลือกรูปแรก หรือใช้รูป default
 
                                         return (
                                             <tr key={index}>

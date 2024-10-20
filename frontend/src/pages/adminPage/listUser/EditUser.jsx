@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AlertSave } from '../../../components/alert/Alert';
+import { apiUrl } from '../../../config/apiConfig';
 
 import { logo, back } from '../../../assets/'
 
@@ -20,7 +21,7 @@ function EditUser() {
 
   useEffect(() => {
     // ดึงข้อมูลผู้ใช้จาก API เพื่อนำมาแสดงในฟอร์ม
-    fetch(`http://localhost:5000/api/users/${id}`)
+    fetch(`${ apiUrl }/api/users/${id}`)
       .then(response => response.json())
       .then(data => setUser(data))
       .catch(error => console.error('Error fetching user:', error));
@@ -32,7 +33,7 @@ function EditUser() {
 
   const handleSubmit = () => {
     // อัปเดตข้อมูลผู้ใช้ในฐานข้อมูลผ่าน API
-    fetch(`http://localhost:5000/api/users/${id}`, {
+    fetch(`${ apiUrl }/api/users/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user)

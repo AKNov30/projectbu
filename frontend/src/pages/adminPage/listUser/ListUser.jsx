@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { editIcon, binIcon } from '../../../assets/';
 import { AlertDelete } from '../../../components/alert/Alert';
+import api, { apiUrl } from '../../../config/apiConfig';
 
 function ListUser() {
     const [users, setUsers] = useState([]);
@@ -14,7 +15,7 @@ function ListUser() {
 
     const fetchUsers = (page) => {
         setLoading(true);
-        fetch(`http://localhost:5000/api/users?page=${page}&limit=14`)
+        fetch(`${ apiUrl}/api/users?page=${page}&limit=14`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -28,13 +29,12 @@ function ListUser() {
             })
             .catch(error => {
                 console.error('Error fetching users:', error);
-                toast.error('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้');
                 setLoading(false);
             });
     };
 
     const handleDelete = (user_id) => {
-        fetch(`http://localhost:5000/api/users/${user_id}`, {
+        fetch(`${ apiUrl }/api/users/${user_id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
         })
@@ -46,11 +46,9 @@ function ListUser() {
             })
             .then(data => {
                 setUsers(users.filter(user => user.user_id !== user_id));
-                toast.success(data.message || 'ลบผู้ใช้สำเร็จ');
             })
             .catch(error => {
                 console.error('Error deleting user:', error);
-                toast.error(error.message || 'เกิดข้อผิดพลาดในการลบผู้ใช้');
             });
     };
 

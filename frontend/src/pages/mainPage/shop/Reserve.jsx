@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api, { apiUrl } from '../../../config/apiConfig';
 import calculateAge from '../../../utils/calculateAge';
 import { dogBrown } from '../../../assets';
 
@@ -21,7 +21,7 @@ function Reserve() {
     // Fetch dog details for reservation
     const fetchDogDetails = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/dogs/${dog_id}`);
+            const response = await api.get(`/api/dogs/${dog_id}`);
             // Parse the image_url string to an array
             const dogData = { ...response.data, image_url: JSON.parse(response.data.image_url) };
             setDog(dogData);
@@ -73,7 +73,7 @@ function Reserve() {
                 <div className="col-xl-4 col-lg-5 col-md-5">
                     <img
                         className="setting-pic-info just-flex-center img-fluid"
-                        src={dog.image_url.length > 0 ? `http://localhost:5000${dog.image_url[0]}` : dogBrown}
+                        src={dog.image_url.length > 0 ? `${apiUrl}${dog.image_url[0]}` : dogBrown}
                         alt={dog.dogs_name}
                     />
                 </div>

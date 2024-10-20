@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { AlertDelete } from '../../../components/alert/Alert';
 import { binIcon, editIcon } from '../../../assets';
+import api from '../../../config/apiConfig';
 
 function HomeAdmin() {
   const [dogs, setDogs] = useState([]);
@@ -11,7 +11,7 @@ function HomeAdmin() {
   // ฟังก์ชันดึงข้อมูลสุนัขจาก API
   const fetchDogs = async (page) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/dogs?page=${page}&limit=14`);
+      const response = await api.get(`/api/dogs?page=${page}&limit=14`);
       setDogs(response.data.dogs);
       setTotalPages(response.data.totalPages); // ตั้งค่าจำนวนหน้าทั้งหมด
     } catch (error) {
@@ -32,7 +32,7 @@ function HomeAdmin() {
   // ลบสุนัข
   const deleteDog = async (dog_id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/dogs/${dog_id}`);
+      await api.delete(`/api/dogs/${dog_id}`);
       fetchDogs(currentPage); // Refresh list หลังลบ
     } catch (error) {
       console.error('Error deleting dog:', error);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { AlertSave } from '../../../components/alert/Alert';
+import api from '../../../config/apiConfig';
 
 function AddDogForm() {
   const [dogname, setDogName] = useState("");
@@ -28,7 +28,7 @@ function AddDogForm() {
       formData.append('files', file);
     });
 
-    axios.post('http://localhost:5000/api/adddog', formData)
+    api.post('/api/adddog', formData)
       .then((response) => {
         console.log(response);
         setSuccess(true);

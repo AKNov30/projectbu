@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../config/apiConfig';
 
 import { logo } from '../../assets/' 
 
@@ -29,7 +29,7 @@ function LoginForm() {
     }
     
     try {
-      const response = await axios.post('http://localhost:5000/api/login', formData);
+      const response = await api.post('/api/login', formData);
       const { token, message, user_role, user_id, firstname } = response.data;
 
       localStorage.setItem('token', token);

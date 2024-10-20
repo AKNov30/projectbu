@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api, { apiUrl } from '../../../config/apiConfig';
 import ImageModal from '../../../components/ImageModal/ImageModal';
 import { AlertSave, AlertDelete } from '../../../components/alert/Alert';
 
@@ -14,7 +14,7 @@ const Reserveinfo = () => {
     const [modalImageUrl, setModalImageUrl] = useState('');
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/reserve-admin/${id}`)
+        api.get(`/api/reserve-admin/${id}`)
             .then(response => {
                 setReservationDetails(response.data);
                 setLoading(false);
@@ -28,7 +28,7 @@ const Reserveinfo = () => {
 
     const cancelBooking = async (bookingId, dogId) => {
         try {
-            const response = await axios.put('http://localhost:5000/api/cancel-booking', {
+            const response = await api.put('/api/cancel-booking', {
                 booking_id: bookingId,
                 dog_id: dogId,
             });
@@ -55,10 +55,10 @@ const Reserveinfo = () => {
 
     // แปลง array ของ image_url ให้เป็นรูปแบบที่ถูกต้อง
     const imageUrls = reservationDetails.image_url.replace(/^\[|\]$/g, '').split(',').map(url => url.trim().replace(/['"]+/g, ''));
-    const firstImageUrl = imageUrls.length > 0 ? `http://localhost:5000${imageUrls[0]}` : 'default-image-path.png';
+    const firstImageUrl = imageUrls.length > 0 ? `${apiUrl}${imageUrls[0]}` : 'default-image-path.png';
 
     const openModal = (imageUrl) => {
-        setModalImageUrl(`http://localhost:5000${imageUrl}`);
+        setModalImageUrl(`${apiUrl}${imageUrl}`);
         setIsModalOpen(true);
     };
 

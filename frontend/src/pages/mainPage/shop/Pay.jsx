@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AlertSave } from '../../../components/alert/Alert';
-import axios from 'axios';
+import api from '../../../config/apiConfig';
 
 function Pay() {
     const location = useLocation();
@@ -16,7 +16,7 @@ function Pay() {
     useEffect(() => {
         const generateQRCode = async () => {
             try {
-                const response = await axios.post('http://localhost:5000/api/generate-qr', {
+                const response = await api.post('/api/generate-qr', {
                     price,
                     promptpayNumber: '0910586742' // เบอร์พร้อมเพย์ที่จะใช้ในการชำระเงิน
                 });
@@ -56,7 +56,7 @@ function Pay() {
             }
 
             // ส่ง POST request ไปยัง Backend
-            const response = await axios.post('http://localhost:5000/api/book', formData, {
+            const response = await api.post('/api/book', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

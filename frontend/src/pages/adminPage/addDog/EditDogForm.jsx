@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom'; // ใช้สำหรับรับ params และนำทาง
 import { AlertSave } from '../../../components/alert/Alert';
+import api, { apiUrl } from '../../../config/apiConfig';
 
 function EditDogForm() {
     const { dogId } = useParams(); // รับ dog_id จาก URL
@@ -23,7 +23,7 @@ function EditDogForm() {
 
     // ฟังก์ชันดึงข้อมูลสุนัขที่ต้องการแก้ไข
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/dogs/${dogId}`)
+        api.get(`/api/dogs/${dogId}`)
             .then(response => {
                 const { dogs_name, birthday, price, color, description, personality, image_url } = response.data;
                 setDogName(dogs_name);
@@ -68,7 +68,7 @@ function EditDogForm() {
         });
 
         try {
-            const response = await axios.put(`http://localhost:5000/api/dogs/${dogId}`, formData, {
+            const response = await api.put(`/api/dogs/${dogId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -246,7 +246,7 @@ function EditDogForm() {
                                             {existingImages.map((imageUrl, index) => (
                                                 <div key={index} className="position-relative m-2">
                                                     <img
-                                                        src={`http://localhost:5000${imageUrl}`}
+                                                        src={`${ apiUrl }${imageUrl}`}
                                                         alt={`Existing ${index}`}
                                                         className="img-thumbnail"
                                                         style={{ width: '100px', height: '100px', objectFit: 'cover' }}

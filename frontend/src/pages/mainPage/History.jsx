@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { search } from '../../assets/';
+import api from '../../config/apiConfig';
 
 function History() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -13,7 +13,7 @@ function History() {
         
         const fetchBookingData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/history`, {
+                const response = await api.get(`/api/history`, {
                     params: { user_id },
                 });
                 setBookings(response.data);
