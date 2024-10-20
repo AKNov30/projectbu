@@ -36,7 +36,7 @@ function ChangeDate() {
 
         // ตรวจสอบว่าผู้ใช้ได้เลือกทั้งวันที่และเวลาหรือไม่ (validate)
         if (!selectedDate || !selectedTime) {
-            return false;  
+            return false;
         }
 
         // ส่งข้อมูลไปยังเซิร์ฟเวอร์ผ่าน PUT request
@@ -92,29 +92,17 @@ function ChangeDate() {
                             </thead>
                             <tbody>
                                 {reservations.map((reservation) => {
-                                    let imageUrlArray = [];
-
-                                    // ตรวจสอบว่า image_url เป็นสตริงธรรมดาหรือมีรูปหลายรูป
-                                    if (reservation.image_url.includes('[') && reservation.image_url.includes(']')) {
-                                        // แยกรูปภาพออกจากสตริง JSON ที่ไม่สมบูรณ์
-                                        const extractedUrls = reservation.image_url.match(/"(.*?)"/g);
-                                        if (extractedUrls) {
-                                            imageUrlArray = extractedUrls.map(url => url.replace(/"/g, ''));
-                                        }
-                                    } else {
-                                        // ถ้า image_url เป็นสตริงธรรมดา
-                                        imageUrlArray = [reservation.image_url];
-                                    }
-
-                                    // ใช้รูปแรกจากอาเรย์ ถ้าไม่มีให้ใช้รูปสำรอง
-                                    const firstImageUrl = imageUrlArray.length > 0 ? imageUrlArray[0] : logo;
+                                    // ใช้ URL ของรูปภาพจาก backend อย่างตรง ๆ โดยเช็คว่า URL มี http หรือไม่
+                                    const imageUrl = reservation.image_url.startsWith('http')
+                                        ? reservation.image_url
+                                        : `${apiUrl}${reservation.image_url}`;
 
                                     return (
                                         <tr key={reservation.booking_id}>
                                             <td className="text-center">
                                                 <img
-                                                    src={firstImageUrl}  // ใช้รูปแรกจากอาเรย์
-                                                    onError={(e) => { e.target.src = logo; }}  // ถ้าภาพหลักโหลดไม่ได้ ใช้โลโก้แทน
+                                                    src={imageUrl}
+                                                    onError={(e) => { e.target.src = logo; }}
                                                     alt={reservation.dogs_name}
                                                     height="80"
                                                     className="d-inline-block align-text-top"
@@ -139,16 +127,14 @@ function ChangeDate() {
                                             <td>
                                                 {reservation.pickup_date ? reservation.pickup_date.slice(0, 5) : 'N/A'}
                                             </td>
-
-
                                             <td>
                                                 <input className="form-control" type="date" placeholder="เปลี่ยนวันที่" data-id={reservation.booking_id} />
                                             </td>
                                             <td>
                                                 <select
                                                     className="form-select"
-                                                    value={timeSelections[reservation.booking_id] || ""}  // แสดงเวลาที่เลือกสำหรับแต่ละรายการ
-                                                    onChange={(e) => handleTimeChange(e, reservation.booking_id)}  // อัปเดตเวลา
+                                                    value={timeSelections[reservation.booking_id] || ""}
+                                                    onChange={(e) => handleTimeChange(e, reservation.booking_id)}
                                                 >
                                                     <option value="">เลือกเวลา</option>
                                                     <option value="10:00">10:00 น</option>
