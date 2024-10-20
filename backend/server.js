@@ -30,7 +30,7 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 app.use(express.json());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173' || 'https://projectbu.vercel.app/', 
+  origin: process.env.FRONTEND_URL  || 'https://projectbu.vercel.app/', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
   credentials: true 
 }));
@@ -552,10 +552,11 @@ app.get("/api/change-date", (req, res) => {
 
       // เลือกใช้รูปแรกจากอาเรย์ (ถ้ามี) และตรวจสอบว่า URL มี "/images/" อยู่แล้วหรือไม่
       const firstImageUrl = imageUrlArray.length > 0 ? imageUrlArray[0] : null;
+      const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
       const finalImageUrl =
         firstImageUrl && firstImageUrl.startsWith("/images/")
-          ? `http://localhost:5000${firstImageUrl}` // ถ้ามีพาธ "/images/" อยู่แล้ว
-          : `http://localhost:5000/images/${firstImageUrl}`; // ถ้ายังไม่มี "/images/"
+          ? `${backendUrl}${firstImageUrl}` // ถ้ามีพาธ "/images/" อยู่แล้ว
+          : `${backendUrl}/images/${firstImageUrl}`; // ถ้ายังไม่มี "/images/"
 
       return {
         ...row,
