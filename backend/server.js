@@ -725,6 +725,39 @@ app.post("/api/confirm-receive/:bookingId", upload.single('slip'), (req, res) =>
   });
 });
 
+//result สรุปยอด
+app.get("/api/result-admin", (req, res) => {
+  const sql = `
+    SELECT 
+        bookings.booking_id,
+        bookings.user_id,
+        bookings.dog_id,
+        bookings.created_at,
+        bookings.status,
+        bookings.booking_date,
+        users.firstname,
+        users.lastname,
+        dogs.dogs_name,
+        dogs.price
+    FROM 
+        bookings
+    INNER JOIN 
+        users ON bookings.user_id = users.user_id
+    INNER JOIN 
+        dogs ON bookings.dog_id = dogs.dog_id
+    WHERE 
+        bookings.status = 'successful';
+    `;
+
+  pool.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching result:", err);
+      return res.status(500).json({ message: "Error fetching result" });
+    }
+    res.json(results); 
+  });
+});
+
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน Shop
 app.get("/api/shop-dogs", (req, res) => {
   const { page = 1, limit = 10, color, age, price } = req.query;
