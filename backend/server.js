@@ -1,24 +1,25 @@
 // src/server.js
 
-import express from "express";
-import mysql from "mysql2";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
-import cors from "cors";
-import bcrypt from "bcrypt";
-import multer from "multer";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
-import promptpayQR from "promptpay-qr";
-import qrcode from "qrcode";
+const express = require("express");
+const mysql = require("mysql2");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const bcrypt = require("bcrypt");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+const { fileURLToPath } = require("url");
+const promptpayQR = require("promptpay-qr");
+const qrcode = require("qrcode");
+
 
 // Initialize environment variables
 dotenv.config();
 
 // Define __dirname for ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.SV_PORT || 5000; //**test**
@@ -28,7 +29,11 @@ const port = process.env.SV_PORT || 5000; //**test**
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: process.env.FE_PORT || 'http://localhost:5173', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true 
+}));
 app.use(bodyParser.json());
 
 // เชื่อมต่อกับฐานข้อมูล MySQL ด้วย Connection Pool (แนะนำ)

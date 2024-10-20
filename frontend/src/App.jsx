@@ -48,9 +48,9 @@ function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/shop" element={<Shop />} />
-        {/* <Route path="/cancle" element={<Cancle />} /> */}
-        {/* <Route path="/reserve" element={<Reserve />} /> */}
-        {/* <Route path="/history" element={<History />} /> */}
+        <Route path="/cancle" element={<Cancle />} />
+        <Route path="/reserve" element={<Reserve />} />
+        <Route path="/history" element={<History />} />
         <Route
           path="/cancle"
           element={

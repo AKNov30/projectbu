@@ -12,9 +12,12 @@ function Shop() {
   const [filterPrice, setFilterPrice] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   // Fetch dog data from API
   const fetchDogs = async () => {
     try {
+      setLoading(true); // ตั้งค่า loading เป็น true ก่อนดึงข้อมูล
       const response = await api.get('/api/shop-dogs', {
         params: {
           page: currentPage,
@@ -24,11 +27,14 @@ function Shop() {
           price: filterPrice
         }
       });
-  
-      setProducts(response.data.dogs);  // ดึงข้อมูลสุนัขจาก body
-      setTotalPages(response.data.totalPages);  // ดึง totalPages จาก body
+
+      setProducts(response.data.dogs);
+      setTotalPages(response.data.totalPages);
+      setLoading(false); // ตั้งค่า loading เป็น false เมื่อดึงข้อมูลสำเร็จ
     } catch (error) {
       console.error('Error fetching dogs:', error);
+      setError('มีข้อผิดพลาดในการดึงข้อมูล'); // แสดงข้อความข้อผิดพลาด
+      setLoading(false); // ตั้งค่า loading เป็น false เมื่อเกิดข้อผิดพลาด
     }
   };
   
@@ -53,6 +59,12 @@ function Shop() {
       setCurrentPage(newPage);
     }
   };
+
+  // If loading, show loading message
+  if (loading) return <p>Loading...</p>;
+
+  // If error, show error message
+  if (error) return <p>{error}</p>;
 
   return (
     <>
