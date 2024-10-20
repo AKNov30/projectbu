@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { logo } from '../../assets'; // Default logo image
+import { apiUrl } from '../../config/apiConfig';
 
 function DogCardMain({ product, imageUrls }) {
   return (
@@ -11,7 +12,7 @@ function DogCardMain({ product, imageUrls }) {
           {imageUrls.length > 0 ? (
             <img
               className="setting-pic justify-content-center img-fluid"
-              src={`http://localhost:5000${imageUrls[0]}`} // Show the first image from the array
+              src={`${ apiUrl }${imageUrls[0]}`} // Show the first image from the array
               alt={product.dogs_name}
             />
           ) : (

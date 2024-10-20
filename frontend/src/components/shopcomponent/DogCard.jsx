@@ -3,6 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { logo } from '../../assets';
+import { apiUrl } from '../../config/apiConfig';
 
 function DogCard({ dog }) {
   let imageUrls = [];
@@ -21,7 +22,7 @@ function DogCard({ dog }) {
         <div className="d-flex justify-content-center align-items-center p-2">
           <img
             className="setting-pic img-fluid"
-            src={imageUrls.length > 0 ? `http://localhost:5000${imageUrls[0]}` : logo}
+            src={imageUrls.length > 0 ? `${ apiUrl }${imageUrls[0]}` : logo}
             alt={dog.dogs_name}
             style={{ maxHeight: '200px', objectFit: 'cover' }}
           />
