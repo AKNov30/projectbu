@@ -61,6 +61,11 @@ function Shop() {
     }
   };
 
+  // เมื่อมีการ filter ให้กลับไปที่ pagecurrent 1
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterColor, filterAge, filterPrice]);
+
   // If loading, show loading message
   if (loading) return <p>Loading...</p>;
 
