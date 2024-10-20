@@ -92,7 +92,7 @@ function ChangeDate() {
                             </thead>
                             <tbody>
                                 {reservations.map((reservation) => {
-
+                                    console.log(reservation.image_url)
                                     return (
                                         <tr key={reservation.booking_id}>
                                             <td className="text-center">
