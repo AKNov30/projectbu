@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { logo } from '../../assets';
+import { logo } from '../../assets';
 import { AlertSave } from '../../components/alert/Alert';
 import api, { apiUrl } from '../../config/apiConfig';
 
@@ -92,16 +92,12 @@ function ChangeDate() {
                             </thead>
                             <tbody>
                                 {reservations.map((reservation) => {
-                                    // ใช้ URL ของรูปภาพจาก backend อย่างตรง ๆ โดยเช็คว่า URL มี http หรือไม่
-                                    const imageUrl = reservation.image_url.startsWith('http')
-                                        ? reservation.image_url
-                                        : `${apiUrl}${reservation.image_url}`;
 
                                     return (
                                         <tr key={reservation.booking_id}>
                                             <td className="text-center">
                                                 <img
-                                                    src={imageUrl}
+                                                    src={reservation.image_url}
                                                     onError={(e) => { e.target.src = logo; }}
                                                     alt={reservation.dogs_name}
                                                     height="80"
