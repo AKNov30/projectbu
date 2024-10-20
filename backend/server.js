@@ -58,6 +58,10 @@ pool.getConnection((err, connection) => {
   connection.release();
 });
 
+app.get("/", (req,res) => {
+  res.send("Hello")
+})
+
 // Endpoint สำหรับการสมัครสมาชิก
 app.post("/api/register", async (req, res) => {
   const { firstname, lastname, user_email, user_password, phone } = req.body;
