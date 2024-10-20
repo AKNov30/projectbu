@@ -260,27 +260,45 @@ app.put("/api/users/:user_id", (req, res) => {
 app.delete("/api/users/:user_id", (req, res) => {
   const { user_id } = req.params;
 
-  // ตรวจสอบว่าผู้ใช้มีอยู่ในฐานข้อมูลหรือไม่
-  const checkUserSql = "SELECT * FROM users WHERE user_id = ?";
-  pool.query(checkUserSql, [user_id], (err, results) => {
+  // อัพเดตสถานะของสุนัขเป็น "available" ถ้าสถานะปัจจุบันเป็น "pending"
+  const updateDogStatusSql = "UPDATE dogs SET status = 'available' WHERE status = 'pending' AND dog_id IN (SELECT dog_id FROM bookings WHERE user_id = ?)";
+  pool.query(updateDogStatusSql, [user_id], (err, result) => {
     if (err) {
-      console.error("Error checking user:", err);
-      return res.status(500).json({ error: "Error checking user" });
+      console.error("Error updating dog status:", err);
+      return res.status(500).json({ error: "Error updating dog status" });
     }
 
-    // ถ้าไม่มีผู้ใช้นี้ในฐานข้อมูล
-    if (results.length === 0) {
-      return res.status(404).json({ error: "ไม่พบผู้ใช้งาน" });
-    }
-
-    // ลบผู้ใช้จากฐานข้อมูล
-    const deleteSql = "DELETE FROM users WHERE user_id = ?";
-    pool.query(deleteSql, [user_id], (err, result) => {
+    // ลบข้อมูลการจองที่เกี่ยวข้องกับผู้ใช้ในตาราง bookings
+    const deleteBookingsSql = "DELETE FROM bookings WHERE user_id = ?";
+    pool.query(deleteBookingsSql, [user_id], (err, result) => {
       if (err) {
-        console.error("Error deleting user:", err);
-        return res.status(500).json({ error: "Error deleting user" });
+        console.error("Error deleting bookings:", err);
+        return res.status(500).json({ error: "Error deleting bookings" });
       }
-      res.status(200).json({ message: "ผู้ใช้ถูกลบเรียบร้อยแล้ว" });
+
+      // ตรวจสอบว่าผู้ใช้มีอยู่ในฐานข้อมูลหรือไม่
+      const checkUserSql = "SELECT * FROM users WHERE user_id = ?";
+      pool.query(checkUserSql, [user_id], (err, results) => {
+        if (err) {
+          console.error("Error checking user:", err);
+          return res.status(500).json({ error: "Error checking user" });
+        }
+
+        // ถ้าไม่มีผู้ใช้นี้ในฐานข้อมูล
+        if (results.length === 0) {
+          return res.status(404).json({ error: "ไม่พบผู้ใช้งาน" });
+        }
+
+        // ลบผู้ใช้จากฐานข้อมูล
+        const deleteUserSql = "DELETE FROM users WHERE user_id = ?";
+        pool.query(deleteUserSql, [user_id], (err, result) => {
+          if (err) {
+            console.error("Error deleting user:", err);
+            return res.status(500).json({ error: "Error deleting user" });
+          }
+          res.status(200).json({ message: "ผู้ใช้ถูกลบเรียบร้อยแล้ว" });
+        });
+      });
     });
   });
 });
