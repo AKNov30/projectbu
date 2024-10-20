@@ -680,11 +680,11 @@ app.get("/api/reserve-admin/:id", (req, res) => {
           users.lastname,
           users.user_email
       FROM 
-          projectbu.dogs AS dogs
+          dogs
       JOIN 
-          projectbu.bookings AS bookings ON dogs.dog_id = bookings.dog_id
+          bookings ON dogs.dog_id = bookings.dog_id
       JOIN 
-          projectbu.users AS users ON bookings.user_id = users.user_id
+          users ON bookings.user_id = users.user_id
       WHERE
           bookings.booking_id = ?;
   `;
