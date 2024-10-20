@@ -22,7 +22,7 @@ dotenv.config();
 // const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = process.env.SV_PORT || 5000; //**test**
+const port = process.env.PORT || 5000; //**test**
 // const port = 5000;
 
 // Serve static files from 'public/images' directory
