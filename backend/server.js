@@ -562,10 +562,8 @@ app.get("/api/change-date", (req, res) => {
 
       // เลือกใช้รูปแรกจากอาเรย์ (ถ้ามี) และตรวจสอบว่า URL มี "/images/" อยู่แล้วหรือไม่
       const firstImageUrl = imageUrlArray.length > 0 ? imageUrlArray[0] : null;
-      const finalImageUrl =
-        firstImageUrl && firstImageUrl.startsWith("/images/")
-          ? `http://localhost:5000${firstImageUrl}` // ถ้ามีพาธ "/images/" อยู่แล้ว
-          : `http://localhost:5000/images/${firstImageUrl}`; // ถ้ายังไม่มี "/images/"
+      const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+      const finalImageUrl = `${backendUrl}${firstImageUrl}`; // ถ้ายังไม่มี "/images/"
 
       return {
         ...row,
