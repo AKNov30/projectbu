@@ -30,7 +30,7 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 app.use(express.json());
 app.use(cors({
-  origin: process.env.FRONTEND_URL  || 'https://projectbu.vercel.app/', 
+  origin: process.env.FRONTEND_URL  || 'https://projectbu.vercel.app', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
   credentials: true 
 }));
