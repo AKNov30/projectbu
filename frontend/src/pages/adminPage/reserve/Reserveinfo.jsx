@@ -10,6 +10,8 @@ const Reserveinfo = () => {
     const [reservationDetails, setReservationDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [validate, setValidate] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalImageUrl, setModalImageUrl] = useState('');
 
@@ -25,6 +27,36 @@ const Reserveinfo = () => {
                 setLoading(false);
             });
     }, [id]);
+
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+        setValidate(null);
+    };
+
+    const handleConfirmReceive = async () => {
+        if (!selectedFile) {
+            alert("กรุณาอัปโหลดสลิป");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('slip', selectedFile);
+        formData.append('dogId', reservationDetails.dog_id);
+
+        try {
+            const response = await api.post(`/api/confirm-receive/${reservationDetails.booking_id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            alert(response.data.message);
+            navigate('/admin/reserve-admin');
+        } catch (err) {
+            console.error("Error confirming receipt:", err);
+            AlertSave("เกิดข้อผิดพลาดในการยืนยันการรับ");
+        }
+    };
 
     const cancelBooking = async (bookingId, dogId) => {
         try {
@@ -128,6 +160,7 @@ const Reserveinfo = () => {
                         text="การยกเลิกการจองจะไม่สามารถคืนเงินจองได้"
                         confirmText="ยกเลิกการจอง"
                         successTitle="ยกเลิกการจองเสร็จสิ้น"
+                        successText=" "
                     >
                         <button type="button" className="btn btn-danger setting-btn-reserve" id="cancelreserve">
                             ยกเลิกจอง
@@ -135,9 +168,24 @@ const Reserveinfo = () => {
                     </AlertDelete>
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-center align-items-center">
-                    <button type="button" className="btn btn-success setting-btn-reserve" id="confirmreserve">
-                        ยืนยันการรับ
-                    </button>
+                    <AlertSave
+                        onConfirm={() => {
+                            if (!selectedFile) {
+                                setValidate("กรุณาอัปโหลดสลิป");
+                                return false
+                            } else {
+                                handleConfirmReceive
+                            }
+                        }}
+                        title={"ยืนยันการรับสุนัข?"}
+                        confirmText={"ยืนยัน"}
+                        failMessage={"ไม่สำเร็จ"}
+                        successMessage={"สำเร็จ"}
+                    >
+                        <button type="button" className="btn btn-success setting-btn-reserve" id="confirmreserve">
+                            ยืนยันการรับ
+                        </button>
+                    </AlertSave>
                 </div>
                 <div className="col-xl-3 col-lg-4 col-md-3">
                     <div className="pt-2">
@@ -156,11 +204,17 @@ const Reserveinfo = () => {
                         )}
                         <br />
                         <label htmlFor="formFile" className="form-label">แนบหลักฐานการโอน</label>
-                        <input className="form-control" type="file" id="formFile" />
+                        <input className="form-control" type="file" id="formFile" onChange={handleFileChange} />
                     </div>
 
                 </div>
             </div>
+            {validate && (
+                <div className="alert alert-danger mt-3" role="alert">
+                    {validate}
+                </div>
+            )}
+
 
             {/* Modal slip */}
             <ImageModal

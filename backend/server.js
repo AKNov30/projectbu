@@ -685,8 +685,45 @@ app.get("/api/reserve-admin/:id", (req, res) => {
   });
 });
 
+// ยืนยันการรับ reserveInfo
+app.post("/api/confirm-receive/:bookingId", upload.single('slip'), (req, res) => {
+  const bookingId = req.params.bookingId;
+  const { dogId } = req.body;
 
+  if (!req.file) {
+    return res.status(400).json({ message: "Slip file is required" });
+  }
 
+  const slipUrl = `/images/${req.file.filename}`;
+
+  const updateBookingQuery = `
+    UPDATE bookings 
+    SET status = 'successful', slip2_url = ? 
+    WHERE booking_id = ?;
+  `;
+
+  const updateDogQuery = `
+    UPDATE dogs 
+    SET status = 'sold' 
+    WHERE dog_id = ?;
+  `;
+
+  pool.query(updateBookingQuery, [slipUrl, bookingId], (err) => {
+    if (err) {
+      console.error("Error updating booking:", err);
+      return res.status(500).json({ message: "Error updating booking" });
+    }
+
+    pool.query(updateDogQuery, [dogId], (err) => {
+      if (err) {
+        console.error("Error updating dog status:", err);
+        return res.status(500).json({ message: "Error updating dog status" });
+      }
+
+      res.json({ message: "Booking confirmed and dog status updated successfully" });
+    });
+  });
+});
 
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน Shop
 app.get("/api/shop-dogs", (req, res) => {
