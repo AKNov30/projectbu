@@ -29,11 +29,22 @@ const port = process.env.PORT || 5000; //**test**
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 app.use(express.json());
+
+const allowedOrigins = [process.env.FRONTEND_URL, 'https://projectbu.vercel.app'];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL  || 'https://projectbu.vercel.app', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-  credentials: true 
+  origin: (origin, callback) => {
+    // Check if the request origin is allowed
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
 }));
+
 app.use(bodyParser.json());
 
 // เชื่อมต่อกับฐานข้อมูล MySQL ด้วย Connection Pool (แนะนำ)
