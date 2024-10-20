@@ -363,44 +363,54 @@ app.get("/api/dogs", (req, res) => {
 app.delete("/api/dogs/:dog_id", (req, res) => {
   const { dog_id } = req.params;
 
-  // ตรวจสอบว่าสุนัขที่ต้องการลบมีอยู่ในฐานข้อมูลหรือไม่
-  const checkDogSql = "SELECT * FROM dogs WHERE dog_id = ?";
-  pool.query(checkDogSql, [dog_id], (err, results) => {
+  // ลบข้อมูลการจองที่เกี่ยวข้องกับสุนัขในตาราง bookings ก่อน
+  const deleteBookingsSql = "DELETE FROM bookings WHERE dog_id = ?";
+  pool.query(deleteBookingsSql, [dog_id], (err, result) => {
     if (err) {
-      console.error("Error checking dog:", err);
-      return res.status(500).json({ error: "เกิดข้อผิดพลาดในการตรวจสอบสุนัข" });
+      console.error("Error deleting bookings:", err);
+      return res.status(500).json({ error: "เกิดข้อผิดพลาดในการลบข้อมูลการจอง" });
     }
 
-    // ถ้าไม่มีสุนัขนี้ในฐานข้อมูล
-    if (results.length === 0) {
-      return res.status(404).json({ error: "ไม่พบสุนัขในระบบ" });
-    }
-
-    const dog = results[0];
-    const imageUrls = JSON.parse(dog.image_url); // แปลง JSON string กลับเป็น array
-
-    // ลบสุนัขจากฐานข้อมูล
-    const deleteDogSql = "DELETE FROM dogs WHERE dog_id = ?";
-    pool.query(deleteDogSql, [dog_id], (err, result) => {
+    // ตรวจสอบว่าสุนัขที่ต้องการลบมีอยู่ในฐานข้อมูลหรือไม่
+    const checkDogSql = "SELECT * FROM dogs WHERE dog_id = ?";
+    pool.query(checkDogSql, [dog_id], (err, results) => {
       if (err) {
-        console.error("Error deleting dog:", err);
-        return res.status(500).json({ error: "เกิดข้อผิดพลาดในการลบสุนัข" });
+        console.error("Error checking dog:", err);
+        return res.status(500).json({ error: "เกิดข้อผิดพลาดในการตรวจสอบสุนัข" });
       }
 
-      // ลบไฟล์รูปภาพจาก public/images
-      imageUrls.forEach((imageUrl) => {
-        const filePath = path.join(__dirname, "public", imageUrl); // สร้าง path สำหรับไฟล์
-        fs.unlink(filePath, (err) => {
-          if (err) {
-            console.error("Error deleting file:", err);
-          }
-        });
-      });
+      // ถ้าไม่มีสุนัขนี้ในฐานข้อมูล
+      if (results.length === 0) {
+        return res.status(404).json({ error: "ไม่พบสุนัขในระบบ" });
+      }
 
-      res.status(200).json({ message: "สุนัขถูกลบเรียบร้อยแล้ว" });
+      const dog = results[0];
+      const imageUrls = JSON.parse(dog.image_url); // แปลง JSON string กลับเป็น array
+
+      // ลบสุนัขจากฐานข้อมูล
+      const deleteDogSql = "DELETE FROM dogs WHERE dog_id = ?";
+      pool.query(deleteDogSql, [dog_id], (err, result) => {
+        if (err) {
+          console.error("Error deleting dog from database:", err);
+          return res.status(500).json({ error: "เกิดข้อผิดพลาดในการลบสุนัขจากฐานข้อมูล" });
+        }
+
+        // ลบไฟล์รูปภาพจาก public/images
+        imageUrls.forEach((imageUrl) => {
+          const filePath = path.join(__dirname, "public", imageUrl); // สร้าง path สำหรับไฟล์
+          fs.unlink(filePath, (err) => {
+            if (err) {
+              console.error("Error deleting file:", err);
+            }
+          });
+        });
+
+        res.status(200).json({ message: "สุนัขถูกลบเรียบร้อยแล้ว" });
+      });
     });
   });
 });
+
 
 // EditdogForm ดึงข้อมูลสุนัขหนึ่งตัว
 app.get("/api/dogs/:dog_id", (req, res) => {
