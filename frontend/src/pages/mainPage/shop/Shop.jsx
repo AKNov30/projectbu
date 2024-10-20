@@ -3,6 +3,7 @@ import calculateAge from '../../../utils/calculateAge';
 import { search } from '../../../assets';
 import DogCardMain from '../../../components/shopcomponent/DogCardMain';
 import api from '../../../config/apiConfig';
+import Pagination from '../../../components/pagination/Pagination';
 
 function Shop() {
   const [products, setProducts] = useState([]);
@@ -126,38 +127,11 @@ function Shop() {
           <div className="underline"></div>
         </div>
 
-        <nav aria-label="Page navigation">
-          <ul className="pagination justify-content-center mt-2">
-            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-              <button
-                className="page-link btn btn-primary"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}  // ปิดการใช้งานปุ่มหากเป็นหน้าที่ 1
-              >
-                Previous
-              </button>
-            </li>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                <button
-                  className="page-link btn btn-outline-primary"
-                  onClick={() => handlePageChange(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              </li>
-            ))}
-            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-              <button
-                className="page-link btn btn-primary"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}  // ปิดการใช้งานปุ่มหากเป็นหน้าสุดท้าย
-              >
-                Next
-              </button>
-            </li>
-          </ul>
-        </nav>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
 
         {/* Display filtered products */}
         <div className="row">
@@ -181,38 +155,11 @@ function Shop() {
           </div>
         </div>
 
-        <nav aria-label="Page navigation">
-          <ul className="pagination justify-content-center mt-2">
-            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-              <button
-                className="page-link btn btn-primary"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}  // ปิดการใช้งานปุ่มหากเป็นหน้าที่ 1
-              >
-                Previous
-              </button>
-            </li>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                <button
-                  className="page-link btn btn-outline-primary"
-                  onClick={() => handlePageChange(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              </li>
-            ))}
-            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-              <button
-                className="page-link btn btn-primary"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}  // ปิดการใช้งานปุ่มหากเป็นหน้าสุดท้าย
-              >
-                Next
-              </button>
-            </li>
-          </ul>
-        </nav>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
 
       </div>
     </>

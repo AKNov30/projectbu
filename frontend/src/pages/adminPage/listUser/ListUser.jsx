@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { editIcon, binIcon } from '../../../assets/';
 import { AlertDelete } from '../../../components/alert/Alert';
 import api, { apiUrl } from '../../../config/apiConfig';
+import Pagination from '../../../components/pagination/Pagination';
 
 function ListUser() {
     const [users, setUsers] = useState([]);
@@ -15,7 +16,7 @@ function ListUser() {
 
     const fetchUsers = (page) => {
         setLoading(true);
-        fetch(`${ apiUrl}/api/users?page=${page}&limit=14`)
+        fetch(`${apiUrl}/api/users?page=${page}&limit=14`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -34,7 +35,7 @@ function ListUser() {
     };
 
     const handleDelete = (user_id) => {
-        fetch(`${ apiUrl }/api/users/${user_id}`, {
+        fetch(`${apiUrl}/api/users/${user_id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
         })
@@ -111,21 +112,11 @@ function ListUser() {
                         </table>
 
                         {/* ปุ่ม Pagination */}
-                        <nav aria-label="Page navigation">
-                            <ul className="pagination justify-content-center">
-                                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                    <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>ก่อนหน้า</button>
-                                </li>
-                                {[...Array(totalPages).keys()].map(page => (
-                                    <li key={page + 1} className={`page-item ${currentPage === page + 1 ? 'active' : ''}`}>
-                                        <button className="page-link" onClick={() => handlePageChange(page + 1)}>{page + 1}</button>
-                                    </li>
-                                ))}
-                                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                    <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>ถัดไป</button>
-                                </li>
-                            </ul>
-                        </nav>
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
                     </div>
                 </div>
             </div>

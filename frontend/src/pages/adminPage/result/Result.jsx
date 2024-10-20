@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { print, search } from '../../../assets/';
-import axios from 'axios';
+import api from '../../../config/apiConfig';
 
 function Result() {
     const [reservations, setReservations] = useState([]); // state สำหรับเก็บข้อมูลการจอง
@@ -9,7 +9,7 @@ function Result() {
 
     // ดึงข้อมูลจาก API
     useEffect(() => {
-        axios.get('http://localhost:5000/api/result-admin')
+        api.get(`/api/result-admin`)
             .then(response => {
                 setReservations(response.data); // อัพเดทข้อมูลการจองจาก API
                 setLoading(false);
