@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { print, search } from '../../../assets/';
 import api from '../../../config/apiConfig';
 import { formatPrice } from '../../../utils/formatPrice';
-import Receipt from '../../../components/receipt/Receipt';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import Invoice from '../../../components/receipt/Receipt';
 
 function Result() {
     const [reservations, setReservations] = useState([]); // state สำหรับเก็บข้อมูลการจอง
@@ -82,10 +83,16 @@ function Result() {
                                             <td>{reservation.booking_id}</td>
                                             <td>{reservation.dogs_name}</td>
                                             <td>{formatPrice(reservation.price)}</td>
-                                            <td>0</td> 
+                                            <td>0</td>
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
                                             <td>
-                                                <Receipt reservation={reservation} />
+                                            <PDFDownloadLink 
+                                                document={<Invoice reservation={reservation} />}
+                                                fileName={`invoice-${reservation.booking_id}.pdf`}
+                                                style={{ textDecoration: 'none', color: 'blue' }} // Optional styling
+                                            >
+                                                {({ loading }) => (loading ? 'Loading...' : <img src={print} alt="Print" style={{ width: '25px' }} />)}
+                                            </PDFDownloadLink>
                                             </td>
                                         </tr>
                                     ))
