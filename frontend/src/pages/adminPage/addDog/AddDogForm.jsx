@@ -99,14 +99,16 @@ function AddDogForm() {
             <form>
               {/* Dog Name */}
               <div className="row mb-3">
-                <label className="form-label">ชื่อสุนัข</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={dogname}
-                  onChange={(e) => setDogName(e.target.value)}
-                  required
-                />
+                <div className="col-md-12">
+                    <label className="form-label">ชื่อสุนัข</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={dogname}
+                      onChange={(e) => setDogName(e.target.value)}
+                      required
+                    />
+                </div>
               </div>
 
               {/* Date of Birth and Price */}
