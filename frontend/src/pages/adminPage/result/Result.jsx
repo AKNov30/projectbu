@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { print, search } from '../../../assets/';
 import api from '../../../config/apiConfig';
+import { formatPrice } from '../../../utils/formatPrice';
+import Receipt from '../../../components/receipt/Receipt';
 
 function Result() {
     const [reservations, setReservations] = useState([]); // state สำหรับเก็บข้อมูลการจอง
@@ -83,9 +85,7 @@ function Result() {
                                             <td>0</td> {/* แก้ไขตามจริงถ้ามีส่วนลด */}
                                             <td>{reservation.price}</td> {/* แก้ไขตามการคำนวณรวม */}
                                             <td>
-                                                <div className="text-center" style={{ cursor: 'pointer' }}>
-                                                    <img src={print} style={{ width: '25px' }} alt="Print" />
-                                                </div>
+                                                <Receipt reservation={reservation} />
                                             </td>
                                         </tr>
                                     ))
