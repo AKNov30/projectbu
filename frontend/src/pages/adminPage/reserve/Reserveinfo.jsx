@@ -51,7 +51,7 @@ const Reserveinfo = () => {
                 }
             });
 
-            alert(response.data.message);
+            // alert(response.data.message);
             navigate('/admin/reserve-admin');
         } catch (err) {
             console.error("Error confirming receipt:", err);
@@ -175,7 +175,7 @@ const Reserveinfo = () => {
                                 setValidate("กรุณาอัปโหลดสลิป");
                                 return false
                             } else {
-                                handleConfirmReceive
+                                handleConfirmReceive();
                             }
                         }}
                         title={"ยืนยันการรับสุนัข?"}
