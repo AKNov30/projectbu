@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import api, { apiUrl } from '../../../config/apiConfig';
 import calculateAge from '../../../utils/calculateAge';
 import { dogBrown } from '../../../assets';
+import { formatPrice } from '../../../utils/formatPrice';
 
 function Reserve() {
     const { dog_id } = useParams(); 
@@ -79,7 +80,7 @@ function Reserve() {
                 </div>
                 <div className="col-xl-6 col-lg-5 col-md-6 bg-grey p-3">
                     <h2>{dog.dogs_name}</h2>
-                    <h3>฿ {dog.price} THB</h3>
+                    <h3>฿ {formatPrice(dog.price)} THB</h3>
                     <h4 className="px-4">รายละเอียด</h4>
                     <div className="dog-info-grid px-5">
                         <div>รหัส</div> <div>: {dog.dog_id}</div>

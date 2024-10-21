@@ -3,6 +3,7 @@ import { AlertDelete } from '../../../components/alert/Alert';
 import { binIcon, editIcon } from '../../../assets';
 import api from '../../../config/apiConfig';
 import Pagination from '../../../components/pagination/Pagination'
+import { formatPrice } from '../../../utils/formatPrice';
 
 function HomeAdmin() {
   const [dogs, setDogs] = useState([]);
@@ -79,7 +80,7 @@ function HomeAdmin() {
                   <td>{dog.dog_id}</td>
                   <td>{dog.dogs_name}</td>
                   <td>{formatDate(dog.birthday)}</td>
-                  <td>{dog.price} บาท</td> 
+                  <td>{formatPrice(dog.price)} บาท</td> 
                   <td>{dog.color}</td>
                   <td className="text-center">
                     <a className="hover-icon me-2" href={`editdog/${dog.dog_id}`} aria-label="Edit">

@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api, { apiUrl } from '../../../config/apiConfig';
 import calculateAge from '../../../utils/calculateAge';
-import DogCard from '../../../components/shopcomponent/DogCard'; // สร้างไฟล์ DogCard.jsx สำหรับการใช้งานซ้ำ
+import DogCard from '../../../components/shopcomponent/DogCard';
+import { formatPrice } from '../../../utils/formatPrice';
 
 function DetailDog() {
   const { dog_id } = useParams(); // ดึง dog_id จาก URL
@@ -104,7 +105,7 @@ function DetailDog() {
           </div>
           <div className="col-xl-7 col-lg-5 col-md-6 bg-grey p-3">
             <h2>{dog.dogs_name}</h2>
-            <h3>ราคา : {dog.price} THB</h3>
+            <h3>ราคา : {formatPrice(dog.price)} THB</h3>
             <h4 className="px-3">รายละเอียด</h4>
             <div className="dog-info-grid px-5">
               <div>รหัส</div> <div>: {dog.dog_id}</div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { search } from '../../assets/';
 import api from '../../config/apiConfig';
+import { formatPrice } from '../../utils/formatPrice';
 
 function History() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -105,7 +106,7 @@ function History() {
                                         <td>{formatDate(booking.created_at)}</td>
                                         <td>{booking.dog_id}</td>
                                         <td>{booking.dogs_name}</td>
-                                        <td>{booking.price}</td>
+                                        <td>{formatPrice(booking.price)}</td>
                                         <td>{formatDate(booking.booking_date)}</td>
                                         <td>{booking.status === 'successful' ? 'สำเร็จ' : 'ยกเลิกการจอง'}</td>
                                     </tr>

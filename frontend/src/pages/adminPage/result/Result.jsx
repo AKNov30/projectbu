@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { print, search } from '../../../assets/';
 import api from '../../../config/apiConfig';
+import { formatPrice } from '../../../utils/formatPrice';
 
 function Result() {
     const [reservations, setReservations] = useState([]); // state สำหรับเก็บข้อมูลการจอง
@@ -79,9 +80,9 @@ function Result() {
                                             <td>{new Date(reservation.booking_date).toLocaleDateString()}</td>
                                             <td>{reservation.booking_id}</td>
                                             <td>{reservation.dogs_name}</td>
-                                            <td>{reservation.price}</td>
-                                            <td>0</td> {/* แก้ไขตามจริงถ้ามีส่วนลด */}
-                                            <td>{reservation.price}</td> {/* แก้ไขตามการคำนวณรวม */}
+                                            <td>{formatPrice(reservation.price)}</td>
+                                            <td>0</td> 
+                                            <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
                                             <td>
                                                 <div className="text-center" style={{ cursor: 'pointer' }}>
                                                     <img src={print} style={{ width: '25px' }} alt="Print" />

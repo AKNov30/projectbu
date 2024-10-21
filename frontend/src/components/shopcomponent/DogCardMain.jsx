@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { logo } from '../../assets'; // Default logo image
 import { apiUrl } from '../../config/apiConfig';
+import { formatPrice } from '../../utils/formatPrice';
 
 function DogCardMain({ product, imageUrls }) {
   return (
@@ -29,7 +30,7 @@ function DogCardMain({ product, imageUrls }) {
           <p>รหัส : {product.dog_id}</p>
           <p>สี : {product.color}</p>
           <p>อายุ : {product.age}</p> {/* Use age property passed */}
-          <p>ราคา : {product.price} THB</p>
+          <p>ราคา : {formatPrice(product.price)} THB</p>
         </div>
         <div className="d-flex justify-content-center pt-3">
           <button type="button" className="btn btn-outline-warning setting-btn-reserve">

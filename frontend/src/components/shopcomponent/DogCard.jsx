@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { logo } from '../../assets';
 import { apiUrl } from '../../config/apiConfig';
+import { formatPrice } from '../../utils/formatPrice';
 
 function DogCard({ dog }) {
   let imageUrls = [];
@@ -31,7 +32,7 @@ function DogCard({ dog }) {
         <div className="card-body flex-grow-1">
           <h5 className="card-title">{dog.dogs_name}</h5>
           <p className="card-text">สี : {dog.color}</p>
-          <p className="card-text">ราคา : {dog.price} THB</p>
+          <p className="card-text">ราคา : {formatPrice(dog.price)} THB</p>
         </div>
 
         <div className="card-footer text-center">

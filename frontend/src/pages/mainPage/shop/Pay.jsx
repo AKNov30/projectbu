@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AlertSave } from '../../../components/alert/Alert';
 import api from '../../../config/apiConfig';
+import { formatPrice } from '../../../utils/formatPrice';
 
 function Pay() {
     const location = useLocation();
@@ -97,7 +98,7 @@ function Pay() {
                 </div>
 
                 <div className="col-12 d-flex justify-content-center pt-3">
-                    <h4>ราคาทั้งหมด {price} THB</h4>
+                    <h4>ราคาทั้งหมด {formatPrice(price)} THB</h4>
                 </div>
                 <div className="col-12 d-flex justify-content-center pt-3">
                     <p>(ชำระเงิน ชำระอีก 50% ในวันที่เดินทางมารับสุนัข)</p>

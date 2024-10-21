@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import api, { apiUrl } from '../../../config/apiConfig';
 import ImageModal from '../../../components/ImageModal/ImageModal';
 import { AlertSave, AlertDelete } from '../../../components/alert/Alert';
+import { formatPrice } from '../../../utils/formatPrice';
 
 const Reserveinfo = () => {
     const { id } = useParams();
@@ -118,7 +119,7 @@ const Reserveinfo = () => {
                     <h3 className="font-weight-bold">รายละเอียดสุนัข</h3>
                     <p className="font-weight-normal">
                         ชื่อ: {reservationDetails.dogs_name}<br />
-                        ราคา: ฿ {reservationDetails.price} THB<br />
+                        ราคา: ฿ {formatPrice(reservationDetails.price)} THB<br />
                         รหัส: {reservationDetails.dog_id}
                     </p>
                 </div>
@@ -149,8 +150,8 @@ const Reserveinfo = () => {
                 <div className="col-xl-2 col-lg-2 col-md-3 pt-4">
                     <h3 className="font-weight-bold">ราคา</h3>
                     <p className="font-weight-normal">
-                        ราคา: {reservationDetails.price} THB<br />
-                        รวมเป็น: {reservationDetails.price} THB<br />
+                        ราคา: {formatPrice(reservationDetails.price)} THB<br />
+                        รวมเป็น: {formatPrice(reservationDetails.price)} THB<br />
                     </p>
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-end align-items-center">
