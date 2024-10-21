@@ -40,7 +40,11 @@ function LoginForm() {
       setAlert({ message: response.data, type: 'success' }); // แสดงข้อความสำเร็จ
        // จัดการสถานะการเข้าสู่ระบบ
       localStorage.setItem('token', response.data.token); // เก็บ token ใน localStorage
-      window.location.href = '/shop'; // เปลี่ยนเส้นทางไปยังหน้าโฮม
+      if (user_role == 'admin') {
+        window.location.href = '/admin/home-admin'; // เปลี่ยนเส้นทางไปยังหน้าโฮม
+      }else{
+        window.location.href = '/shop'; // เปลี่ยนเส้นทางไปยังหน้าโฮม
+      }
     } catch (error) {
       console.error('Error logging in:', error);
       const errorMessage = error.response?.data || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ';
