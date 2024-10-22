@@ -85,13 +85,6 @@ function AddDogForm() {
     fileInputRef.current.click(); // Open file input on click of the "+" button
   };
 
-  const handleDateChange = (e) => {
-    const date = e.target.value; // รูปแบบ yyyy-mm-dd
-    const [year, month, day] = date.split('-'); // แยกค่าปี, เดือน, วันออกจากกัน
-    const formattedDate = `${day}${month}${year}`; // เปลี่ยนเป็น ddmmyyyy
-    setBirthDay(formattedDate); // เซ็ตค่าใหม่ในรูปแบบ ddmmyyyy
-  };
-
   return (
     <>
       <div className="container">
@@ -126,7 +119,7 @@ function AddDogForm() {
                     type="date"
                     className="form-control"
                     value={birthDay}
-                    onChange={handleDateChange}
+                    onChange={(e) => setBirthDay(e.target.value)}
                     required
                   />
                 </div>
