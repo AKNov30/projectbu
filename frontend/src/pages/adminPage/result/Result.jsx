@@ -44,11 +44,12 @@ function Result() {
                 <div className="row">
                     <div className="col-xl-2 col-lg-2 col-md-2 col-2">
                         <label className="form-label">ตั้งแต่วันที่</label>
-                        <input className="form-control" type="text" id="datepicker" />
+                        <input className="form-control" type="date" placeholder="วันที่เริ่มต้น"/>
+
                     </div>
                     <div className="col-xl-2 col-lg-2 col-md-2 col-2">
                         <label className="form-label">ถึง</label>
-                        <input className="form-control" type="text" id="datepicker2" />
+                        <input className="form-control" type="date" placeholder="วันที่สิ้นสุด"/>
                     </div>
                     <div className="col-xl-1 col-lg-1 col-md-1 col-1 mt-2" style={{ cursor: 'pointer' }}>
                         <img src={search} alt="Search" height="25" className="btn-search" />
