@@ -89,7 +89,7 @@ function AppbarMain() {
         </div>
 
         <div className="collapse navbar-collapse just-flex-end" id="navbarNav">
-          <ul className="navbar-nav">
+          <ul className="navbar-nav px-2">
             {isLoggedIn ? (
               <li className="nav-item dropstart">
                 <a
@@ -103,6 +103,7 @@ function AppbarMain() {
                 </a>
                 <ul className="dropdown-menu">
                   {userRole === 'admin' && (
+                    
                     <li>
                       <a href='/admin/home-admin' className="nav-link" style={{ cursor: 'pointer' }} >
                         Admin Dashboard
