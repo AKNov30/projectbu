@@ -84,11 +84,7 @@ function AppbarMain() {
 
               </>
             )}
-            <li className="nav-item">
-              <Link to="/contact" className="nav-link">ติดต่อฉัน
-                <img src={paws} alt="Logo" height="18" className="pb-1" />
-              </Link>
-            </li>
+            
           </ul>
         </div>
 
