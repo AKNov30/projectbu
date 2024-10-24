@@ -331,7 +331,7 @@ app.post("/api/adddog", upload.array("files", 4), (req, res) => {
 
   // เก็บ URLs ของรูปภาพจาก Cloudinary
   const fileUrls = req.files.map((file) => file.path);
-
+  console.log(fileUrls);
   const sql =
     "INSERT INTO dogs (`dogs_name`, `birthday`, `price`, `color`, `description`, `personality`, `image_url`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
