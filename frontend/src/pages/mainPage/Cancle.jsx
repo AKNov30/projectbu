@@ -19,7 +19,7 @@ function Cancle() {
         const user_id = localStorage.getItem('user_id'); // ดึง user_id จาก localStorage
 
         try {
-            const response = await api.get(`/api/user-reserve`, {
+            const response = await api.get(`/api/user-dogs`, {
                 params: { user_id, page, limit: 4 }
             });
             setBookingData(response.data.data);

@@ -1047,8 +1047,8 @@ app.post("/api/book", upload.single("slip"), async (req, res) => {
   }
 });
 
-//การจอง cancel page
-app.get("/api/user-reserve", (req, res) => {
+// แสดงรายการการจองของ user
+app.get("/api/user-dogs", (req, res) => {
   const user_id = req.query.user_id; // รับ user_id จาก query string
   const page = parseInt(req.query.page) || 1; // กำหนดหน้าปัจจุบัน ถ้าไม่ได้ระบุใช้หน้าแรก
   const limit = parseInt(req.query.limit) || 10; // กำหนดจำนวนรายการต่อหน้า (ค่าเริ่มต้นคือ 10)
@@ -1081,66 +1081,6 @@ app.get("/api/user-reserve", (req, res) => {
   `;
 
   const params = [user_id, limit, offset];
-
-  pool.query(sql, params, (err, results) => {
-    if (err) {
-      console.error("Error fetching user bookings:", err);
-      return res.status(500).json({ message: "Error fetching user bookings" });
-    }
-
-    // นับจำนวนทั้งหมดของรายการเพื่อคำนวณจำนวนหน้า
-    const countSql = `
-      SELECT COUNT(*) as count
-      FROM bookings
-      WHERE user_id = ?
-      AND status NOT IN ('canceled', 'successful');
-    `;
-
-    pool.query(countSql, [user_id], (countErr, countResult) => {
-      if (countErr) {
-        return res.status(500).json({ message: "Error counting bookings" });
-      }
-
-      const totalCount = countResult[0].count;
-      const totalPages = Math.ceil(totalCount / limit);
-
-      res.json({
-        data: results,
-        currentPage: page,
-        totalPages: totalPages,
-      });
-    });
-  });
-});
-
-// แสดงรายการการจองของ user
-app.get("/api/user-dogs", (req, res) => {
-  const user_id = req.query.user_id; // รับ user_id จาก query string
-
-  const sql = `
-      SELECT 
-          bookings.booking_id, 
-          bookings.user_id, 
-          bookings.dog_id,
-          bookings.phone, 
-          bookings.created_at,
-          bookings.booking_date, 
-          bookings.pickup_date, 
-          bookings.status,
-          bookings.slip_url,
-          dogs.dogs_name, 
-          dogs.price, 
-          dogs.color, 
-          dogs.image_url, 
-          users.firstname, 
-          users.lastname,
-          users.user_email
-      FROM bookings
-      JOIN dogs ON bookings.dog_id = dogs.dog_id
-      JOIN users ON bookings.user_id = users.user_id
-      WHERE bookings.user_id = ? 
-      AND bookings.status NOT IN ('canceled', 'successful');
-  `;
 
   //แสดงประวัติการจอง
   app.get("/api/history", (req, res) => {
@@ -1204,13 +1144,34 @@ app.get("/api/user-dogs", (req, res) => {
     }
   );
 
-  pool.query(sql, [user_id], (err, results) => {
+  pool.query(sql, params, (err, results) => {
     if (err) {
-      console.error("Error fetching data:", err);
-      return res.status(500).json({ error: "Error fetching data" });
+      console.error("Error fetching user bookings:", err);
+      return res.status(500).json({ message: "Error fetching user bookings" });
     }
 
-    res.status(200).json(results);
+    // นับจำนวนทั้งหมดของรายการเพื่อคำนวณจำนวนหน้า
+    const countSql = `
+      SELECT COUNT(*) as count
+      FROM bookings
+      WHERE user_id = ?
+      AND status NOT IN ('canceled', 'successful');
+    `;
+
+    pool.query(countSql, [user_id], (countErr, countResult) => {
+      if (countErr) {
+        return res.status(500).json({ message: "Error counting bookings" });
+      }
+
+      const totalCount = countResult[0].count;
+      const totalPages = Math.ceil(totalCount / limit);
+
+      res.json({
+        data: results,
+        currentPage: page,
+        totalPages: totalPages,
+      });
+    });
   });
 });
 
