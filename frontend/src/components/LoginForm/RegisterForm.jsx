@@ -69,7 +69,7 @@ const RegisterForm = () => {
         <div className="row fix-row">
           <div className="col-12 pt-1">
             <a
-              className="px-2 d-flex"
+              className="px-2 pt-2 d-flex"
               href="shop"
               style={{ color: 'black', cursor: 'pointer' }}
             >
@@ -125,7 +125,7 @@ const RegisterForm = () => {
           <div className="row">
             <div className="col-xl-4 pt-3"></div>
             <div className="col-xl-4 pt-3">
-              <label className="form-label">อีเมล์(ใช้เป็น Username)</label>
+              <label className="form-label">อีเมล (ใช้เป็น Username)</label>
               <input
                 type="email"
                 name="user_email"

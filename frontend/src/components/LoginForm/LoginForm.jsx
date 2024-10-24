@@ -102,7 +102,7 @@ function LoginForm() {
                 <div className="row">
                   <div className="col-12 pt-3 px-5">
                     <label htmlFor="email" className="form-label">
-                      อีเมล์(ใช้เป็น Username)
+                      อีเมล (กรอก Username)
                     </label>
                     <input
                       name="user_email"

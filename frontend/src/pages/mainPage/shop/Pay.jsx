@@ -101,7 +101,7 @@ function Pay() {
                     <h4>ราคาทั้งหมด {formatPrice(price)} THB</h4>
                 </div>
                 <div className="col-12 d-flex justify-content-center pt-3">
-                    <p>(ชำระเงิน ชำระอีก 50% ในวันที่เดินทางมารับสุนัข)</p>
+                    <p>(ผู้จองต้องชำระเงินเพิ่มอีก 50% ในวันที่มารับสุนัข)</p>
                 </div>
 
                 {/* Input สำหรับการอัปโหลดรูปสลิป */}
