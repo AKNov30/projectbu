@@ -69,6 +69,7 @@ function ChangeDate() {
                 if (data.error) {
                     console.log('เกิดข้อผิดพลาด: ' + data.error);
                 } else {
+                    fetchReservations(currentPage)
                     console.log('อัปเดตข้อมูลสำเร็จ');
                     // คุณอาจต้องการรีเฟรชข้อมูลหรือทำการอัปเดตใน UI
                 }

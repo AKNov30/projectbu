@@ -21,7 +21,7 @@ function Result() {
     }, [currentPage, startDate, endDate]);
 
     const fetchReservations = (page, startDate, endDate) => {
-        let url = `/api/result-admin?page=${page}&limit=2`;
+        let url = `/api/result-admin?page=${page}&limit=10`;
         if (startDate && endDate) {
             url += `&startDate=${startDate}&endDate=${endDate}`;
         }
