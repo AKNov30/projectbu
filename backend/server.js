@@ -678,8 +678,8 @@ app.get("/api/all-dogs", (req, res) => {
 
 // reserve-admin
 app.get("/api/reserve-admin", (req, res) => {
-  const page = parseInt(req.query.page) || 1; // กำหนดหน้าปัจจุบัน ถ้าไม่ได้ระบุใช้หน้าแรก
-  const limit = parseInt(req.query.limit) || 10; // กำหนดจำนวนรายการต่อหน้า (ค่าเริ่มต้นคือ 10)
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 7; // กำหนดจำนวนรายการต่อหน้า
   const offset = (page - 1) * limit;
 
   const sql = `
