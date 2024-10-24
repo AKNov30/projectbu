@@ -43,7 +43,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 // Serve static files from 'public/images' directory
-app.use("/images", express.static(path.join(__dirname, "public/images")));
+// app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 app.use(express.json());
 
