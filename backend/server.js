@@ -330,8 +330,10 @@ app.post("/api/adddog", upload.array("files", 4), (req, res) => {
     req.body;
 
   // เก็บ URLs ของรูปภาพจาก Cloudinary
-  const fileUrls = req.files.map((file) => file.path);
-  console.log(fileUrls);
+  const fileUrls = req.files.map((file) => {
+    console.log("File path:", file.path); // ตรวจสอบข้อมูลใน file.path ว่าเป็น URL ของ Cloudinary ที่สมบูรณ์หรือไม่
+    return file.path;
+  });
   const sql =
     "INSERT INTO dogs (`dogs_name`, `birthday`, `price`, `color`, `description`, `personality`, `image_url`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
