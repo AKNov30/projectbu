@@ -736,7 +736,6 @@ app.get("/api/reserve-admin", (req, res) => {
   });
 });
 
-
 // reserve-admin-info
 app.get("/api/reserve-admin/:id", (req, res) => {
   const reservationId = req.params.id;
@@ -820,7 +819,14 @@ app.post("/api/confirm-receive/:bookingId", upload.single('slip'), (req, res) =>
 
 //result สรุปยอด
 app.get("/api/result-admin", (req, res) => {
-  const sql = `
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const offset = (page - 1) * limit;
+
+  const startDate = req.query.startDate;
+  const endDate = req.query.endDate;
+
+  let sql = `
     SELECT 
         bookings.booking_id,
         bookings.user_id,
@@ -839,15 +845,45 @@ app.get("/api/result-admin", (req, res) => {
     INNER JOIN 
         dogs ON bookings.dog_id = dogs.dog_id
     WHERE 
-        bookings.status = 'successful';
-    `;
+        bookings.status = 'successful'
+  `;
 
-  pool.query(sql, (err, results) => {
+  // ถ้ามีการส่ง startDate และ endDate มาใน request
+  if (startDate && endDate) {
+    sql += ` AND bookings.booking_date BETWEEN ? AND ?`;
+  }
+
+  sql += ` LIMIT ? OFFSET ?;`;
+
+  const params = startDate && endDate ? [startDate, endDate, limit, offset] : [limit, offset];
+
+  pool.query(sql, params, (err, results) => {
     if (err) {
       console.error("Error fetching result:", err);
       return res.status(500).json({ message: "Error fetching result" });
     }
-    res.json(results); 
+
+    const countSql = `
+      SELECT COUNT(*) as count
+      FROM bookings
+      WHERE status = 'successful'
+      ${startDate && endDate ? `AND booking_date BETWEEN '${startDate}' AND '${endDate}'` : ''}
+    `;
+
+    pool.query(countSql, (countErr, countResult) => {
+      if (countErr) {
+        return res.status(500).json({ message: "Error counting reservations" });
+      }
+
+      const totalCount = countResult[0].count;
+      const totalPages = Math.ceil(totalCount / limit);
+
+      res.json({
+        data: results,
+        currentPage: page,
+        totalPages: totalPages,
+      });
+    });
   });
 });
 
