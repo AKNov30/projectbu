@@ -154,7 +154,7 @@ const Reserveinfo = () => {
                         รวมเป็น: {formatPrice(reservationDetails.price)} THB<br />
                     </p>
                 </div>
-                <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-end align-items-center">
+                <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-center align-items-center">
                     <AlertDelete
                         onDelete={() => cancelBooking(reservationDetails.booking_id, reservationDetails.dog_id)}
                         title="คุณแน่ใจที่จะยกเลิกการจอง?"
@@ -189,7 +189,7 @@ const Reserveinfo = () => {
                     </AlertSave>
                 </div>
                 <div className="col-xl-3 col-lg-4 col-md-3">
-                    <div className="pt-2">
+                    <div className="py-2">
                         {reservationDetails.slip_url ? (
                             <>
                                 <a
