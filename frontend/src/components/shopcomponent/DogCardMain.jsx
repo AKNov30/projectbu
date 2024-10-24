@@ -13,7 +13,7 @@ function DogCardMain({ product, imageUrls }) {
           {imageUrls.length > 0 ? (
             <img
               className="setting-pic justify-content-center img-fluid"
-              src={`${ apiUrl }${imageUrls[0]}`} // Show the first image from the array
+              src={imageUrls[0].startsWith('http') ? imageUrls[0] : `${apiUrl}${imageUrls[0]}`}
               alt={product.dogs_name}
             />
           ) : (
