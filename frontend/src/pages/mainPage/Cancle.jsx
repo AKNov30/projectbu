@@ -142,7 +142,7 @@ function Cancle() {
                                     <div className="pt-2" style={{ fontSize: '16px' }}>
                                         รหัส : {booking.dog_id}<br />
                                         ชื่อสุนัข : {booking.dogs_name}<br />
-                                        ราคาสุนัข : {formatPrice(booking.price)} THB
+                                        ราคาสุนัข : {formatPrice(booking.price)} บาท
                                     </div>
                                 </div>
 
@@ -177,13 +177,13 @@ function Cancle() {
                                     <div className="underline-pink d-flex justify-content-center"></div>
 
                                     <div className="pt-2" style={{ fontSize: '16px' }}>
-                                        ค่าจอง : {formatPrice(booking.price / 2)}<br />
+                                        ค่าจอง : {formatPrice(booking.price / 2)} บาท<br/> 
                                     </div>
                                     <div style={{ fontSize: '16px' }}>
-                                        ส่วนลด : 0<br />
+                                        ส่วนลด : 0 บาท<br/>
                                     </div>
                                     <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'red' }}>
-                                        รวมเป็น : {formatPrice(booking.price / 2)}
+                                        รวมเป็น : {formatPrice(booking.price / 2)} บาท
                                     </div>
                                 </div>
                             </div>

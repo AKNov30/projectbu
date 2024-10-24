@@ -115,46 +115,78 @@ const Reserveinfo = () => {
                         alt="Dog"
                     />
                 </div>
-                <div className="col-xl-2 col-lg-3 col-md-3 pt-4">
-                    <h3 className="font-weight-bold">รายละเอียดสุนัข</h3>
-                    <p className="font-weight-normal">
-                        ชื่อ: {reservationDetails.dogs_name}<br />
-                        ราคา: ฿ {formatPrice(reservationDetails.price)} บาท<br />
-                        รหัส: {reservationDetails.dog_id}
-                    </p>
-                </div>
-                <div className="col-xl-2 col-lg-3 col-md-3 pt-4">
-                    <h3 className="font-weight-bold">ข้อมูลผู้จอง</h3>
-                    <p className="font-weight-normal">
-                        {reservationDetails.firstname} {reservationDetails.lastname}<br />
-                        {reservationDetails.user_email}<br />
-                        {reservationDetails.phone}
-                    </p>
-                </div>
-                <div className="col-xl-2 col-lg-2 col-md-3 pt-4">
-                    <h3 className="font-weight-bold">ข้อมูลการจอง</h3>
-                    <p className="font-weight-normal">
-                        วันที่จอง: {new Date(reservationDetails.created_at).toLocaleDateString('en-GB', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric'
-                        })}<br />
-                        วันที่รับ: {new Date(reservationDetails.booking_date).toLocaleDateString('en-GB', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric'
-                        })}<br />
-                        เวลาที่รับ: {reservationDetails.pickup_date.slice(0, 5)}<br />
-                    </p>
-                </div>
-                <div className="col-xl-2 col-lg-2 col-md-3 pt-4">
-                    <h3 className="font-weight-bold">ราคา</h3>
-                    <p className="font-weight-normal">
-                        ราคา: {formatPrice(reservationDetails.price)} บาท<br />
-                        รวมเป็น: {formatPrice(reservationDetails.price)} บาท<br />
-                    </p>
-                </div>
-                <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-center align-items-center">
+
+                <div className="col-xl-9 col-lg-12 col-md-12 d-flex align-items-center justify-content-between">
+                    <div>
+                        <div className="d-flex justify-content-center py-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                            ข้อมูลสุนัข
+                        </div>
+                        <div className="underline-pink d-flex justify-content-center"></div>
+                        <div className="pt-2" style={{ fontSize: '16px' }}>
+                            ชื่อ: {reservationDetails.dogs_name}<br />
+                            ราคา: ฿ {formatPrice(reservationDetails.price)} บาท<br />
+                            รหัส: {reservationDetails.dog_id}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="d-flex justify-content-center py-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                        ข้อมูลผู้จอง
+                        </div>
+                        <div className="underline-pink d-flex justify-content-center"></div>
+                        <div className="pt-2" style={{ fontSize: '16px' }}>
+                            {reservationDetails.firstname} {reservationDetails.lastname}<br />
+                            {reservationDetails.user_email}<br />
+                            {reservationDetails.phone}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="d-flex justify-content-center py-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                        รายละเอียดการจอง
+                        </div>
+                        <div className="underline-pink d-flex justify-content-center"></div>
+                        <div className="pt-2" style={{ fontSize: '16px' }}>
+                            วันที่จอง: {new Date(reservationDetails.created_at).toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric'
+                            })}<br />
+                            วันที่รับ: {new Date(reservationDetails.booking_date).toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric'
+                            })}<br />
+                            เวลาที่รับ: {reservationDetails.pickup_date.slice(0, 5)} น.<br />
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="d-flex justify-content-center py-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                        ราคา
+                        </div>
+                        <div className="underline-pink d-flex justify-content-center"></div>
+                        <div className="pt-2" style={{ fontSize: '16px' }}>
+                            ราคา: {formatPrice(reservationDetails.price)} บาท<br />
+                            รวมเป็น: {formatPrice(reservationDetails.price)} บาท<br />
+                            {reservationDetails.slip_url ? (
+                            <>
+                                <a
+                                    className="text-primary"
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => openModal(reservationDetails.slip_url)}
+                                >
+                                    หลักฐานการจอง
+                                </a>
+                            </>
+                        ) : (
+                            <a className="text-danger" style={{ cursor: 'no-drop' }}>ยังไม่ได้ชำระการจอง</a>
+                        )}
+                        </div>
+                    </div>
+
+                    <div>
+                    
                     <AlertDelete
                         onDelete={() => cancelBooking(reservationDetails.booking_id, reservationDetails.dog_id)}
                         title="คุณแน่ใจที่จะยกเลิกการจอง?"
@@ -163,12 +195,23 @@ const Reserveinfo = () => {
                         successTitle="ยกเลิกการจองเสร็จสิ้น"
                         successText=" "
                     >
-                        <button type="button" className="btn btn-danger setting-btn-reserve" id="cancelreserve">
-                            ยกเลิกจอง
-                        </button>
+                        <div class="px-2">
+                            <button type="button" className="btn btn-danger setting-btn-reserve" id="cancelreserve">
+                                ยกเลิกจอง
+                            </button>
+                        </div>
+                        
                     </AlertDelete>
+                    </div>
+
                 </div>
-                <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-center align-items-center">
+                <div className="col-xl-3 col-lg-5 col-md-5 d-flex justify-content-center align-items-center">
+                    <div className="py-2">
+                        <label htmlFor="formFile" className="form-label">แนบหลักฐานการโอน</label>
+                        <input className="form-control" type="file" id="formFile" onChange={handleFileChange} />
+                    </div>
+                </div>
+                <div className="col-xl-5 col-lg-5 col-md-5 d-flex justify-content-start align-items-end py-2">
                     <AlertSave
                         onConfirm={() => {
                             if (!selectedFile) {
@@ -187,27 +230,6 @@ const Reserveinfo = () => {
                             ยืนยันการรับ
                         </button>
                     </AlertSave>
-                </div>
-                <div className="col-xl-3 col-lg-4 col-md-3">
-                    <div className="py-2">
-                        {reservationDetails.slip_url ? (
-                            <>
-                                <a
-                                    className="text-primary"
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => openModal(reservationDetails.slip_url)}
-                                >
-                                    สลิปการจอง
-                                </a>
-                            </>
-                        ) : (
-                            <a className="text-danger" style={{ cursor: 'no-drop' }}>ยังไม่ได้ชำระการจอง</a>
-                        )}
-                        <br />
-                        <label htmlFor="formFile" className="form-label">แนบหลักฐานการโอน</label>
-                        <input className="form-control" type="file" id="formFile" onChange={handleFileChange} />
-                    </div>
-
                 </div>
             </div>
             {validate && (

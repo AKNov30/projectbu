@@ -48,8 +48,8 @@ function Reserveadmin() {
                                     <th style={{ width: "3%" }}>&nbsp;</th>
                                     <th style={{ width: "15%" }}>ผู้จอง</th>
                                     <th style={{ width: "3%" }}>รหัส</th>
-                                    <th style={{ width: "3%" }}>วันจอง</th>
-                                    <th style={{ width: "3%" }}>วันที่รับ</th>
+                                    <th style={{ width: "3%" }}>วันที่จอง</th>
+                                    <th style={{ width: "3%" }}>วันที่รับสุนัข</th>
                                     <th style={{ width: "3%" }}>เวลา</th>
                                     <th style={{ width: "3%" }}>&nbsp;</th>
                                 </tr>
@@ -73,17 +73,17 @@ function Reserveadmin() {
                                                     {reservation.phone}
                                                 </td>
                                                 <td>{reservation.booking_id}</td>
-                                                <td>{new Date(reservation.created_at).toLocaleDateString('th-TH', {
+                                                <td>{new Date(reservation.created_at).toLocaleDateString('en-GB', {
                                                     day: '2-digit',
                                                     month: '2-digit',
                                                     year: 'numeric'
                                                 })}</td>
-                                                <td>{new Date(reservation.booking_date).toLocaleDateString('th-TH', {
+                                                <td>{new Date(reservation.booking_date).toLocaleDateString('en-GB', {
                                                     day: '2-digit',
                                                     month: '2-digit',
                                                     year: 'numeric'
                                                 })}</td>
-                                                <td>{reservation.pickup_date ? reservation.pickup_date.slice(0, 5) : 'N/A'}</td>
+                                                <td>{reservation.pickup_date ? reservation.pickup_date.slice(0, 5) : 'N/A'} น.</td>
                                                 <td>
                                                     <div>
                                                         <Link to={`/admin/reserve/${reservation.booking_id}`} className="btn btn-warning" style={{ width: "100%" }}>

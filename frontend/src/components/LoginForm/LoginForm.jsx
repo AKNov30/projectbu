@@ -124,7 +124,7 @@ function LoginForm() {
                       onChange={handleChange}
                       required
                     />
-                    <a className="d-flex justify-content-end py-1" href="register">สมัครสมาชิก</a>
+                    <a className="d-flex justify-content-end py-2" href="register">สมัครสมาชิก</a>
                   </div>
                 </div>
 

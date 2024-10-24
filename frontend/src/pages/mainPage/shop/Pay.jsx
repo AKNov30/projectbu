@@ -98,7 +98,7 @@ function Pay() {
                 </div>
 
                 <div className="col-12 d-flex justify-content-center pt-3">
-                    <h4>ราคาทั้งหมด {formatPrice(price)} THB</h4>
+                    <h4>ราคาทั้งหมด {formatPrice(price)} บาท</h4>
                 </div>
                 <div className="col-12 d-flex justify-content-center pt-3">
                     <p>(ผู้จองต้องชำระเงินเพิ่มอีก 50% ในวันที่มารับสุนัข)</p>

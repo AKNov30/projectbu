@@ -70,7 +70,7 @@ function History() {
                     <input
                         type="search"
                         className="form-control rounded"
-                        placeholder="ค้นหา"
+                        placeholder="รหัสสุนัข,ชื่อสุนัข"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -99,9 +99,9 @@ function History() {
                             <tr>
                                 <th scope="col">วันที่จอง</th>
                                 <th scope="col">รหัส</th>
-                                <th scope="col">ชื่อรายการ</th>
+                                <th scope="col">ชื่อสุนัข</th>
                                 <th scope="col">ราคา</th>
-                                <th scope="col">วันที่รับ</th>
+                                <th scope="col">วันที่รับสุนัข</th>
                                 <th scope="col">สถานะการจอง</th>
                             </tr>
                         </thead>
