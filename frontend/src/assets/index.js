@@ -1,6 +1,6 @@
 // src/assets/index.js
 import back from './back.png';
-import banner from './banner.jpg';
+import banner from './banner.png';
 import binIcon from './bin-icon.png';
 import cart from './cart.png';
 import doc2Admin from './doc2admin.png';

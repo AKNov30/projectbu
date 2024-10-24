@@ -33,7 +33,7 @@ function DogCardMain({ product, imageUrls }) {
           <p>ราคา : {formatPrice(product.price)} THB</p>
         </div>
         <div className="d-flex justify-content-center pt-3">
-          <button type="button" className="btn btn-outline-warning setting-btn-reserve">
+          <button type="button" className="btn btn-outline-primary setting-btn-reserve">
             รายละเอียด
           </button>
         </div>

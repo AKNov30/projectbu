@@ -132,12 +132,6 @@ function Shop() {
           <div className="underline"></div>
         </div>
 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-
         {/* Display filtered products */}
         <div className="row">
           <div className="col-lg-10 m-auto">

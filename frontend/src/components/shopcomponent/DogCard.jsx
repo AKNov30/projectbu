@@ -36,7 +36,7 @@ function DogCard({ dog }) {
         </div>
 
         <div className="card-footer text-center">
-          <button type="button" className="btn btn-outline-warning btn-sm">
+          <button type="button" className="btn btn-outline-primary btn-sm">
             รายละเอียด
           </button>
         </div>
