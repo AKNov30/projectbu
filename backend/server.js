@@ -334,6 +334,7 @@ app.post("/api/adddog", upload.array("files", 4), (req, res) => {
     console.log("File path:", file.path); // ตรวจสอบข้อมูลใน file.path ว่าเป็น URL ของ Cloudinary ที่สมบูรณ์หรือไม่
     return file.path;
   });
+  console.log("All file URLs:", fileUrls);
   const sql =
     "INSERT INTO dogs (`dogs_name`, `birthday`, `price`, `color`, `description`, `personality`, `image_url`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
