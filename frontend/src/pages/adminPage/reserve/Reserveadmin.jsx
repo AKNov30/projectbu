@@ -2,20 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api, { apiUrl } from '../../../config/apiConfig';
 import { logo } from '../../../assets';
+import Pagination from '../../../components/pagination/Pagination';
 
 function Reserveadmin() {
-    const [reservations, setReservations] = useState([]); // state สำหรับเก็บข้อมูลการจอง
+    const [reservations, setReservations] = useState([]); 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     // ดึงข้อมูลจาก API 
     useEffect(() => {
-        api.get('/api/reserve-admin')
+        fetchReservations(currentPage);
+    }, [currentPage]);
+
+    const fetchReservations = (page) => {
+        api.get(`/api/reserve-admin?page=${page}&limit=7`)
             .then(response => {
-                setReservations(response.data); // อัพเดทข้อมูลการจองจาก API
+                setReservations(response.data.data); // อัพเดทข้อมูลการจองจาก API
+                setCurrentPage(response.data.currentPage); // หน้าปัจจุบัน
+                setTotalPages(response.data.totalPages); // จำนวนหน้าทั้งหมด
             })
             .catch(error => {
                 console.error("Error fetching reservation data:", error);
             });
-    }, []);
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
 
     return (
         <>
@@ -90,6 +103,11 @@ function Reserveadmin() {
                         </table>
                     </div>
                 </div>
+                <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                />
             </div>
         </>
     );

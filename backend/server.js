@@ -678,6 +678,10 @@ app.get("/api/all-dogs", (req, res) => {
 
 // reserve-admin
 app.get("/api/reserve-admin", (req, res) => {
+  const page = parseInt(req.query.page) || 1; // กำหนดหน้าปัจจุบัน ถ้าไม่ได้ระบุใช้หน้าแรก
+  const limit = parseInt(req.query.limit) || 10; // กำหนดจำนวนรายการต่อหน้า (ค่าเริ่มต้นคือ 10)
+  const offset = (page - 1) * limit;
+
   const sql = `
     SELECT 
       users.user_id,
@@ -698,17 +702,40 @@ app.get("/api/reserve-admin", (req, res) => {
       bookings ON users.user_id = bookings.user_id
     INNER JOIN 
       dogs ON bookings.dog_id = dogs.dog_id
-    WHERE bookings.status = "pending";
-    `;
+    WHERE bookings.status = "pending"
+    LIMIT ? OFFSET ?;
+  `;
 
-  pool.query(sql, (err, results) => {
+  pool.query(sql, [limit, offset], (err, results) => {
     if (err) {
       console.error("Error fetching reservations:", err);
       return res.status(500).json({ message: "Error fetching reservations" });
     }
-    res.json(results); // ส่งข้อมูลการจองที่มีสถานะ pending กลับไปในรูปแบบ JSON
+
+    // หาจำนวนทั้งหมดของรายการเพื่อคำนวณจำนวนหน้า
+    const countSql = `
+      SELECT COUNT(*) as count
+      FROM bookings
+      WHERE status = "pending";
+    `;
+
+    pool.query(countSql, (countErr, countResult) => {
+      if (countErr) {
+        return res.status(500).json({ message: "Error counting reservations" });
+      }
+
+      const totalCount = countResult[0].count;
+      const totalPages = Math.ceil(totalCount / limit);
+
+      res.json({
+        data: results,
+        currentPage: page,
+        totalPages: totalPages,
+      });
+    });
   });
 });
+
 
 // reserve-admin-info
 app.get("/api/reserve-admin/:id", (req, res) => {
