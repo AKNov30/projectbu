@@ -30,7 +30,7 @@ function DogCardMain({ product, imageUrls }) {
           <p>รหัส : {product.dog_id}</p>
           <p>สี : {product.color}</p>
           <p>อายุ : {product.age}</p> {/* Use age property passed */}
-          <p>ราคา : {formatPrice(product.price)} THB</p>
+          <p>ราคา : {formatPrice(product.price)} บาท</p>
         </div>
         <div className="d-flex justify-content-center pt-3">
           <button type="button" className="btn btn-outline-primary setting-btn-reserve">
