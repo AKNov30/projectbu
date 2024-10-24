@@ -44,46 +44,33 @@ function AppbarMain() {
   </div>
 
   <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
-    <ul className="navbar-nav">
+  <ul className="navbar-nav">
+  {/* แสดงลิงก์ "หน้าแรก" และ "ร้านค้า" เฉพาะสำหรับผู้ใช้ที่ไม่ใช่ admin */}
+  {userRole !== 'admin' && (
+    <>
       <li className="nav-item">
         <Link to="/" className="nav-link">หน้าแรก</Link>
       </li>
       <li className="nav-item">
         <Link to="/shop" className="nav-link">ร้านค้า</Link>
       </li>
-      {isLoggedIn && userRole === 'member' && (
-        <>
-          <li className="nav-item">
-            <Link to="/cancle" className="nav-link">การจอง</Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/history" className="nav-link">ประวัติการจอง</Link>
-          </li>
-        </>
-      )}
-      {isLoggedIn && userRole === 'admin' && (
-        <>
-          <li className="nav-item">
-            <Link to="/admin/home-admin" className="nav-link">รายชื่อสุนัข</Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/admin/adddog" className="nav-link">เพิ่มสุนัข</Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/admin/reserve-admin" className="nav-link">เช็ครายการจอง</Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/admin/change-date" className="nav-link">เลื่อนวันรับ</Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/admin/list-user" className="nav-link">รายชื่อสมาชิก</Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/admin/result" className="nav-link">สรุปยอด</Link>
-          </li>
-        </>
-      )}
-    </ul>
+    </>
+  )}
+
+  {/* เมนูสำหรับผู้ใช้ที่ล็อกอินและไม่ใช่ admin */}
+  {isLoggedIn && userRole === 'member' && (
+    <>
+      <li className="nav-item">
+        <Link to="/cancle" className="nav-link">การจอง</Link>
+      </li>
+      <li className="nav-item">
+        <Link to="/history" className="nav-link">ประวัติการจอง</Link>
+      </li>
+    </>
+  )}
+</ul>
+
+
   </div>
 
   <div className="d-flex align-items-center">
