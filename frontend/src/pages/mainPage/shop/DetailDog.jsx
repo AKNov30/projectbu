@@ -6,6 +6,7 @@ import api, { apiUrl } from '../../../config/apiConfig';
 import calculateAge from '../../../utils/calculateAge';
 import DogCard from '../../../components/shopcomponent/DogCard';
 import { formatPrice } from '../../../utils/formatPrice';
+import ImageModal from '../../../components/ImageModal/ImageModal'
 
 function DetailDog() {
   const { dog_id } = useParams(); // ดึง dog_id จาก URL
@@ -14,6 +15,8 @@ function DetailDog() {
   const [loading, setLoading] = useState(true); // สถานะการโหลด
   const [error, setError] = useState(null); // สถานะข้อผิดพลาด
   const [user, setUser] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState('');
 
   // ดึง user_role จาก localStorage
   const [userRole, setUserRole] = useState(localStorage.getItem('user_role') || '');
@@ -70,6 +73,15 @@ function DetailDog() {
     }
   }, [dog]);
 
+  // เปิดและปิดโมดอล
+  const openModal = (imageUrl) => {
+    setSelectedImageUrl(imageUrl);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   if (loading) return <div className="container-fluid"><p>Loading...</p></div>;
   if (error) return <div className="container-fluid"><p>Error: {error}</p></div>;
   if (!dog) return <div className="container-fluid"><p>No dog found.</p></div>;
@@ -101,6 +113,7 @@ function DetailDog() {
               className="setting-pic-info just-flex-center img-fluid"
               src={imageUrls.length > 0 ? `${apiUrl}${imageUrls[0]}` : dogBrown}
               alt={dog.dogs_name}
+              onClick={() => openModal(`${apiUrl}${imageUrls[0]}`)}
             />
           </div>
           <div className="col-xl-7 col-lg-5 col-md-6 bg-grey p-3">
@@ -143,6 +156,7 @@ function DetailDog() {
                 className="setting-pic-info-small just-flex-center img-fluid me-2"
                 src={`${apiUrl}${url}`}
                 alt={`${dog.dogs_name} ${index + 2}`}
+                onClick={() => openModal(`${apiUrl}${url}`)}
               />
             ))}
           </div>
@@ -170,6 +184,9 @@ function DetailDog() {
         </div>
         {/* End Related Dogs Section */}
       </div>
+
+      {/* Image Modal */}
+      <ImageModal isOpen={isModalOpen} imageUrl={selectedImageUrl} onClose={closeModal} />
     </>
   );
 }
