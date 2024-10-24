@@ -116,7 +116,7 @@ function DetailDog() {
                 year: 'numeric'
               })} (อายุ {calculateAge(dog.birthday)})</div>
               <div>สี</div> <div>: {dog.color}</div>
-              <div>นิสัย</div> <div>: {dog.personality}</div>
+              <div>ลักษณะนิสัย</div> <div>: {dog.personality}</div>
             </div>
             <div className="just-flex-end d-flex pt-3">
               

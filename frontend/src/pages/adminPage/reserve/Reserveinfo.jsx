@@ -119,7 +119,7 @@ const Reserveinfo = () => {
                     <h3 className="font-weight-bold">รายละเอียดสุนัข</h3>
                     <p className="font-weight-normal">
                         ชื่อ: {reservationDetails.dogs_name}<br />
-                        ราคา: ฿ {formatPrice(reservationDetails.price)} THB<br />
+                        ราคา: ฿ {formatPrice(reservationDetails.price)} บาท<br />
                         รหัส: {reservationDetails.dog_id}
                     </p>
                 </div>
@@ -150,8 +150,8 @@ const Reserveinfo = () => {
                 <div className="col-xl-2 col-lg-2 col-md-3 pt-4">
                     <h3 className="font-weight-bold">ราคา</h3>
                     <p className="font-weight-normal">
-                        ราคา: {formatPrice(reservationDetails.price)} THB<br />
-                        รวมเป็น: {formatPrice(reservationDetails.price)} THB<br />
+                        ราคา: {formatPrice(reservationDetails.price)} บาท<br />
+                        รวมเป็น: {formatPrice(reservationDetails.price)} บาท<br />
                     </p>
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-3 d-flex justify-content-center align-items-center">

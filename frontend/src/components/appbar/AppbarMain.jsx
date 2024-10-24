@@ -33,7 +33,7 @@ function AppbarMain() {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light">
-        <Link className="navbar-brand text-logo d-flex" to="/">
+        <Link className="navbar-brand text-logo d-flex px-2" to="/">
           <img src={logo} alt="Logo" height="40" className="d-inline-block align-text-top" />
           <div className="pt-1 px-2">PuglifeHouse</div>
         </Link>

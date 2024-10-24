@@ -80,7 +80,7 @@ function Reserve() {
                 </div>
                 <div className="col-xl-6 col-lg-5 col-md-6 bg-grey p-3">
                     <h2>{dog.dogs_name}</h2>
-                    <h3>฿ {formatPrice(dog.price)} THB</h3>
+                    <h3>ราคา {formatPrice(dog.price)} บาท</h3>
                     <h4 className="px-4">รายละเอียด</h4>
                     <div className="dog-info-grid px-5">
                         <div>รหัส</div> <div>: {dog.dog_id}</div>
@@ -91,7 +91,7 @@ function Reserve() {
                             year: 'numeric'
                         })} (อายุ {calculateAge(dog.birthday)})</div>
                         <div>สี</div> <div>: {dog.color}</div>
-                        <div>นิสัย</div> <div>: {dog.personality}</div>
+                        <div>ลักษณะนิสัย</div> <div>: {dog.personality}</div>
                     </div>
                     <div className="d-flex justify-content-center pt-5">มีข้อมูลสอบถามเพิ่มเติมโปรดติดต่อ 087-994-8760</div>
                 </div>
@@ -110,7 +110,7 @@ function Reserve() {
                 <div className="col-11 pt-1 text-reserve px-5">
                     <p>1. ต้องชำระเงินค่าจองเป็นเงิน 50% ของราคาสุนัข</p>
                     <p>2. หากยกเลิกการจองจะไม่มีการคืนเงินจองของสุนัข</p>
-                    <p>3. หลังจากวันที่กดจองต้องเข้ามารับสุนัขที่ฟาร์มภายใน 15 วัน ตั้งแต่เวลา(10.00-14.30น)</p>
+                    <p>3. หลังจากวันที่กดจองต้องเข้ามารับสุนัขที่ฟาร์มภายใน 15 วัน ตั้งแต่เวลา (10.00-14.30น)</p>
                 </div>
             </div>
 

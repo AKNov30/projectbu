@@ -31,7 +31,7 @@ function DogCard({ dog }) {
 
         <div className="card-body flex-grow-1">
           <h5 className="card-title">{dog.dogs_name}</h5>
-          <p className="card-text">สี : {dog.color}</p>
+          <p className="card-text mb-0 pt-1">สี : {dog.color}</p>
           <p className="card-text">ราคา : {formatPrice(dog.price)} บาท</p>
         </div>
 
