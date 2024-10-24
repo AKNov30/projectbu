@@ -28,9 +28,7 @@ const port = process.env.PORT || 5000; //**test**
 
 // ตั้งค่า Cloudinary
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
+  cloudinary_url: process.env.CLOUDINARY_URL
 });
 
 // ตั้งค่า storage สำหรับ Multer และ Cloudinary
