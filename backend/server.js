@@ -572,7 +572,7 @@ app.get("/api/change-date", (req, res) => {
     FROM bookings b
     JOIN dogs d ON b.dog_id = d.dog_id
     JOIN users u ON b.user_id = u.user_id
-    WHERE b.status IN ('successful', 'pending');
+    WHERE b.status IN ('pending');
   `;
   pool.query(sql, (err, result) => {
     if (err) {
