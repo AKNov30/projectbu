@@ -262,13 +262,17 @@ table tbody tr:nth-child(even) {
     align-items: center; /* จัดข้อความให้อยู่กลางในแนวตั้ง */
 }
 .underline{
-    border-bottom: 3px solid #a38369;
+    border-bottom: 3px solid #FF9D00;
     padding-top: 10px;
     width: 82%;
 }
 .underline-pink{
     border-bottom: 3px solid #C1A68D;
     width: 100%;
+}
+.underline-home{
+    border-bottom: 4px solid #FF9D00;
+    width: 28%;
 }
 .border_right{
     border-right: 3px solid #C1A68D;
@@ -361,7 +365,9 @@ hr {
 .text-red{
     color:red;
 }
-
+.text-new-dark{
+    color:var(--new-dark);
+}
 .vertical-line {
     border-right: 2px solid black; /* ขนาดและสีของเส้น */
     height: auto;
