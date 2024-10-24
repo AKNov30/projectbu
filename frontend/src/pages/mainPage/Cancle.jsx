@@ -4,6 +4,7 @@ import { AlertSave, AlertDelete } from '../../components/alert/Alert';
 import { formatPrice } from '../../utils/formatPrice';
 import { logo } from '../../assets';
 import Pagination from '../../components/pagination/Pagination';
+import ImageModal from '../../components/ImageModal/ImageModal';
 
 function Cancle() {
     const [bookingData, setBookingData] = useState([]);
@@ -11,6 +12,8 @@ function Cancle() {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedImageUrl, setSelectedImageUrl] = useState('');
 
     useEffect(() => {
         fetchBookingData(currentPage);
@@ -102,6 +105,15 @@ function Cancle() {
     //     return <div>ไม่มีข้อมูลการจอง</div>;
     // }
 
+    // เปิดและปิดโมดอล
+    const openModal = (imageUrl) => {
+        setSelectedImageUrl(imageUrl);
+        setIsModalOpen(true);
+    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
@@ -177,10 +189,10 @@ function Cancle() {
                                     <div className="underline-pink d-flex justify-content-center"></div>
 
                                     <div className="pt-2" style={{ fontSize: '16px' }}>
-                                        ค่าจอง : {formatPrice(booking.price / 2)} บาท<br/> 
+                                        ค่าจอง : {formatPrice(booking.price / 2)} บาท<br />
                                     </div>
                                     <div style={{ fontSize: '16px' }}>
-                                        ส่วนลด : 0 บาท<br/>
+                                        ส่วนลด : 0 บาท<br />
                                     </div>
                                     <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'red' }}>
                                         รวมเป็น : {formatPrice(booking.price / 2)} บาท
@@ -208,7 +220,13 @@ function Cancle() {
                                         </>
                                     ) : (
                                         <div className="pb-2">
-                                            <p className="m-0 p-0 text-success">สลิปได้ถูกอัปโหลดแล้ว</p>
+                                            <p 
+                                                className="m-0 p-0 text-success" 
+                                                onClick={() => openModal(`${apiUrl}${booking.slip_url}`)}
+                                                style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                                                >
+                                                    สลิปได้ถูกอัปโหลดแล้ว
+                                            </p>
                                         </div>
                                     )}
                                     <AlertDelete
@@ -237,6 +255,8 @@ function Cancle() {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
+            {/* Image Modal */}
+            <ImageModal isOpen={isModalOpen} imageUrl={selectedImageUrl} onClose={closeModal} />
         </>
     )
 }
