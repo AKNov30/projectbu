@@ -81,7 +81,7 @@ function ChangeDate() {
 
     return (
         <>
-            <div className="container">
+            <div className="container-fulid">
                 <div className="row">
                     <div className="col-12 pt-3 d-flex justify-content-center">
                         <h1>เลื่อนวันรับ</h1>
@@ -98,8 +98,8 @@ function ChangeDate() {
                                     <th>ผู้จอง</th>
                                     <th>รหัส</th>
                                     <th>วันจอง</th>
-                                    <th>วันที่รับ</th>
-                                    <th>เวลาที่รับ</th>
+                                    <th>วันที่รับสุนัข</th>
+                                    <th>เวลาที่รับสุนัข</th>
                                     <th>เลื่อนวันที่เป็น</th>
                                     <th>เลื่อนเวลาเป็น</th>
                                     <th>&nbsp;</th>
@@ -125,12 +125,12 @@ function ChangeDate() {
                                                 {reservation.phone}
                                             </td>
                                             <td>{reservation.dog_id}</td>
-                                            <td>{new Date(reservation.created_at).toLocaleDateString('th-TH', {
+                                            <td>{new Date(reservation.created_at).toLocaleDateString('en-GB', {
                                                 day: '2-digit',
                                                 month: '2-digit',
                                                 year: 'numeric'
                                             })}</td>
-                                            <td>{new Date(reservation.booking_date).toLocaleDateString('th-TH', {
+                                            <td>{new Date(reservation.booking_date).toLocaleDateString('en-GB', {
                                                 day: '2-digit',
                                                 month: '2-digit',
                                                 year: 'numeric'

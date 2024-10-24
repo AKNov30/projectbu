@@ -69,7 +69,7 @@ function Result() {
 
     return (
         <>
-            <div className="container">
+            <div className="container-fulid">
                 <div className="row">
                     <div className="col-12 pt-3 d-flex justify-content-center">
                         <h1>สรุปยอด</h1>
@@ -96,13 +96,13 @@ function Result() {
                             onChange={(e) => handleDateChange(e, 'end')}
                         />
                     </div>
-                    <div className="col-xl-1 col-lg-1 col-md-1 col-1 mt-2" style={{ cursor: 'pointer' }}>
-                        <img src={search} alt="Search" height="25" className="btn-search" onClick={handleSearch} />
-                    </div>
+                    {/* <div className="col-xl-1 d-flex align-items-end" style={{ cursor: 'pointer' }}>
+                        <a class="btn btn-primary px-4" onClick={handleSearch} role="button">ค้นหา</a>
+                    </div> */}
                 </div>
 
                 <div className="row">
-                    <div className="col-xl-12 col-lg-2 col-md-2 pt-3">
+                    <div className="col-xl-11 col-lg-2 col-md-2 pt-3">
                         <table className="table table-striped table-hover">
                             <thead>
                                 <tr>
@@ -116,6 +116,8 @@ function Result() {
                                     <th style={{ width: '3%' }}>ส่วนลด</th>
                                     <th style={{ width: '4%' }}>รวมเป็น</th>
                                     <th style={{ width: '3%' }}>ใบเสร็จ</th>
+                                    <th style={{ width: '3%' }}>ใบเสร็จการจอง</th>
+                                    <th style={{ width: '3%' }}>ใบเสร็จการรับ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,12 +126,12 @@ function Result() {
                                         <tr key={index}>
                                             <td className="text-center">{reservation.booking_id}</td>
                                             <td>{reservation.firstname} {reservation.lastname}</td>
-                                            <td>{new Date(reservation.created_at).toLocaleDateString('th-TH', {
+                                            <td>{new Date(reservation.created_at).toLocaleDateString('en-GB', {
                                                 day: '2-digit',
                                                 month: '2-digit',
                                                 year: 'numeric'
                                             })}</td>
-                                            <td>{new Date(reservation.booking_date).toLocaleDateString('th-TH', {
+                                            <td>{new Date(reservation.booking_date).toLocaleDateString('en-GB', {
                                                 day: '2-digit',
                                                 month: '2-digit',
                                                 year: 'numeric'
@@ -148,6 +150,8 @@ function Result() {
                                                 {({ loading }) => (loading ? 'Loading...' : <img src={print} alt="Print" style={{ width: '25px' }} />)}
                                             </PDFDownloadLink>
                                             </td>
+                                            <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
+                                            <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
                                         </tr>
                                     ))
                                 ) : (
