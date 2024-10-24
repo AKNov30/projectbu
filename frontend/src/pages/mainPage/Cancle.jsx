@@ -1,30 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import api, { apiUrl } from '../../config/apiConfig';
 import { AlertSave, AlertDelete } from '../../components/alert/Alert';
+import { formatPrice } from '../../utils/formatPrice';
+import Pagination from '../../components/pagination/Pagination';
 
 function Cancle() {
     const [bookingData, setBookingData] = useState(null);
     const [selectedSlip, setSelectedSlip] = useState(null); // เก็บไฟล์ที่เลือก
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
+        fetchBookingData(currentPage);
+    }, [currentPage]);
+
+    const fetchBookingData = async (page) => {
         const user_id = localStorage.getItem('user_id'); // ดึง user_id จาก localStorage
 
-        // ดึงข้อมูลการจองของผู้ใช้จาก API
-        const fetchBookingData = async () => {
-            try {
-                const response = await api.get(`/api/user-dogs`, {
-                    params: { user_id }
-                });
-                setBookingData(response.data); // เก็บข้อมูลการจองไว้ใน state
-            } catch (error) {
-                console.error('Error fetching booking data:', error);
-                setError('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง');
-            }
-        };
-
-        fetchBookingData();
-    }, []);
+        try {
+            const response = await api.get(`/api/user-reserve`, {
+                params: { user_id, page, limit: 4 }
+            });
+            setBookingData(response.data.data);
+            setCurrentPage(response.data.currentPage);
+            setTotalPages(response.data.totalPages);
+        } catch (error) {
+            console.error('Error fetching booking data:', error);
+            setError('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง');
+        }
+    };
 
     if (error) {
         return <div>{error}</div>; // แสดงข้อความ error ถ้ามีข้อผิดพลาดในการดึงข้อมูล
@@ -102,6 +107,14 @@ function Cancle() {
             minute: '2-digit',
         });
     };
+
+    // if (!bookingData.length) {
+    //     return <div>ไม่มีข้อมูลการจอง</div>;
+    // }
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
     return (
         <>
             <div className="container-fluid">
@@ -129,7 +142,7 @@ function Cancle() {
                                     alt="dog"
                                 />
                             </div>
-                            
+
                             <div className="col-xl-7 col-lg-2 col-md-2 d-flex align-items-center justify-content-between">
                                 <div>
                                     <div className="d-flex justify-content-center pb-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
@@ -139,7 +152,7 @@ function Cancle() {
                                     <div className="pt-2" style={{ fontSize: '16px' }}>
                                         รหัส : {booking.dog_id}<br />
                                         ชื่อสุนัข : {booking.dogs_name}<br />
-                                        ราคาสุนัข : {booking.price} THB
+                                        ราคาสุนัข : {formatPrice(booking.price)} THB
                                     </div>
                                 </div>
 
@@ -162,7 +175,7 @@ function Cancle() {
                                     <div className="underline-pink d-flex justify-content-center"></div>
                                     <div className="pt-2" style={{ fontSize: '16px' }}>
                                         วันที่จอง : {formatDate(booking.created_at)}<br />
-                                        วันที่รับ : {formatDate(booking.booking_date)} ({formatTime(booking.pickup_date)} น.)<br/>
+                                        วันที่รับ : {formatDate(booking.booking_date)} ({formatTime(booking.pickup_date)} น.)<br />
                                         สถานะ : {booking.status === 'pending' ? 'รอดำเนินการ' : 'yess'}
                                     </div>
                                 </div>
@@ -172,15 +185,15 @@ function Cancle() {
                                         สรุป
                                     </div>
                                     <div className="underline-pink d-flex justify-content-center"></div>
-                                    
-                                    <div className="pt-2" style={{ fontSize: '16px'}}>
-                                        ค่าจอง : {booking.price / 2}<br/>
+
+                                    <div className="pt-2" style={{ fontSize: '16px' }}>
+                                        ค่าจอง : {formatPrice(booking.price / 2)}<br />
                                     </div>
-                                    <div style={{ fontSize: '16px'}}>
+                                    <div style={{ fontSize: '16px' }}>
                                         ส่วนลด : 0<br />
                                     </div>
-                                    <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'red'}}>
-                                        รวมเป็น : {booking.price / 2}
+                                    <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'red' }}>
+                                        รวมเป็น : {formatPrice(booking.price / 2)}
                                     </div>
                                 </div>
                             </div>
@@ -227,7 +240,11 @@ function Cancle() {
                         </div>
                     );
                 })}
-                {/* End Card CSS */}
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
             </div>
         </>
     )
