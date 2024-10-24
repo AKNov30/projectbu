@@ -12,7 +12,8 @@ const fs = require("fs");
 const { fileURLToPath } = require("url");
 const promptpayQR = require("promptpay-qr");
 const qrcode = require("qrcode");
-
+const { v2: cloudinary } = require('cloudinary');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 // Initialize environment variables
 dotenv.config();
@@ -24,6 +25,24 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000; //**test**
 // const port = 5000;
+
+// ตั้งค่า Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// ตั้งค่า storage สำหรับ Multer และ Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'dogs', // โฟลเดอร์ใน Cloudinary ที่จะเก็บรูปภาพ
+    allowed_formats: ['jpg', 'png', 'jpeg'], // ไฟล์รูปภาพที่อนุญาต
+  },
+});
+
+const upload = multer({ storage });
 
 // Serve static files from 'public/images' directory
 app.use("/images", express.static(path.join(__dirname, "public/images")));
@@ -304,17 +323,6 @@ app.delete("/api/users/:user_id", (req, res) => {
 });
 
 // AddDog
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    return cb(null, "./public/images");
-  },
-  filename: function (req, file, cb) {
-    return cb(null, `${Date.now()}_${file.originalname}`);
-  },
-});
-
-const upload = multer({ storage });
-
 app.post("/api/adddog", upload.array("files", 4), (req, res) => {
   // Check if the file was uploaded
   if (!req.files || req.files.length === 0) {
@@ -323,10 +331,13 @@ app.post("/api/adddog", upload.array("files", 4), (req, res) => {
   const { dogs_name, birthday, price, color, description, personality } =
     req.body;
 
+  // เก็บ URLs ของรูปภาพจาก Cloudinary
+  const fileUrls = req.files.map((file) => file.path);
+
   const sql =
     "INSERT INTO dogs (`dogs_name`, `birthday`, `price`, `color`, `description`, `personality`, `image_url`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-  const fileNames = req.files.map((file) => `/images/${file.filename}`);
+  // const fileNames = req.files.map((file) => `/images/${file.filename}`);
 
   const values = [
     dogs_name,
@@ -335,7 +346,7 @@ app.post("/api/adddog", upload.array("files", 4), (req, res) => {
     color,
     description,
     personality,
-    JSON.stringify(fileNames), // เก็บเป็น JSON string
+    JSON.stringify(fileUrls), // เก็บเป็น JSON string
     "available",
   ];
 
