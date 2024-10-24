@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import api, { apiUrl } from '../../config/apiConfig';
 import { AlertSave, AlertDelete } from '../../components/alert/Alert';
 import { formatPrice } from '../../utils/formatPrice';
+import { logo } from '../../assets';
 import Pagination from '../../components/pagination/Pagination';
 
 function Cancle() {
-    const [bookingData, setBookingData] = useState(null);
+    const [bookingData, setBookingData] = useState([]);
     const [selectedSlip, setSelectedSlip] = useState(null); // เก็บไฟล์ที่เลือก
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +23,7 @@ function Cancle() {
             const response = await api.get(`/api/user-dogs`, {
                 params: { user_id, page, limit: 4 }
             });
-            setBookingData(response.data.data);
+            setBookingData(response.data.data || []);
             setCurrentPage(response.data.currentPage);
             setTotalPages(response.data.totalPages);
         } catch (error) {
@@ -33,10 +34,6 @@ function Cancle() {
 
     if (error) {
         return <div>{error}</div>; // แสดงข้อความ error ถ้ามีข้อผิดพลาดในการดึงข้อมูล
-    }
-
-    if (!bookingData) {
-        return <div>กำลังโหลดข้อมูลการจอง...</div>; // แสดงข้อความ "กำลังโหลด" ขณะดึงข้อมูล
     }
 
     const handleFileChange = (e) => {
@@ -59,6 +56,7 @@ function Cancle() {
                 },
             });
             setSelectedSlip(null); // เคลียร์ไฟล์ที่อัปโหลด
+            fetchBookingData(currentPage);
         } catch (error) {
             console.error('Error uploading slip:', error);
             alert('เกิดข้อผิดพลาดในการอัปโหลดสลิป');
@@ -73,11 +71,7 @@ function Cancle() {
                 dog_id: dogId,
             });
             // ดึงข้อมูลการจองใหม่หลังจากยกเลิกสำเร็จ
-            const user_id = localStorage.getItem('user_id');
-            const response = await api.get(`/api/user-dogs`, {
-                params: { user_id }
-            });
-            setBookingData(response.data);
+            fetchBookingData(currentPage);
         } catch (error) {
             console.error('Error canceling booking:', error);
         }
@@ -85,10 +79,6 @@ function Cancle() {
 
     if (error) {
         return <div>{error}</div>; // แสดงข้อความ error ถ้ามีข้อผิดพลาดในการดึงข้อมูล
-    }
-
-    if (!bookingData) {
-        return <div>กำลังโหลดข้อมูลการจอง...</div>; // แสดงข้อความ "กำลังโหลด" ขณะดึงข้อมูล
     }
 
     const formatDate = (dateString) => {
@@ -108,7 +98,7 @@ function Cancle() {
         });
     };
 
-    // if (!bookingData.length) {
+    // if (!bookingData || bookingData.length === 0) {
     //     return <div>ไม่มีข้อมูลการจอง</div>;
     // }
 
@@ -125,7 +115,7 @@ function Cancle() {
                 </div>
 
                 {/* Start Card CSS */}
-                {bookingData.map((booking, index) => {
+                {Array.isArray(bookingData) && bookingData.map((booking, index) => {
                     let imageUrls = [];
                     try {
                         imageUrls = JSON.parse(booking.image_url); // ตรวจสอบและ parse image_url ให้เป็น array
@@ -138,7 +128,7 @@ function Cancle() {
                             <div className="col-xl-2 col-lg-2 col-md-3 d-flex align-items-center justify-content-center">
                                 <img
                                     className="setting-pic-cancle just-flex-center img-fluid"
-                                    src={imageUrls.length > 0 ? `${apiUrl}${imageUrls[0]}` : dogBrown} // ใช้รูปแรกจาก array หรือรูปสำรอง
+                                    src={imageUrls.length > 0 ? `${apiUrl}${imageUrls[0]}` : logo} // ใช้รูปแรกจาก array หรือรูปสำรอง
                                     alt="dog"
                                 />
                             </div>
