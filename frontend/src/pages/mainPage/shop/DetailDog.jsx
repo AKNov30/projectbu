@@ -110,7 +110,7 @@ function DetailDog() {
             <div className="dog-info-grid px-5">
               <div>รหัส</div> <div>: {dog.dog_id}</div>
               <div>วันเกิด</div> 
-              <div>: {new Date(dog.birthday).toLocaleDateString('th-TH', {
+              <div>: {new Date(dog.birthday).toLocaleDateString('en-GB', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric'
@@ -127,7 +127,8 @@ function DetailDog() {
                 <button type="button" className="btn btn-warning setting-btn-reserve mx-2" disabled>จอง</button>
               )}
             </div>
-            <div className="d-flex justify-content-center pt-4">สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เบอร์โทร : 087-994-8760</div>
+            <div className="d-flex justify-content-center pt-4">**สุนัขทุกตัวได้ฉีดวัคซีนแรกเกิดทุกตัวแล้ว**</div>
+            <div className="d-flex justify-content-center">สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เบอร์โทร : 087-994-8760</div>
           </div>
           <div className="col-1 col-md-0"></div>
         </div>

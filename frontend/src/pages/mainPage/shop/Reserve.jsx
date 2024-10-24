@@ -5,13 +5,14 @@ import calculateAge from '../../../utils/calculateAge';
 import { dogBrown } from '../../../assets';
 import { formatPrice } from '../../../utils/formatPrice';
 
+
 function Reserve() {
     const { dog_id } = useParams(); 
     const navigate = useNavigate();
     const [dog, setDog] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    
     // form
     const [isAccepted, setIsAccepted] = useState(false);
     const [date, setDate] = useState('');
@@ -85,7 +86,7 @@ function Reserve() {
                     <div className="dog-info-grid px-5">
                         <div>รหัส</div> <div>: {dog.dog_id}</div>
                         <div>วันเกิด</div> 
-                        <div>: {new Date(dog.birthday).toLocaleDateString('th-TH', {
+                        <div>: {new Date(dog.birthday).toLocaleDateString('en-GB', {
                             day: '2-digit',
                             month: '2-digit',
                             year: 'numeric'
@@ -93,7 +94,8 @@ function Reserve() {
                         <div>สี</div> <div>: {dog.color}</div>
                         <div>ลักษณะนิสัย</div> <div>: {dog.personality}</div>
                     </div>
-                    <div className="d-flex justify-content-center pt-5">มีข้อมูลสอบถามเพิ่มเติมโปรดติดต่อ 087-994-8760</div>
+                    <div className="d-flex justify-content-center pt-4">**สุนัขทุกตัวได้ฉีดวัคซีนแรกเกิดทุกตัวแล้ว**</div>
+                    <div className="d-flex justify-content-center">มีข้อมูลสอบถามเพิ่มเติมโปรดติดต่อ 087-994-8760</div>
                 </div>
                 <div className="col-1 col-md-0"></div>
             </div>
