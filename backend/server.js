@@ -541,6 +541,10 @@ app.put("/api/dogs/:dog_id", upload.array("files"), (req, res) => {
 
 //แสดงประวัติการจอง page admin/change-date
 app.get("/api/change-date", (req, res) => {
+  const page = parseInt(req.query.page) || 1; // หน้าเริ่มต้น
+  const limit = parseInt(req.query.limit) || 7; // จำนวนข้อมูลต่อหน้า
+  const offset = (page - 1) * limit;
+
   const sql = `
     SELECT 
       b.booking_id, 
@@ -561,27 +565,28 @@ app.get("/api/change-date", (req, res) => {
     FROM bookings b
     JOIN dogs d ON b.dog_id = d.dog_id
     JOIN users u ON b.user_id = u.user_id
-    WHERE b.status IN ('pending');
+    WHERE b.status IN ('pending')
+    LIMIT ? OFFSET ?;
   `;
-  pool.query(sql, (err, result) => {
+
+  pool.query(sql, [limit, offset], (err, result) => {
     if (err) {
       return res.status(500).json({ error: "Database query error" });
     }
 
+    // ประมวลผล image_url และส่งข้อมูลกลับ
     result = result.map((row) => {
       let imageUrlArray = [];
 
-      // ตรวจสอบว่า image_url เป็น JSON string หรือไม่
       try {
-        imageUrlArray = JSON.parse(row.image_url); // แปลง JSON string เป็นอาเรย์
+        imageUrlArray = JSON.parse(row.image_url);
       } catch (error) {
-        imageUrlArray = [row.image_url]; // ถ้าไม่ใช่ JSON string ใช้เป็นสตริงธรรมดา
+        imageUrlArray = [row.image_url];
       }
 
-      // เลือกใช้รูปแรกจากอาเรย์ (ถ้ามี) และตรวจสอบว่า URL มี "/images/" อยู่แล้วหรือไม่
       const firstImageUrl = imageUrlArray.length > 0 ? imageUrlArray[0] : null;
       const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
-      const finalImageUrl = `${backendUrl}${firstImageUrl}`; // ถ้ายังไม่มี "/images/"
+      const finalImageUrl = `${backendUrl}${firstImageUrl}`;
 
       return {
         ...row,
@@ -589,7 +594,27 @@ app.get("/api/change-date", (req, res) => {
       };
     });
 
-    res.json(result);
+    // หาจำนวนทั้งหมดของแถวเพื่อให้สามารถคำนวณจำนวนหน้าได้
+    const countSql = `
+      SELECT COUNT(*) as count
+      FROM bookings b
+      WHERE b.status IN ('pending');
+    `;
+
+    pool.query(countSql, (countErr, countResult) => {
+      if (countErr) {
+        return res.status(500).json({ error: "Database count query error" });
+      }
+
+      const totalCount = countResult[0].count;
+      const totalPages = Math.ceil(totalCount / limit);
+
+      res.json({
+        data: result,
+        currentPage: page,
+        totalPages: totalPages,
+      });
+    });
   });
 });
 

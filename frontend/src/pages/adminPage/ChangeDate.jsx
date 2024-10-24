@@ -2,26 +2,40 @@ import React, { useEffect, useState } from 'react';
 // import { logo } from '../../assets';
 import { AlertSave } from '../../components/alert/Alert';
 import api, { apiUrl } from '../../config/apiConfig';
+import Pagination from '../../components/pagination/Pagination';
 
 function ChangeDate() {
     const [reservations, setReservations] = useState([]);
     const [timeSelections, setTimeSelections] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
-        fetch(`${apiUrl}/api/change-date`)
+        fetchReservations(currentPage);
+    }, [currentPage]);
+
+    const fetchReservations = (page) => {
+        fetch(`${apiUrl}/api/change-date?page=${page}&limit=7`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
                 }
-                return response.json();  // แปลงข้อมูลที่ได้เป็น JSON
+                return response.json();
             })
             .then((data) => {
-                setReservations(data);  // เก็บข้อมูลการจองใน state
+                setReservations(data.data);  // เก็บข้อมูลการจองใน state
+                setCurrentPage(data.currentPage);  // เก็บหน้าปัจจุบัน
+                setTotalPages(data.totalPages);  // เก็บจำนวนหน้าทั้งหมด
             })
             .catch((error) => {
-                console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);  // แสดงข้อผิดพลาด
-            });
-    }, []);
+                console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+            }
+            );
+    };
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        fetchDogs(page);
+    };
 
     // ฟังก์ชันจัดการเมื่อเวลาเปลี่ยนแปลง
     const handleTimeChange = (e, bookingId) => {
@@ -163,6 +177,11 @@ function ChangeDate() {
                         </table>
                     </div>
                 </div>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
             </div>
         </>
     );
