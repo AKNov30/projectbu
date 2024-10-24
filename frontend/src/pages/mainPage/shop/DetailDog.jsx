@@ -105,12 +105,12 @@ function DetailDog() {
           </div>
           <div className="col-xl-7 col-lg-5 col-md-6 bg-grey p-3">
             <h2>{dog.dogs_name}</h2>
-            <h3>ราคา : {formatPrice(dog.price)} THB</h3>
+            <h3>ราคา : {formatPrice(dog.price)} บาท</h3>
             <h4 className="px-3">รายละเอียด</h4>
             <div className="dog-info-grid px-5">
               <div>รหัส</div> <div>: {dog.dog_id}</div>
               <div>วันเกิด</div> 
-              <div>: {new Date(dog.birthday).toLocaleDateString('th-TH', {
+              <div>: {new Date(dog.birthday).toLocaleDateString('en-GB', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric'
@@ -127,7 +127,7 @@ function DetailDog() {
                 <button type="button" className="btn btn-warning setting-btn-reserve mx-2" disabled>จอง</button>
               )}
             </div>
-            <div className="d-flex justify-content-center pt-4">มีข้อมูลสอบถามเพิ่มเติมโปรดติดต่อ 087-994-8760</div>
+            <div className="d-flex justify-content-center pt-4">สามารถสอบถามข้อมูลได้ที่ เบอร์โทร : 087-994-8760</div>
           </div>
           <div className="col-1 col-md-0"></div>
         </div>
