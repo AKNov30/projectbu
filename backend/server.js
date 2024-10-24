@@ -13,7 +13,6 @@ const { fileURLToPath } = require("url");
 const promptpayQR = require("promptpay-qr");
 const qrcode = require("qrcode");
 
-
 // Initialize environment variables
 dotenv.config();
 
@@ -29,11 +28,13 @@ const port = process.env.PORT || 5000; //**test**
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 app.use(express.json());
-app.use(cors({
-  origin: process.env.FE_PORT || 'http://localhost:5173', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-  credentials: true 
-}));
+app.use(
+  cors({
+    origin: process.env.FE_PORT || "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 
 // เชื่อมต่อกับฐานข้อมูล MySQL ด้วย Connection Pool (แนะนำ)
@@ -58,9 +59,9 @@ pool.getConnection((err, connection) => {
   connection.release();
 });
 
-app.get("/", (req,res) => {
-  res.send("Hello")
-})
+app.get("/", (req, res) => {
+  res.send("Hello");
+});
 
 // Endpoint สำหรับการสมัครสมาชิก
 app.post("/api/register", async (req, res) => {
@@ -250,7 +251,8 @@ app.delete("/api/users/:user_id", (req, res) => {
   const { user_id } = req.params;
 
   // อัพเดตสถานะของสุนัขเป็น "available" ถ้าสถานะปัจจุบันเป็น "pending"
-  const updateDogStatusSql = "UPDATE dogs SET status = 'available' WHERE status = 'pending' AND dog_id IN (SELECT dog_id FROM bookings WHERE user_id = ?)";
+  const updateDogStatusSql =
+    "UPDATE dogs SET status = 'available' WHERE status = 'pending' AND dog_id IN (SELECT dog_id FROM bookings WHERE user_id = ?)";
   pool.query(updateDogStatusSql, [user_id], (err, result) => {
     if (err) {
       console.error("Error updating dog status:", err);
@@ -375,7 +377,9 @@ app.delete("/api/dogs/:dog_id", (req, res) => {
   pool.query(deleteBookingsSql, [dog_id], (err, result) => {
     if (err) {
       console.error("Error deleting bookings:", err);
-      return res.status(500).json({ error: "เกิดข้อผิดพลาดในการลบข้อมูลการจอง" });
+      return res
+        .status(500)
+        .json({ error: "เกิดข้อผิดพลาดในการลบข้อมูลการจอง" });
     }
 
     // ตรวจสอบว่าสุนัขที่ต้องการลบมีอยู่ในฐานข้อมูลหรือไม่
@@ -383,7 +387,9 @@ app.delete("/api/dogs/:dog_id", (req, res) => {
     pool.query(checkDogSql, [dog_id], (err, results) => {
       if (err) {
         console.error("Error checking dog:", err);
-        return res.status(500).json({ error: "เกิดข้อผิดพลาดในการตรวจสอบสุนัข" });
+        return res
+          .status(500)
+          .json({ error: "เกิดข้อผิดพลาดในการตรวจสอบสุนัข" });
       }
 
       // ถ้าไม่มีสุนัขนี้ในฐานข้อมูล
@@ -399,7 +405,9 @@ app.delete("/api/dogs/:dog_id", (req, res) => {
       pool.query(deleteDogSql, [dog_id], (err, result) => {
         if (err) {
           console.error("Error deleting dog from database:", err);
-          return res.status(500).json({ error: "เกิดข้อผิดพลาดในการลบสุนัขจากฐานข้อมูล" });
+          return res
+            .status(500)
+            .json({ error: "เกิดข้อผิดพลาดในการลบสุนัขจากฐานข้อมูล" });
         }
 
         // ลบไฟล์รูปภาพจาก public/images
@@ -417,7 +425,6 @@ app.delete("/api/dogs/:dog_id", (req, res) => {
     });
   });
 });
-
 
 // EditdogForm ดึงข้อมูลสุนัขหนึ่งตัว
 app.get("/api/dogs/:dog_id", (req, res) => {
@@ -585,7 +592,7 @@ app.get("/api/change-date", (req, res) => {
       }
 
       const firstImageUrl = imageUrlArray.length > 0 ? imageUrlArray[0] : null;
-      const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+      const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
       const finalImageUrl = `${backendUrl}${firstImageUrl}`;
 
       return {
@@ -667,7 +674,7 @@ app.get("/api/all-dogs", (req, res) => {
 
 // reserve-admin
 app.get("/api/reserve-admin", (req, res) => {
-  const page = parseInt(req.query.page) || 1; 
+  const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 7; // กำหนดจำนวนรายการต่อหน้า
   const offset = (page - 1) * limit;
 
@@ -755,56 +762,64 @@ app.get("/api/reserve-admin/:id", (req, res) => {
   `;
 
   pool.query(sql, [reservationId], (err, results) => {
-      if (err) {
-          console.error("Error fetching reservation:", err);
-          return res.status(500).json({ message: "Error fetching reservation", error: err });
-      }
-      if (results.length === 0) {
-          return res.status(404).json({ message: "Reservation not found" });
-      }
-      res.json(results[0]);
+    if (err) {
+      console.error("Error fetching reservation:", err);
+      return res
+        .status(500)
+        .json({ message: "Error fetching reservation", error: err });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: "Reservation not found" });
+    }
+    res.json(results[0]);
   });
 });
 
 // ยืนยันการรับ reserveInfo
-app.post("/api/confirm-receive/:bookingId", upload.single('slip'), (req, res) => {
-  const bookingId = req.params.bookingId;
-  const { dogId } = req.body;
+app.post(
+  "/api/confirm-receive/:bookingId",
+  upload.single("slip"),
+  (req, res) => {
+    const bookingId = req.params.bookingId;
+    const { dogId } = req.body;
 
-  if (!req.file) {
-    return res.status(400).json({ message: "Slip file is required" });
-  }
+    if (!req.file) {
+      return res.status(400).json({ message: "Slip file is required" });
+    }
 
-  const slipUrl = `/images/${req.file.filename}`;
+    const slipUrl = `/images/${req.file.filename}`;
 
-  const updateBookingQuery = `
+    const updateBookingQuery = `
     UPDATE bookings 
     SET status = 'successful', slip2_url = ? 
     WHERE booking_id = ?;
   `;
 
-  const updateDogQuery = `
+    const updateDogQuery = `
     UPDATE dogs 
     SET status = 'sold' 
     WHERE dog_id = ?;
   `;
 
-  pool.query(updateBookingQuery, [slipUrl, bookingId], (err) => {
-    if (err) {
-      console.error("Error updating booking:", err);
-      return res.status(500).json({ message: "Error updating booking" });
-    }
-
-    pool.query(updateDogQuery, [dogId], (err) => {
+    pool.query(updateBookingQuery, [slipUrl, bookingId], (err) => {
       if (err) {
-        console.error("Error updating dog status:", err);
-        return res.status(500).json({ message: "Error updating dog status" });
+        console.error("Error updating booking:", err);
+        return res.status(500).json({ message: "Error updating booking" });
       }
 
-      res.json({ message: "Booking confirmed and dog status updated successfully" });
+      pool.query(updateDogQuery, [dogId], (err) => {
+        if (err) {
+          console.error("Error updating dog status:", err);
+          return res.status(500).json({ message: "Error updating dog status" });
+        }
+
+        res.json({
+          message: "Booking confirmed and dog status updated successfully",
+        });
+      });
     });
-  });
-});
+  }
+);
 
 //result สรุปยอด
 app.get("/api/result-admin", (req, res) => {
@@ -844,7 +859,10 @@ app.get("/api/result-admin", (req, res) => {
 
   sql += ` LIMIT ? OFFSET ?;`;
 
-  const params = startDate && endDate ? [startDate, endDate, limit, offset] : [limit, offset];
+  const params =
+    startDate && endDate
+      ? [startDate, endDate, limit, offset]
+      : [limit, offset];
 
   pool.query(sql, params, (err, results) => {
     if (err) {
@@ -856,7 +874,11 @@ app.get("/api/result-admin", (req, res) => {
       SELECT COUNT(*) as count
       FROM bookings
       WHERE status = 'successful'
-      ${startDate && endDate ? `AND booking_date BETWEEN '${startDate}' AND '${endDate}'` : ''}
+      ${
+        startDate && endDate
+          ? `AND booking_date BETWEEN '${startDate}' AND '${endDate}'`
+          : ""
+      }
     `;
 
     pool.query(countSql, (countErr, countResult) => {
@@ -875,7 +897,6 @@ app.get("/api/result-admin", (req, res) => {
     });
   });
 });
-
 
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน Shop
 app.get("/api/shop-dogs", (req, res) => {
@@ -1050,8 +1071,8 @@ app.post("/api/book", upload.single("slip"), async (req, res) => {
 // แสดงรายการการจองของ user
 app.get("/api/user-dogs", (req, res) => {
   const user_id = req.query.user_id; // รับ user_id จาก query string
-  const page = parseInt(req.query.page) || 1; 
-  const limit = parseInt(req.query.limit) || 10; // จำนวนรายการต่อหน้า 
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10; // จำนวนรายการต่อหน้า
   const offset = (page - 1) * limit;
 
   const sql = `
@@ -1081,35 +1102,84 @@ app.get("/api/user-dogs", (req, res) => {
   `;
   const params = [user_id, limit, offset];
 
-  //แสดงประวัติการจอง
+  // แสดงประวัติการจอง
   app.get("/api/history", (req, res) => {
     const user_id = req.query.user_id;
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10; // จำนวนรายการต่อหน้า
-    const offset = (page - 1) * limit; 
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+    const searchTerm = req.query.searchTerm || "";
+    const statusFilter = req.query.statusFilter;
 
-    const sql = `
-      SELECT 
-        bookings.booking_id, 
-        bookings.user_id, 
-        bookings.dog_id,
-        bookings.booking_date,
-        bookings.created_at,
-        bookings.status,
-        dogs.dogs_name, 
-        dogs.price
-      FROM bookings
-      JOIN dogs ON bookings.dog_id = dogs.dog_id
-      WHERE bookings.user_id = ? AND bookings.status IN ('canceled', 'successful');
+    let sql = `
+        SELECT 
+            bookings.booking_id, 
+            bookings.user_id, 
+            bookings.dog_id,
+            bookings.booking_date,
+            bookings.created_at,
+            bookings.status,
+            dogs.dogs_name, 
+            dogs.price
+        FROM bookings
+        JOIN dogs ON bookings.dog_id = dogs.dog_id
+        WHERE bookings.user_id = ?
+        AND (dogs.dogs_name LIKE ? OR bookings.dog_id LIKE ?)
     `;
 
-    pool.query(sql, [user_id], (err, results) => {
+    // ถ้าสถานะไม่ใช่ 'ทั้งหมด' ให้เพิ่มเงื่อนไขในการกรองสถานะ
+    if (statusFilter && statusFilter !== "ทั้งหมด") {
+      sql += " AND bookings.status = ?";
+    }
+
+    sql += " LIMIT ? OFFSET ?;";
+
+    const searchPattern = `%${searchTerm}%`;
+    const queryParams = [user_id, searchPattern, searchPattern];
+
+    // เพิ่มพารามิเตอร์ของสถานะถ้ามีการระบุ
+    if (statusFilter && statusFilter !== "ทั้งหมด") {
+      queryParams.push(statusFilter);
+    }
+
+    queryParams.push(limit, offset);
+
+    pool.query(sql, queryParams, (err, results) => {
       if (err) {
         console.error("Error fetching data:", err);
         return res.status(500).json({ error: "Error fetching data" });
       }
 
-      res.status(200).json(results);
+      const countSql =
+        `
+            SELECT COUNT(*) as count
+            FROM bookings
+            JOIN dogs ON bookings.dog_id = dogs.dog_id
+            WHERE bookings.user_id = ?
+            AND (dogs.dogs_name LIKE ? OR bookings.dog_id LIKE ?)
+        ` +
+        (statusFilter && statusFilter !== "ทั้งหมด"
+          ? " AND bookings.status = ?"
+          : "");
+
+      pool.query(
+        countSql,
+        queryParams.slice(0, statusFilter ? 4 : 3),
+        (countErr, countResult) => {
+          if (countErr) {
+            return res.status(500).json({ message: "Error counting bookings" });
+          }
+
+          const totalCount = countResult[0].count;
+          const totalPages = Math.ceil(totalCount / limit);
+
+          res.json({
+            data: results,
+            currentPage: page,
+            totalPages: totalPages,
+          });
+        }
+      );
     });
   });
 
