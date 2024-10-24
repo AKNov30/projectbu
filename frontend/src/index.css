@@ -14,6 +14,10 @@
     --brown: #452A01;
     --brown-light:#734500;
     --brown-lighter:#D07D00;
+    --new:#d4a373;
+    --new-dark:#BC6C25;
+    --new-lighter:#FEFAE0;
+    --black:rgb(0, 0, 0);
     /*--- Font Size ---*/
     --font-xxsmall: 12px;
     --font-xsmall: 14px;
@@ -42,23 +46,26 @@ a {
 }
 /*--- Navbar ---*/
 .navbar{
-    background-color: #d4a373;
+    background-color: var(--new);
 }
 .text-logo{
     color: var(--brown) !important;;
     font-weight: bold;
 }
 .nav-link{
-    color:#000000;
+    color:var(--brown);
     transition: transform 0.5s ease !important;
+    text-decoration: 2px underline;
+    text-underline-offset: 4px;
 }
 .nav-item{
-    color: #000000 !important;
-    transition: transform 0.5s ease !important;
+    color:var(--brown);
+    transition: transform 0.3s ease !important;
 }
 .nav-item:hover{
     border-radius: 7px;
-    background-color: #B19880;
+    background-color: #e4bc94;
+    transform: scale(1.05);
 }
 .icon-nav{
     height: 15px;
@@ -330,11 +337,27 @@ hr {
 .border {
     border: 1px solid var(--brown) !important;
 }
-.row {
-    /* --bs-gutter-x: 1.5rem; */
 
+.btn-login {
+    --bs-btn-color: var(--brown);
+    --bs-btn-bg: #ccd5ae;
+    --bs-btn-border-color: #ccd5ae;
+    --bs-btn-hover-color: var(--brown);
+    --bs-btn-hover-bg: #e9edc9;
+    --bs-btn-hover-border-color: #e9edc9;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: var(--brown);
+    --bs-btn-active-bg: #ccd5ae;
+    --bs-btn-active-border-color: #ccd5ae;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #ccd5ae;
+    --bs-btn-disabled-border-color: #ccd5ae;
 }
 
+.text-brown{
+    color:var(--brown);
+}
 
 /*--------------------------------------------------------
     Start: Responsive View Google Chrome
