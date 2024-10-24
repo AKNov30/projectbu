@@ -97,10 +97,10 @@ function History() {
                     <table className="table table-striped table-hover border">
                         <thead>
                             <tr>
-                                <th scope="col">วันที่จอง</th>
+                                <th scope="col">วันที่จองสุนัข</th>
                                 <th scope="col">รหัส</th>
                                 <th scope="col">ชื่อสุนัข</th>
-                                <th scope="col">ราคา</th>
+                                <th scope="col">ราคา (บาท)</th>
                                 <th scope="col">วันที่รับสุนัข</th>
                                 <th scope="col">สถานะการจอง</th>
                             </tr>

@@ -78,7 +78,7 @@ function EditUser() {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Email</label>
+            <label className="form-label">อีเมล/Username</label>
             <input
               type="email"
               name="user_email"
@@ -111,7 +111,7 @@ function EditUser() {
             />
           </div>
           <div className="form-group">
-            <label className="form-label">เบอร์โทร</label>
+            <label className="form-label">เบอร์โทรศัพท์</label>
             <input
               type="text"
               name="phone"

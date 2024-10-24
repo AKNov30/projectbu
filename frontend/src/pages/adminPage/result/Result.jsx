@@ -107,17 +107,17 @@ function Result() {
                             <thead>
                                 <tr>
                                     <th className="text-center" style={{ width: '1%' }}>รายการ</th>
-                                    <th style={{ width: '8%' }}>ชื่อลูกค้า</th>
-                                    <th style={{ width: '8%' }}>วันที่จอง</th>
-                                    <th style={{ width: '8%' }}>วันที่ขาย</th>
-                                    <th style={{ width: '3%' }}>รหัส</th>
-                                    <th style={{ width: '12%' }}>ชื่อรายการ</th>
-                                    <th style={{ width: '3%' }}>ราคา(บาท)</th>
-                                    <th style={{ width: '3%' }}>ส่วนลด</th>
-                                    <th style={{ width: '4%' }}>รวมเป็น</th>
-                                    <th style={{ width: '3%' }}>ใบเสร็จ</th>
-                                    <th style={{ width: '3%' }}>ใบเสร็จการจอง</th>
-                                    <th style={{ width: '3%' }}>ใบเสร็จการรับ</th>
+                                    <th>ชื่อลูกค้า</th>
+                                    <th>วันที่จองสุนัข</th>
+                                    <th>วันที่ขายสุนัข</th>
+                                    <th>รหัส</th>
+                                    <th>ชื่อสุนัข</th>
+                                    <th>ราคา(บาท)</th>
+                                    <th>ส่วนลด</th>
+                                    <th>รวมเป็น</th>
+                                    <th>ใบเสร็จการจอง</th>
+                                    <th>ใบเสร็จการรับ</th>
+                                    <th>ใบเสร็จ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -140,6 +140,8 @@ function Result() {
                                             <td>{reservation.dogs_name}</td>
                                             <td>{formatPrice(reservation.price)}</td>
                                             <td>0</td>
+                                            <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}                       
+                                            <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
                                             <td>
                                             <PDFDownloadLink 
@@ -150,8 +152,6 @@ function Result() {
                                                 {({ loading }) => (loading ? 'Loading...' : <img src={print} alt="Print" style={{ width: '25px' }} />)}
                                             </PDFDownloadLink>
                                             </td>
-                                            <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
-                                            <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
                                         </tr>
                                     ))
                                 ) : (

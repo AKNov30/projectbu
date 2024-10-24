@@ -7,7 +7,7 @@ import { doc2Admin, listAdmin, docAdmin, dogAdmin } from '../../assets'
 function AppbarAdmin() {
   return (
     <>
-          <nav className="head-admin pt-3 row">
+          <nav className="head-admin p-4 row">
 
             <div className='d-flex p-2'>
               <img className="pic-admin" src={ dogAdmin } alt="Add Dog" />
@@ -23,7 +23,7 @@ function AppbarAdmin() {
             </div>
             <div className="d-flex p-2">
               <img className="pic-admin" src={ docAdmin } alt="Postpone Pickup" />
-              <Link to="/admin/change-date" className="nav-link">เลือนวันรับ</Link>
+              <Link to="/admin/change-date" className="nav-link">เลื่อนวันรับ</Link>
             </div>
             <div className="d-flex p-2">
               <img className="pic-admin" src={ listAdmin } alt="Member List" />

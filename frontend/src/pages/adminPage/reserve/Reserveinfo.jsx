@@ -124,7 +124,7 @@ const Reserveinfo = () => {
                         <div className="underline-pink d-flex justify-content-center"></div>
                         <div className="pt-2" style={{ fontSize: '16px' }}>
                             ชื่อ: {reservationDetails.dogs_name}<br />
-                            ราคา: ฿ {formatPrice(reservationDetails.price)} บาท<br />
+                            ราคา: {formatPrice(reservationDetails.price)} บาท<br />
                             รหัส: {reservationDetails.dog_id}
                         </div>
                     </div>
@@ -206,8 +206,8 @@ const Reserveinfo = () => {
                 </div>
                 <div className="col-xl-3 col-lg-5 col-md-5 d-flex justify-content-center align-items-center">
                     <div className="py-2">
-                        <label htmlFor="formFile">แนบหลักฐานการโอน</label>
-                        <div class="text-red">ราคาที่ต้องชำระ : {formatPrice(reservationDetails.price/2)} บาท</div>
+                        <label htmlFor="formFile">แนบหลักฐานเพิ่มเติม</label>
+                        <div class="text-red">ราคาที่ต้องชำระเพิ่ม : {formatPrice(reservationDetails.price/2)} บาท</div>
                         <input className="form-control" type="file" id="formFile" onChange={handleFileChange} />
                     </div>
                 </div>
