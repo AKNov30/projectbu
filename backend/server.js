@@ -1157,35 +1157,84 @@ app.get("/api/user-dogs", (req, res) => {
   `;
   const params = [user_id, limit, offset];
 
-  //แสดงประวัติการจอง
+  // แสดงประวัติการจอง
   app.get("/api/history", (req, res) => {
     const user_id = req.query.user_id;
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10; // จำนวนรายการต่อหน้า
-    const offset = (page - 1) * limit; 
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+    const searchTerm = req.query.searchTerm || "";
+    const statusFilter = req.query.statusFilter;
 
-    const sql = `
-      SELECT 
-        bookings.booking_id, 
-        bookings.user_id, 
-        bookings.dog_id,
-        bookings.booking_date,
-        bookings.created_at,
-        bookings.status,
-        dogs.dogs_name, 
-        dogs.price
-      FROM bookings
-      JOIN dogs ON bookings.dog_id = dogs.dog_id
-      WHERE bookings.user_id = ? AND bookings.status IN ('canceled', 'successful');
+    let sql = `
+        SELECT 
+            bookings.booking_id, 
+            bookings.user_id, 
+            bookings.dog_id,
+            bookings.booking_date,
+            bookings.created_at,
+            bookings.status,
+            dogs.dogs_name, 
+            dogs.price
+        FROM bookings
+        JOIN dogs ON bookings.dog_id = dogs.dog_id
+        WHERE bookings.user_id = ?
+        AND (dogs.dogs_name LIKE ? OR bookings.dog_id LIKE ?)
     `;
 
-    pool.query(sql, [user_id], (err, results) => {
+    // ถ้าสถานะไม่ใช่ 'ทั้งหมด' ให้เพิ่มเงื่อนไขในการกรองสถานะ
+    if (statusFilter && statusFilter !== "ทั้งหมด") {
+      sql += " AND bookings.status = ?";
+    }
+
+    sql += " LIMIT ? OFFSET ?;";
+
+    const searchPattern = `%${searchTerm}%`;
+    const queryParams = [user_id, searchPattern, searchPattern];
+
+    // เพิ่มพารามิเตอร์ของสถานะถ้ามีการระบุ
+    if (statusFilter && statusFilter !== "ทั้งหมด") {
+      queryParams.push(statusFilter);
+    }
+
+    queryParams.push(limit, offset);
+
+    pool.query(sql, queryParams, (err, results) => {
       if (err) {
         console.error("Error fetching data:", err);
         return res.status(500).json({ error: "Error fetching data" });
       }
 
-      res.status(200).json(results);
+      const countSql =
+        `
+            SELECT COUNT(*) as count
+            FROM bookings
+            JOIN dogs ON bookings.dog_id = dogs.dog_id
+            WHERE bookings.user_id = ?
+            AND (dogs.dogs_name LIKE ? OR bookings.dog_id LIKE ?)
+        ` +
+        (statusFilter && statusFilter !== "ทั้งหมด"
+          ? " AND bookings.status = ?"
+          : "");
+
+      pool.query(
+        countSql,
+        queryParams.slice(0, statusFilter ? 4 : 3),
+        (countErr, countResult) => {
+          if (countErr) {
+            return res.status(500).json({ message: "Error counting bookings" });
+          }
+
+          const totalCount = countResult[0].count;
+          const totalPages = Math.ceil(totalCount / limit);
+
+          res.json({
+            data: results,
+            currentPage: page,
+            totalPages: totalPages,
+          });
+        }
+      );
     });
   });
 
