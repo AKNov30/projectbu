@@ -387,12 +387,12 @@ app.get("/api/dogs", (req, res) => {
 });
 
 // Endpoint สำหรับลบสุนัข
-app.delete("/api/dogs/:dog_id", (req, res) => {
+app.delete("/api/dogs/:dog_id", async (req, res) => {
   const { dog_id } = req.params;
 
   // ลบข้อมูลการจองที่เกี่ยวข้องกับสุนัขในตาราง bookings ก่อน
   const deleteBookingsSql = "DELETE FROM bookings WHERE dog_id = ?";
-  pool.query(deleteBookingsSql, [dog_id], (err, result) => {
+  pool.query(deleteBookingsSql, [dog_id], async (err) => {
     if (err) {
       console.error("Error deleting bookings:", err);
       return res.status(500).json({ error: "เกิดข้อผิดพลาดในการลบข้อมูลการจอง" });
@@ -400,7 +400,7 @@ app.delete("/api/dogs/:dog_id", (req, res) => {
 
     // ตรวจสอบว่าสุนัขที่ต้องการลบมีอยู่ในฐานข้อมูลหรือไม่
     const checkDogSql = "SELECT * FROM dogs WHERE dog_id = ?";
-    pool.query(checkDogSql, [dog_id], (err, results) => {
+    pool.query(checkDogSql, [dog_id], async (err, results) => {
       if (err) {
         console.error("Error checking dog:", err);
         return res.status(500).json({ error: "เกิดข้อผิดพลาดในการตรวจสอบสุนัข" });
@@ -414,30 +414,31 @@ app.delete("/api/dogs/:dog_id", (req, res) => {
       const dog = results[0];
       const imageUrls = JSON.parse(dog.image_url); // แปลง JSON string กลับเป็น array
 
+      // ลบไฟล์รูปภาพจาก Cloudinary
+      try {
+        await Promise.all(
+          imageUrls.map(async (url) => {
+            const publicId = url.split('/').slice(-1)[0].split('.')[0]; // Extract public_id from the URL
+            await cloudinary.uploader.destroy(`dogs/${publicId}`);
+          })
+        );
+      } catch (error) {
+        console.error("Error deleting files from Cloudinary:", error);
+      }
+
       // ลบสุนัขจากฐานข้อมูล
       const deleteDogSql = "DELETE FROM dogs WHERE dog_id = ?";
-      pool.query(deleteDogSql, [dog_id], (err, result) => {
+      pool.query(deleteDogSql, [dog_id], (err) => {
         if (err) {
           console.error("Error deleting dog from database:", err);
           return res.status(500).json({ error: "เกิดข้อผิดพลาดในการลบสุนัขจากฐานข้อมูล" });
         }
-
-        // ลบไฟล์รูปภาพจาก public/images
-        imageUrls.forEach((imageUrl) => {
-          const filePath = path.join(__dirname, "public", imageUrl); // สร้าง path สำหรับไฟล์
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.error("Error deleting file:", err);
-            }
-          });
-        });
 
         res.status(200).json({ message: "สุนัขถูกลบเรียบร้อยแล้ว" });
       });
     });
   });
 });
-
 
 // EditdogForm ดึงข้อมูลสุนัขหนึ่งตัว
 app.get("/api/dogs/:dog_id", (req, res) => {
@@ -460,7 +461,7 @@ app.get("/api/dogs/:dog_id", (req, res) => {
   });
 });
 
-app.put("/api/dogs/:dog_id", upload.array("files"), (req, res) => {
+app.put("/api/dogs/:dog_id", upload.array("files"), async (req, res) => {
   const { dog_id } = req.params;
   const {
     dogs_name,
@@ -472,53 +473,49 @@ app.put("/api/dogs/:dog_id", upload.array("files"), (req, res) => {
     removeImages,
   } = req.body;
 
-  // Initialize fileNames as empty array
-  let fileNames = [];
+  // Initialize fileUrls as empty array
+  let fileUrls = [];
   if (req.files && req.files.length > 0) {
-    fileNames = req.files.map((file) => `/images/${file.filename}`);
+    fileUrls = req.files.map((file) => file.path);
   }
 
   // Check if we should append or overwrite existing image URLs
   const getExistingDogSql = "SELECT image_url FROM dogs WHERE dog_id = ?";
-  pool.query(getExistingDogSql, [dog_id], (err, results) => {
+  pool.query(getExistingDogSql, [dog_id], async (err, results) => {
     if (err) {
       console.error("Error fetching existing dog data:", err);
-      return res
-        .status(500)
-        .json("Error fetching existing dog data: " + err.message);
+      return res.status(500).json("Error fetching existing dog data: " + err.message);
     }
 
     // If the dog exists, merge existing image URLs
     let existingImages = [];
     if (results.length > 0) {
-      existingImages = JSON.parse(results[0].image_url); // Get existing image URLs
+      existingImages = JSON.parse(results[0].image_url);
     }
 
     // Remove images specified for deletion
     let imagesToKeep = existingImages;
     if (removeImages && Array.isArray(removeImages)) {
-      // Identify images that need to be deleted from the filesystem
-      const imagesToDelete = existingImages.filter((image) =>
-        removeImages.includes(image)
-      );
+      // Identify images that need to be deleted from Cloudinary
+      const imagesToDelete = existingImages.filter((image) => removeImages.includes(image));
 
-      // Delete files from the public/images directory
-      imagesToDelete.forEach((image) => {
-        const filePath = path.join(__dirname, "public", image); // Construct the full path for the image
-        fs.unlink(filePath, (err) => {
-          if (err) {
-            console.error("Error deleting file:", err);
-          }
-        });
-      });
+      // Delete files from Cloudinary
+      try {
+        await Promise.all(
+          imagesToDelete.map(async (url) => {
+            const publicId = url.split('/').slice(-1)[0].split('.')[0];
+            await cloudinary.uploader.destroy(`dogs/${publicId}`);
+          })
+        );
+      } catch (error) {
+        console.error("Error deleting files from Cloudinary:", error);
+      }
 
-      imagesToKeep = existingImages.filter(
-        (image) => !removeImages.includes(image)
-      );
+      imagesToKeep = existingImages.filter((image) => !removeImages.includes(image));
     }
 
     // Combine existing and new image URLs
-    const allImageUrls = [...imagesToKeep, ...fileNames];
+    const allImageUrls = [...imagesToKeep, ...fileUrls];
 
     const sql = `
       UPDATE dogs 
@@ -795,7 +792,7 @@ app.post("/api/confirm-receive/:bookingId", upload.single('slip'), (req, res) =>
     return res.status(400).json({ message: "Slip file is required" });
   }
 
-  const slipUrl = `/images/${req.file.filename}`;
+  const slipUrl = req.file.path; // Use Cloudinary URL directly
 
   const updateBookingQuery = `
     UPDATE bookings 
@@ -1023,8 +1020,8 @@ app.post("/api/generate-qr", async (req, res) => {
 app.post("/api/book", upload.single("slip"), async (req, res) => {
   const { user_id, dog_id, booking_date, pickup_date, phone } = req.body;
 
-  // ตรวจสอบว่ามีไฟล์สลิปถูกอัปโหลดหรือไม่
-  const slipUrl = req.file ? `/images/${req.file.filename}` : null;
+  // ตรวจสอบว่ามีไฟล์สลิปถูกอัปโหลดหรือไม่ และใช้ URL ของ Cloudinary
+  const slipUrl = req.file ? req.file.path : null;
 
   // SQL query to insert a new booking
   const sqlInsertBooking = `
@@ -1248,37 +1245,28 @@ app.get("/api/user-dogs", (req, res) => {
   });
 
   // Endpoint สำหรับอัปโหลดสลิป
-  app.post(
-    "/api/upload-slip/:booking_id",
-    upload.single("slip"),
-    async (req, res) => {
-      const { booking_id } = req.params;
-
-      // Check if file was uploaded
-      if (!req.file) {
-        return res.status(400).json({ message: "No file uploaded" });
-      }
-
-      const slipUrl = `/images/${req.file.filename}`; // Get the file URL
-
-      // Update the booking with the slip URL
-      const sqlUpdateSlip =
-        "UPDATE bookings SET slip_url = ? WHERE booking_id = ?";
-
-      try {
-        await pool.promise().execute(sqlUpdateSlip, [slipUrl, booking_id]);
-
-        res
-          .status(200)
-          .json({ message: "Slip uploaded successfully", slipUrl });
-      } catch (error) {
-        console.error("Error uploading slip:", error);
-        res
-          .status(500)
-          .json({ message: "Error uploading slip", error: error.message });
-      }
+  app.post("/api/upload-slip/:booking_id", upload.single("slip"), async (req, res) => {
+    const { booking_id } = req.params;
+  
+    // Check if file was uploaded
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
     }
-  );
+  
+    const slipUrl = req.file.path; // Use Cloudinary URL
+  
+    // Update the booking with the slip URL
+    const sqlUpdateSlip = "UPDATE bookings SET slip_url = ? WHERE booking_id = ?";
+  
+    try {
+      await pool.promise().execute(sqlUpdateSlip, [slipUrl, booking_id]);
+  
+      res.status(200).json({ message: "Slip uploaded successfully", slipUrl });
+    } catch (error) {
+      console.error("Error uploading slip:", error);
+      res.status(500).json({ message: "Error uploading slip", error: error.message });
+    }
+  });  
 
   //ยกเลิกการจอง
   app.put("/api/cancel-booking", async (req, res) => {
