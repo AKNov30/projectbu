@@ -111,9 +111,9 @@ function DetailDog() {
           <div className="col-xl-4 col-lg-5 col-md-5">
             <img
               className="setting-pic-info just-flex-center img-fluid"
-              src={imageUrls.length > 0 ? `${apiUrl}${imageUrls[0]}` : dogBrown}
+              src={imageUrls.length > 0 ? `${imageUrls[0]}` : dogBrown}
               alt={dog.dogs_name}
-              onClick={() => openModal(`${apiUrl}${imageUrls[0]}`)}
+              onClick={() => openModal(`${imageUrls[0]}`)}
             />
           </div>
           <div className="col-xl-7 col-lg-5 col-md-6 bg-grey p-3">
@@ -154,9 +154,9 @@ function DetailDog() {
               <img
                 key={index}
                 className="setting-pic-info-small just-flex-center img-fluid me-2"
-                src={`${apiUrl}${url}`}
+                src={`${url}`}
                 alt={`${dog.dogs_name} ${index + 2}`}
-                onClick={() => openModal(`${apiUrl}${url}`)}
+                onClick={() => openModal(`${url}`)}
               />
             ))}
           </div>
