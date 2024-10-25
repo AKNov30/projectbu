@@ -23,7 +23,7 @@ function DogCard({ dog }) {
         <div className="d-flex justify-content-center align-items-center p-2">
           <img
             className="setting-pic img-fluid"
-            src={imageUrls.length > 0 ? `${imageUrls[0]}` : logo}
+            src={imageUrls[0].startsWith('http') ? imageUrls[0] : `${apiUrl}${imageUrls[0]}`}
             alt={dog.dogs_name}
             style={{ maxHeight: '200px', objectFit: 'cover' }}
           />
