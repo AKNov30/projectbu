@@ -122,7 +122,7 @@ function DetailDog() {
             <h4 className="px-3">รายละเอียด</h4>
             <div className="dog-info-grid px-5">
               <div>รหัส</div> <div>: {dog.dog_id}</div>
-              <div>วันเกิด</div> 
+              <div>วันเกิด</div>
               <div>: {new Date(dog.birthday).toLocaleDateString('en-GB', {
                 day: '2-digit',
                 month: '2-digit',
@@ -132,7 +132,7 @@ function DetailDog() {
               <div>ลักษณะนิสัย</div> <div>: {dog.personality}</div>
             </div>
             <div className="just-flex-end d-flex pt-3">
-              
+
               {/* ถ้าไม่ได้ login หรือ role=admin จะไม่สามารถกดจองได้ */}
               {userRole === 'member' ? (
                 <Link to={`/reserve/${dog.dog_id}`} className="btn btn-warning setting-btn-reserve mx-2">จอง</Link>
@@ -150,15 +150,16 @@ function DetailDog() {
         <div className="row">
           <div className="col-1"></div>
           <div className="col-xl-5 col-lg-11">
-            {imageUrls.slice(1).map((url, index) => (
+            {imageUrls.slice(1).map((imageUrl, index) => (
               <img
-                key={index}
+                key={index + 1} // ใช้ index + 1 เพื่อให้ ไม่แสดงรูปแรก
                 className="setting-pic-info-small just-flex-center img-fluid me-2"
-                src={imageUrls[0].startsWith('http') ? imageUrls[0] : `${apiUrl}${imageUrls[0]}`}
-                alt={`${dog.dogs_name} ${index + 2}`}
-                onClick={() => openModal(imageUrls[0].startsWith('http') ? imageUrls[0] : `${apiUrl}${imageUrls[0]}`)}
+                src={imageUrl.startsWith('http') ? imageUrl : `${apiUrl}${imageUrl}`}
+                alt={`${dog.dogs_name} ${index + 2}`} // index + 2 เพื่อเริ่มจาก 2 แทน 1
+                onClick={() => openModal(imageUrl.startsWith('http') ? imageUrl : `${apiUrl}${imageUrl}`)}
               />
             ))}
+
           </div>
         </div>
 
@@ -166,7 +167,7 @@ function DetailDog() {
         <div className="row">
           <div className="col-1"></div>
           <div className="col-11">
-            <hr/>
+            <hr />
             <h4>คุณอาจสนใจ</h4>
           </div>
         </div>
