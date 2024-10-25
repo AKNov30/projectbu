@@ -32,6 +32,7 @@
 body {
     overflow-x: hidden;
     height: 100vh;
+    background-image:url('./assets/bg.png');
 }
 
 .bg-tri{
