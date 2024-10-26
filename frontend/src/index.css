@@ -369,10 +369,6 @@ hr {
 .text-new-dark{
     color:var(--new-dark);
 }
-.vertical-line {
-    border-right: 2px solid black; /* ขนาดและสีของเส้น */
-    height: auto;
-}
 
 .center-table{
     vertical-align: middle;

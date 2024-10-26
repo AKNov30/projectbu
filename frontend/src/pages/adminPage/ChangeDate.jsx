@@ -109,7 +109,7 @@ function ChangeDate() {
                                 {reservations.map((reservation) => {
                                     console.log(reservation.image_url)
                                     return (
-                                        <tr key={reservation.booking_id}>
+                                        <tr key={reservation.booking_id} className='center-table'>
                                             <td className="text-center">
                                                 <img
                                                     src={reservation.image_url}

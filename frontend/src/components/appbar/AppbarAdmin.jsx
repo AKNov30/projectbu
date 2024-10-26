@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 
 // image
-import { doc2Admin, listAdmin, docAdmin, dogAdmin } from '../../assets'
+import { doc2Admin, listAdmin, docAdmin, dogAdmin, userAdmin } from '../../assets'
 
 function AppbarAdmin() {
   return (
@@ -26,7 +26,7 @@ function AppbarAdmin() {
               <Link to="/admin/change-date" className="nav-link">เลื่อนวันรับ</Link>
             </div>
             <div className="d-flex p-2">
-              <img className="pic-admin" src={ listAdmin } alt="Member List" />
+              <img className="pic-admin" src={ userAdmin } alt="Member List" />
               <Link to="/admin/list-user" className="nav-link">รายชื่อสมาชิก</Link>
             </div>
             <div className="d-flex p-2">
