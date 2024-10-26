@@ -140,7 +140,7 @@ function Cancle() {
                             <div className="col-xl-2 col-lg-2 col-md-3 d-flex align-items-center justify-content-center">
                                 <img
                                     className="setting-pic-cancle just-flex-center img-fluid"
-                                    src={imageUrls.length > 0 ? `${apiUrl}${imageUrls[0]}` : logo} // ใช้รูปแรกจาก array หรือรูปสำรอง
+                                    src={imageUrls[0].startsWith('http') ? imageUrls[0] : `${apiUrl}${imageUrls[0]}`} // ใช้รูปแรกจาก array หรือรูปสำรอง
                                     alt="dog"
                                 />
                             </div>
@@ -222,7 +222,7 @@ function Cancle() {
                                         <div className="pb-2">
                                             <p 
                                                 className="m-0 p-0 text-success" 
-                                                onClick={() => openModal(`${apiUrl}${booking.slip_url}`)}
+                                                onClick={() => openModal(booking.slip_url.startsWith('http') ? booking.slip_url :`${apiUrl}${booking.slip_url}`)}
                                                 style={{ cursor: 'pointer', textDecoration: 'underline' }}
                                                 >
                                                     สลิปได้ถูกอัปโหลดแล้ว
