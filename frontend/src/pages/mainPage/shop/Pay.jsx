@@ -47,7 +47,11 @@ function Pay() {
             const formData = new FormData();
             formData.append('user_id', parseInt(user_id));
             formData.append('dog_id', parseInt(dog_id));
-            formData.append('booking_date', date);
+
+            const localDate = new Date(date);
+            localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());
+            const formattedDate = localDate.toISOString().split('T')[0];
+            formData.append('booking_date', formattedDate);
             formData.append('pickup_date', time);
             formData.append('phone', phone);
 

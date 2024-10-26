@@ -4,7 +4,8 @@ import api, { apiUrl } from '../../../config/apiConfig';
 import calculateAge from '../../../utils/calculateAge';
 import { dogBrown } from '../../../assets';
 import { formatPrice } from '../../../utils/formatPrice';
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function Reserve() {
     const { dog_id } = useParams(); 
@@ -15,7 +16,7 @@ function Reserve() {
     
     // form
     const [isAccepted, setIsAccepted] = useState(false);
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(null);
     const [time, setTime] = useState('');
     const [phone, setPhone] = useState('');
     const user_id = localStorage.getItem('user_id');
@@ -140,12 +141,13 @@ function Reserve() {
                 <div className="col-xl-3 col-lg-3 col-md-4 col-6 pt-3">
                     <div className="form-check">
                         <label className="form-label">วันที่จะเข้ามารับสุนัข</label>
-                        <input 
-                            className="form-control" 
-                            type="date" 
-                            value={date} 
-                            onChange={(e) => setDate(e.target.value)} 
-                            disabled={!isAccepted} 
+                        <DatePicker
+                            selected={date}
+                            onChange={(date) => setDate(date)}
+                            dateFormat="dd/MM/yyyy"
+                            className="form-control"
+                            placeholderText="dd/mm/yyyy"
+                            disabled={!isAccepted}
                         />
                     </div>
                 </div>
