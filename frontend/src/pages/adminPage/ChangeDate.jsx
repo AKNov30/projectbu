@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { AlertSave } from '../../components/alert/Alert';
 import api, { apiUrl } from '../../config/apiConfig';
 import Pagination from '../../components/pagination/Pagination';
+import { logo } from '../../assets';
 
 function ChangeDate() {
     const [reservations, setReservations] = useState([]);
@@ -107,12 +108,16 @@ function ChangeDate() {
                             </thead>
                             <tbody>
                                 {reservations.map((reservation) => {
-                                    console.log(reservation.image_url)
+                                    // console.log(reservation.image_url)
+                                    const imageUrl = reservation.image_url.startsWith('http')
+                                        ? reservation.image_url
+                                        : `${apiUrl}${reservation.image_url}`;
                                     return (
                                         <tr key={reservation.booking_id} className='center-table'>
                                             <td className="text-center">
                                                 <img
-                                                    src={reservation.image_url}
+                                                    src={imageUrl}
+                                                    // src={image_url.startsWith('http') ? image_url : reservation.image_url }
                                                     onError={(e) => { e.target.src = logo; }}
                                                     alt={reservation.dogs_name}
                                                     height="80"
