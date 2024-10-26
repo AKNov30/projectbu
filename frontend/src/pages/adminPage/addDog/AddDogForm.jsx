@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AlertSave } from '../../../components/alert/Alert';
 import api from '../../../config/apiConfig';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function AddDogForm() {
   const [dogname, setDogName] = useState("");
-  const [birthDay, setBirthDay] = useState("");
+  const [birthDay, setBirthDay] = useState(null);
   const [price, setPrice] = useState("");
   const [color, setColor] = useState("");
   const [description, setDescription] = useState("");
@@ -19,7 +21,7 @@ function AddDogForm() {
 
     const formData = new FormData();
     formData.append("dogs_name", dogname);
-    formData.append("birthday", birthDay);
+    formData.append("birthday", birthDay ? birthDay.toISOString().split('T')[0] : "");
     formData.append("price", price);
     formData.append("color", color);
     formData.append("description", description);
@@ -115,11 +117,13 @@ function AddDogForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label className="form-label">วันเกิด</label>
-                  <input
+                  <DatePicker
                     type="date"
                     className="form-control"
-                    value={birthDay}
-                    onChange={(e) => setBirthDay(e.target.value)}
+                    selected={birthDay}
+                    onChange={(date) => setBirthDay(date)}
+                    dateFormat="dd/MM/yyyy"
+                    placeholderText="dd/mm/yyyy"
                     required
                   />
                 </div>
