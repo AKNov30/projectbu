@@ -109,7 +109,7 @@ function ChangeDate() {
                             <tbody>
                                 {reservations.map((reservation) => {
                                     // console.log(reservation.image_url)
-                                    const imageUrl = reservation.image_url.startsWith('http')
+                                    const imageUrl = reservation.image_url && reservation.image_url.startsWith('http')
                                         ? reservation.image_url
                                         : `${apiUrl}${reservation.image_url}`;
                                     return (
@@ -118,7 +118,7 @@ function ChangeDate() {
                                                 <img
                                                     src={imageUrl}
                                                     // src={image_url.startsWith('http') ? image_url : reservation.image_url }
-                                                    onError={(e) => { e.target.src = logo; }}
+                                                    // onError={(e) => { e.target.src = logo; }}
                                                     alt={reservation.dogs_name}
                                                     height="80"
                                                     className="d-inline-block align-text-top"
