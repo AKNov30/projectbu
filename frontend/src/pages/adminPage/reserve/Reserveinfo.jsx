@@ -194,7 +194,7 @@ const Reserveinfo = () => {
                         successTitle="ยกเลิกการจองเสร็จสิ้น"
                         successText=" "
                     >
-                        <div class="px-2">
+                        <div className="px-2">
                             <button type="button" className="btn btn-danger setting-btn-reserve" id="cancelreserve">
                                 ยกเลิกจอง
                             </button>
@@ -207,7 +207,7 @@ const Reserveinfo = () => {
                 <div className="col-xl-3 col-lg-5 col-md-5 d-flex justify-content-center align-items-center">
                     <div className="py-2">
                         <label htmlFor="formFile">แนบหลักฐานเพิ่มเติม</label>
-                        <div class="text-red">ราคาที่ต้องชำระเพิ่ม : {formatPrice(reservationDetails.price/2)} บาท</div>
+                        <div className="text-red">ราคาที่ต้องชำระเพิ่ม : {formatPrice(reservationDetails.price/2)} บาท</div>
                         <input className="form-control" type="file" id="formFile" onChange={handleFileChange} />
                     </div>
                 </div>

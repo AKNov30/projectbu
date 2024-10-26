@@ -75,7 +75,7 @@ function Reserve() {
                 <div className="col-xl-4 col-lg-5 col-md-5">
                     <img
                         className="setting-pic-info just-flex-center img-fluid"
-                        src={dog.image_url.length > 0 ? `${apiUrl}${dog.image_url[0]}` : dogBrown}
+                        src={dog.image_url[0].startsWith('http') ? dog.image_url[0] : `${apiUrl}${dog.image_url[0]}`}
                         alt={dog.dogs_name}
                     />
                 </div>
