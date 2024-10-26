@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AMON-ZONE</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      /* ตั้งค่าพื้นหลังและจัดตำแหน่งให้อยู่ตรงกลาง */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background-color: #e63946;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ข้อความหลัก */
+      .title {
+        font-size: 5rem;
+        font-family: "Arial", sans-serif;
+        font-weight: bold;
+        opacity: 0; /* เริ่มต้นที่โปร่งใส */
+        transform: scale(0.8); /* เริ่มต้นที่ขนาดเล็กลง */
+        animation: fadeInScale 1.5s ease forwards,
+          colorChange 4s ease-in-out infinite;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* แอนิเมชันที่ทำให้ข้อความค่อย ๆ ปรากฏและขยายขนาด */
+      @keyframes fadeInScale {
+        0% {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      /* แอนิเมชันสีที่เปลี่ยนไปเรื่อย ๆ */
+      @keyframes colorChange {
+        0% {
+          color: #fff;
+        }
+        25% {
+          color: #ffbe0b;
+        }
+        50% {
+          color: #ffffff;
+        }
+        75% {
+          color: #10078a;
+        }
+        100% {
+          color: #8338ec;
+        }
+      }
+
+      /* การส่องแสงรอบตัวอักษร */
+      .title::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 3px solid transparent;
+        border-radius: 5px;
+        animation: borderGlow 2s linear infinite;
+        box-sizing: border-box;
+      }
+
+      /* แอนิเมชันขอบส่องแสง */
+      @keyframes borderGlow {
+        0% {
+          border-color: #3011b9;
+        }
+        50% {
+          border-color: #ffffff;
+        }
+        100% {
+          border-color: #ffbe0b;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="d-flex justify-content-center align-items-center"
+      style="height: 100vh"
+    >
+      <h1 class="display-1 title p-4">AMON-ZONE</h1>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

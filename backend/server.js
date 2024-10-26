@@ -60,7 +60,7 @@ pool.getConnection((err, connection) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Hello");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // Endpoint สำหรับการสมัครสมาชิก
