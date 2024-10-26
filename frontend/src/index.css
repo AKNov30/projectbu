@@ -374,6 +374,9 @@ hr {
     height: auto;
 }
 
+.center-table{
+    vertical-align: middle;
+}
 /*--------------------------------------------------------
     Start: Responsive View Google Chrome
 ----------------------------------------------------------*/
