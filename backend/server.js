@@ -86,9 +86,9 @@ pool.getConnection((err, connection) => {
   connection.release();
 });
 
-app.get("/", (req,res) => {
-  res.send("Hello")
-})
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 // Endpoint สำหรับการสมัครสมาชิก
 app.post("/api/register", async (req, res) => {
