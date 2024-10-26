@@ -129,9 +129,10 @@ function AddDogForm() {
                     type="number"
                     className="form-control"
                     value={price}
-                    onChange={(e) => setPrice(e.target.value)}
+                    onChange={(e) => setPrice(Math.max(0, e.target.value))}
                     required
                     step="1"
+                    min="0"
                   />
                 </div>
               </div>
