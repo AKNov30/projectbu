@@ -72,7 +72,7 @@ function Reserveadmin() {
                                                     {reservation.user_email}<br />
                                                     {reservation.phone}
                                                 </td>
-                                                <td>{reservation.booking_id}</td>
+                                                <td>{reservation.dog_id}</td>
                                                 <td>{new Date(reservation.created_at).toLocaleDateString('en-GB', {
                                                     day: '2-digit',
                                                     month: '2-digit',

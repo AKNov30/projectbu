@@ -110,7 +110,7 @@ function Result() {
                                     <th>ชื่อลูกค้า</th>
                                     <th>วันที่จองสุนัข</th>
                                     <th>วันที่ขายสุนัข</th>
-                                    <th>รหัส</th>
+                                    <th>รหัสสุนัข</th>
                                     <th>ชื่อสุนัข</th>
                                     <th>ราคา(บาท)</th>
                                     <th>รวมเป็น</th>
@@ -135,7 +135,7 @@ function Result() {
                                                 month: '2-digit',
                                                 year: 'numeric'
                                             })}</td>
-                                            <td>{reservation.booking_id}</td>
+                                            <td>{reservation.dog_id}</td>
                                             <td>{reservation.dogs_name}</td>
                                             <td>{formatPrice(reservation.price)}</td>
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}                       
