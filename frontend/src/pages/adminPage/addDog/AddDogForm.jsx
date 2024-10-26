@@ -21,7 +21,12 @@ function AddDogForm() {
 
     const formData = new FormData();
     formData.append("dogs_name", dogname);
-    formData.append("birthday", birthDay ? birthDay.toISOString().split('T')[0] : "");
+    if (birthDay) {
+      const localDate = new Date(birthDay.getTime() - birthDay.getTimezoneOffset() * 60000).toISOString().split('T')[0];
+      formData.append("birthday", localDate);
+    } else {
+      formData.append("birthday", "");
+    }
     formData.append("price", price);
     formData.append("color", color);
     formData.append("description", description);
@@ -102,14 +107,14 @@ function AddDogForm() {
               {/* Dog Name */}
               <div className="row mb-3">
                 <div className="col-md-12">
-                    <label className="form-label">ชื่อสุนัข</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={dogname}
-                      onChange={(e) => setDogName(e.target.value)}
-                      required
-                    />
+                  <label className="form-label">ชื่อสุนัข</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={dogname}
+                    onChange={(e) => setDogName(e.target.value)}
+                    required
+                  />
                 </div>
               </div>
 
@@ -240,7 +245,7 @@ function AddDogForm() {
                     if (!dogname || !birthDay || !price || !color || !description || !personality || files.length === 0) {
                       setError("กรุณากรอกข้อมูลให้ครบทุกช่อง");
                       return false
-                    }else{
+                    } else {
                       upload();
                     }
                   }}

@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // ใช้สำหรับรับ params และนำทาง
 import { AlertSave } from '../../../components/alert/Alert';
 import api, { apiUrl } from '../../../config/apiConfig';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function EditDogForm() {
     const { dogId } = useParams(); // รับ dog_id จาก URL
     const navigate = useNavigate(); // ใช้สำหรับนำทางหลังจากอัปเดตสำเร็จ
 
     const [dogname, setDogName] = useState("");
-    const [birthDay, setBirthDay] = useState("");
+    const [birthDay, setBirthDay] = useState(null);
     const [price, setPrice] = useState("");
     const [color, setColor] = useState("");
     const [description, setDescription] = useState("");
@@ -27,9 +29,8 @@ function EditDogForm() {
             .then(response => {
                 const { dogs_name, birthday, price, color, description, personality, image_url } = response.data;
                 setDogName(dogs_name);
-                const date = new Date(birthday); 
-                const formattedDate = date.toISOString().split('T')[0];
-                setBirthDay(formattedDate);
+                const date = birthday ? new Date(birthday) : null;
+                setBirthDay(date);
                 setPrice(price);
                 setColor(color);
                 setDescription(description);
@@ -42,6 +43,7 @@ function EditDogForm() {
             });
     }, [dogId]);
 
+
     // ฟังก์ชันอัปเดตข้อมูลสุนัข
     const updateDog = async () => {
         if (!dogname || !birthDay || !price || !color || !description || !personality) {
@@ -51,7 +53,12 @@ function EditDogForm() {
 
         const formData = new FormData();
         formData.append("dogs_name", dogname);
-        formData.append("birthday", birthDay);
+        if (birthDay) {
+            const localDate = new Date(birthDay.getTime() - birthDay.getTimezoneOffset() * 60000).toISOString().split('T')[0];
+            formData.append("birthday", localDate);
+        } else {
+            formData.append("birthday", "");
+        }
         formData.append("price", price);
         formData.append("color", color);
         formData.append("description", description);
@@ -165,13 +172,15 @@ function EditDogForm() {
                             <div className="row mb-3">
                                 <div className="col-md-6">
                                     <label className="form-label">วันเกิด</label>
-                                    <input
-                                        type="date"
+                                    <DatePicker
+                                        selected={birthDay ? new Date(birthDay) : null}
+                                        onChange={(date) => setBirthDay(date)}
+                                        dateFormat="dd/MM/yyyy"
                                         className="form-control"
-                                        value={birthDay}
-                                        onChange={(e) => setBirthDay(e.target.value)}
+                                        placeholderText="dd/mm/yyyy"
                                         required
                                     />
+
                                 </div>
                                 <div className="col-md-6">
                                     <label className="form-label">ราคา</label>
@@ -247,7 +256,7 @@ function EditDogForm() {
                                             {existingImages.map((imageUrl, index) => (
                                                 <div key={index} className="position-relative m-2">
                                                     <img
-                                                        src={ imageUrl.startsWith('http') ? imageUrl : `${ apiUrl }${imageUrl}` }
+                                                        src={imageUrl.startsWith('http') ? imageUrl : `${apiUrl}${imageUrl}`}
                                                         alt={`Existing ${index}`}
                                                         className="img-thumbnail"
                                                         style={{ width: '100px', height: '100px', objectFit: 'cover' }}
@@ -305,26 +314,26 @@ function EditDogForm() {
                             {/* ปุ่มส่งข้อมูล */}
                             <div className="text-center mb-3">
                                 <AlertSave
-                                onConfirm={() => {
-                                    if (!dogname || !birthDay || !price || !color || !description || !personality) {
-                                        setError("กรุณากรอกข้อมูลให้ครบทุกช่อง");
-                                        return false;
-                                    }else{
-                                        updateDog();
-                                    }
-                                  }}
-                                title={"คุณแน่ใจหรือไม่ที่จะแก้ไขสุนัข?"}
-                                confirmText={"ยืนยัน"}
-                                successMessage={"แก้ไขสำเร็จ"}
-                                failMessage={"แก้ไขไม่สำเร็จ"}
+                                    onConfirm={() => {
+                                        if (!dogname || !birthDay || !price || !color || !description || !personality) {
+                                            setError("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+                                            return false;
+                                        } else {
+                                            updateDog();
+                                        }
+                                    }}
+                                    title={"คุณแน่ใจหรือไม่ที่จะแก้ไขสุนัข?"}
+                                    confirmText={"ยืนยัน"}
+                                    successMessage={"แก้ไขสำเร็จ"}
+                                    failMessage={"แก้ไขไม่สำเร็จ"}
                                 >
-                                <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                    style={{ width: '100%', height: '50px' }}
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary"
+                                        style={{ width: '100%', height: '50px' }}
                                     >
-                                    แก้ไขข้อมูลสุนัข
-                                </button>
+                                        แก้ไขข้อมูลสุนัข
+                                    </button>
                                 </AlertSave>
                             </div>
                         </form>
