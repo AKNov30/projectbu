@@ -582,7 +582,7 @@ app.get("/api/change-date", (req, res) => {
     FROM bookings b
     JOIN dogs d ON b.dog_id = d.dog_id
     JOIN users u ON b.user_id = u.user_id
-    WHERE b.status IN ('pending')
+    WHERE b.status IN ('pending','confirm')
     LIMIT ? OFFSET ?;
   `;
 
@@ -617,7 +617,7 @@ app.get("/api/change-date", (req, res) => {
     const countSql = `
       SELECT COUNT(*) as count
       FROM bookings b
-      WHERE b.status IN ('pending');
+      WHERE b.status IN ('pending','confirm');
     `;
 
     pool.query(countSql, (countErr, countResult) => {
@@ -710,7 +710,7 @@ app.get("/api/reserve-admin", (req, res) => {
       bookings ON users.user_id = bookings.user_id
     INNER JOIN 
       dogs ON bookings.dog_id = dogs.dog_id
-    WHERE bookings.status = "pending"
+    WHERE bookings.status IN ("pending","confirm")
     LIMIT ? OFFSET ?;
   `;
 
@@ -724,7 +724,7 @@ app.get("/api/reserve-admin", (req, res) => {
     const countSql = `
       SELECT COUNT(*) as count
       FROM bookings
-      WHERE status = "pending";
+      WHERE status IN ("pending","confirm");
     `;
 
     pool.query(countSql, (countErr, countResult) => {
