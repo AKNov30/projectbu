@@ -20,7 +20,9 @@ import researchAdmin from './researchadmin.png';
 import salub from './salub.png';
 import search from './search.png';
 import userAdmin from './useradmin.png';
-
+import result from './result.png';
+import time from './time.png';
+import list from './list.png';
 // Exporting all images
 export {
   back,
@@ -44,4 +46,7 @@ export {
   salub,
   search,
   userAdmin,
+  result,
+  time,
+  list
 };

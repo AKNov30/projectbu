@@ -113,10 +113,9 @@ function Result() {
                                     <th>รหัส</th>
                                     <th>ชื่อสุนัข</th>
                                     <th>ราคา(บาท)</th>
-                                    <th>ส่วนลด</th>
                                     <th>รวมเป็น</th>
-                                    <th>ใบเสร็จการจอง</th>
-                                    <th>ใบเสร็จการรับ</th>
+                                    <th>หลักฐานการจอง</th>
+                                    <th>หลักฐานการรับ</th>
                                     <th>ใบเสร็จ</th>
                                 </tr>
                             </thead>
@@ -139,7 +138,6 @@ function Result() {
                                             <td>{reservation.booking_id}</td>
                                             <td>{reservation.dogs_name}</td>
                                             <td>{formatPrice(reservation.price)}</td>
-                                            <td>0</td>
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}                       
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}

@@ -191,9 +191,6 @@ function Cancle() {
                                     <div className="pt-2" style={{ fontSize: '16px' }}>
                                         ค่าจอง : {formatPrice(booking.price / 2)} บาท<br />
                                     </div>
-                                    <div style={{ fontSize: '16px' }}>
-                                        ส่วนลด : 0 บาท<br />
-                                    </div>
                                     <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'red' }}>
                                         รวมเป็น : {formatPrice(booking.price / 2)} บาท
                                     </div>
