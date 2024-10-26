@@ -29,7 +29,7 @@ const ImageModal = ({ isOpen, imageUrl, onClose }) => {
                 }
                 .modal-image {
                     width: auto;
-                    height: auto;
+                    height: 70vh;
                     max-width: 100%;
                     max-height: 100%;
                     display: block;
