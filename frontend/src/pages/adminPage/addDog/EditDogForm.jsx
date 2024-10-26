@@ -246,7 +246,7 @@ function EditDogForm() {
                                             {existingImages.map((imageUrl, index) => (
                                                 <div key={index} className="position-relative m-2">
                                                     <img
-                                                        src={`${ apiUrl }${imageUrl}`}
+                                                        src={ imageUrl.startsWith('http') ? imageUrl : `${ apiUrl }${imageUrl}` }
                                                         alt={`Existing ${index}`}
                                                         className="img-thumbnail"
                                                         style={{ width: '100px', height: '100px', objectFit: 'cover' }}
