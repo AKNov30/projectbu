@@ -90,8 +90,8 @@ const Reserveinfo = () => {
     const imageUrls = reservationDetails.image_url.replace(/^\[|\]$/g, '').split(',').map(url => url.trim().replace(/['"]+/g, ''));
     const firstImageUrl = imageUrls[0].startsWith('http') ? `${imageUrls[0]}` : `${apiUrl}${imageUrls[0]}`;
 
-    const openModal = (imageUrl) => {
-        setModalImageUrl(imageUrls[0].startsWith('http') ? `${imageUrls[0]}` : `${apiUrl}${imageUrls[0]}`);
+    const openModal = (slipUrl) => {
+        setModalImageUrl(slipUrl.startsWith('http') ? slipUrl : `${apiUrl}${slipUrl}`);
         setIsModalOpen(true);
     };
 
