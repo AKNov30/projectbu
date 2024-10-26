@@ -5,6 +5,8 @@ import { formatPrice } from '../../../utils/formatPrice';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Invoice from '../../../components/receipt/Receipt';
 import Pagination from '../../../components/pagination/Pagination';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function Result() {
     const [reservations, setReservations] = useState([]); // state สำหรับเก็บข้อมูลการจอง
@@ -23,7 +25,9 @@ function Result() {
     const fetchReservations = (page, startDate, endDate) => {
         let url = `/api/result-admin?page=${page}&limit=10`;
         if (startDate && endDate) {
-            url += `&startDate=${startDate}&endDate=${endDate}`;
+            const start = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
+            const end = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, '0')}-${String(endDate.getDate()).padStart(2, '0')}`;
+            url += `&startDate=${start}&endDate=${end}`;
         }
 
         api.get(url)
@@ -79,21 +83,23 @@ function Result() {
                 <div className="row">
                     <div className="col-xl-2 col-lg-2 col-md-2 col-2">
                         <label className="form-label">ตั้งแต่วันที่</label>
-                        <input 
-                            className="form-control" 
-                            type="date" 
-                            value={startDate} 
-                            onChange={(e) => handleDateChange(e, 'start')}
+                        <DatePicker
+                            selected={startDate}
+                            onChange={(date) => setStartDate(date)}
+                            dateFormat="dd/MM/yyyy"
+                            className="form-control"
+                            placeholderText="dd/mm/yyyy"
                         />
 
                     </div>
                     <div className="col-xl-2 col-lg-2 col-md-2 col-2">
                         <label className="form-label">ถึง</label>
-                        <input 
-                            className="form-control" 
-                            type="date" 
-                            value={endDate} 
-                            onChange={(e) => handleDateChange(e, 'end')}
+                        <DatePicker
+                            selected={endDate}
+                            onChange={(date) => setEndDate(date)}
+                            dateFormat="dd/MM/yyyy"
+                            className="form-control"
+                            placeholderText="dd/mm/yyyy"
                         />
                     </div>
                     {/* <div className="col-xl-1 d-flex align-items-end" style={{ cursor: 'pointer' }}>

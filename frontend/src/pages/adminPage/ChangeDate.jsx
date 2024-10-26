@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-// import { logo } from '../../assets';
 import { AlertSave } from '../../components/alert/Alert';
 import api, { apiUrl } from '../../config/apiConfig';
 import Pagination from '../../components/pagination/Pagination';
 import { logo } from '../../assets';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 function ChangeDate() {
     const [reservations, setReservations] = useState([]);
     const [timeSelections, setTimeSelections] = useState({});
+    const [dateSelections, setDateSelections] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
@@ -38,6 +41,11 @@ function ChangeDate() {
         fetchDogs(page);
     };
 
+    const handleDateChange = (date, bookingId) => {
+        const newDateSelections = { ...dateSelections, [bookingId]: date };
+        setDateSelections(newDateSelections);
+    };
+
     // ฟังก์ชันจัดการเมื่อเวลาเปลี่ยนแปลง
     const handleTimeChange = (e, bookingId) => {
         const newTimeSelections = { ...timeSelections, [bookingId]: e.target.value };
@@ -46,13 +54,15 @@ function ChangeDate() {
 
     const handleSave = (bookingId) => {
         // ดึงค่าของวันที่และเวลาใหม่จาก input fields
-        const selectedDate = document.querySelector(`input[type="date"][data-id="${bookingId}"]`).value;
+        const selectedDate = dateSelections[bookingId];
         const selectedTime = timeSelections[bookingId];
 
         // ตรวจสอบว่าผู้ใช้ได้เลือกทั้งวันที่และเวลาหรือไม่ (validate)
         if (!selectedDate || !selectedTime) {
             return false;
         }
+
+        const formattedDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
 
         // ส่งข้อมูลไปยังเซิร์ฟเวอร์ผ่าน PUT request
         fetch(`${apiUrl}/api/change-date/${bookingId}`, {
@@ -61,7 +71,7 @@ function ChangeDate() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                booking_date: selectedDate,  // วันที่ที่เลือก
+                booking_date: formattedDate,  // วันที่ที่เลือก
                 pickup_date: selectedTime,   // เวลาที่เลือก
             }),
         })
@@ -144,7 +154,13 @@ function ChangeDate() {
                                                 {reservation.pickup_date ? reservation.pickup_date.slice(0, 5) : 'N/A'}
                                             </td>
                                             <td>
-                                                <input className="form-control" type="date" placeholder="เปลี่ยนวันที่" data-id={reservation.booking_id} />
+                                                <DatePicker
+                                                    selected={dateSelections[reservation.booking_id] || null}
+                                                    onChange={(date) => handleDateChange(date, reservation.booking_id)}
+                                                    dateFormat="dd/MM/yyyy"
+                                                    className="form-control"
+                                                    placeholderText="dd/mm/yyyy"
+                                                />
                                             </td>
                                             <td>
                                                 <select
