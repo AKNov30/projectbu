@@ -109,7 +109,7 @@ function ChangeDate() {
                             <tbody>
                                 {reservations.map((reservation) => {
                                     // console.log(reservation.image_url)
-                                    const imageUrl = reservation.image_url && reservation.image_url.startsWith('http')
+                                    const imageUrl = reservation.image_url.startsWith('http')
                                         ? reservation.image_url
                                         : `${apiUrl}${reservation.image_url}`;
                                     return (
