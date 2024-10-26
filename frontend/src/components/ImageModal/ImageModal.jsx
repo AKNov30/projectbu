@@ -6,7 +6,7 @@ const ImageModal = ({ isOpen, imageUrl, onClose }) => {
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-image-container" onClick={(e) => e.stopPropagation()}>
-                <img src={imageUrl} alt="Slip" className="modal-image" />
+                <img src={imageUrl} alt="Slip" className="modal-image" style={{ objectFit: 'contain' }} />
                 <button onClick={onClose} className="close-button">ปิด</button>
             </div>
             <style jsx>{`
@@ -24,15 +24,19 @@ const ImageModal = ({ isOpen, imageUrl, onClose }) => {
                 }
                 .modal-image-container {
                     position: relative;
-                    max-width: 90%;
-                    max-height: 90%;
+                    max-width: 90%; /* กำหนดขนาดให้เล็กกว่าหน้าจอ */
+                    max-height: 90%; /* กำหนดขนาดให้เล็กกว่าหน้าจอ */
                 }
                 .modal-image {
+                    width: auto;
+                    height: auto;
                     max-width: 100%;
                     max-height: 100%;
                     display: block;
                     border-radius: 8px;
+                    object-fit: contain; /* ควบคุมให้รูปภาพคงสัดส่วนเดิม */
                 }
+
                 .close-button {
                     position: absolute;
                     top: 10px;
