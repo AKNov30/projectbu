@@ -603,7 +603,9 @@ app.get("/api/change-date", (req, res) => {
 
       const firstImageUrl = imageUrlArray.length > 0 ? imageUrlArray[0] : null;
       const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
-      const finalImageUrl = `${backendUrl}${firstImageUrl}`;
+      const finalImageUrl = firstImageUrl && firstImageUrl.startsWith('http')
+        ? firstImageUrl
+        : `${backendUrl}${firstImageUrl}`;
 
       return {
         ...row,
