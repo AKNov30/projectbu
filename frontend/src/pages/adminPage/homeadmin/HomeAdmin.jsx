@@ -63,7 +63,7 @@ function HomeAdmin() {
         </div>
 
         <div>
-          <table className="table table-striped table-hover">
+          <table className="table table-striped table-hover border">
             <thead className='head-table'>
               <tr>
                 <th scope="col" style={{ width: '5%' }}>รหัส</th>

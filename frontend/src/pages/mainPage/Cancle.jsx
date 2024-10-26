@@ -221,11 +221,11 @@ function Cancle() {
                                     ) : (
                                         <div className="pb-2">
                                             <p 
-                                                className="m-0 p-0 text-success" 
+                                                className="m-0 p-0 text-success text-center" 
                                                 onClick={() => openModal(booking.slip_url.startsWith('http') ? booking.slip_url :`${apiUrl}${booking.slip_url}`)}
                                                 style={{ cursor: 'pointer', textDecoration: 'underline' }}
                                                 >
-                                                    สลิปได้ถูกอัปโหลดแล้ว
+                                                    หลักฐานการจอง
                                             </p>
                                         </div>
                                     )}
