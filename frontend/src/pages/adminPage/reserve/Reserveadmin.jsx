@@ -60,7 +60,7 @@ function Reserveadmin() {
                                         // แยก array ของ image_url อย่างระมัดระวัง
                                         const rawImageUrls = reservation.image_url || '[]';
                                         const imageUrls = rawImageUrls.replace(/^\[|\]$/g, '').split(',').map(url => url.trim().replace(/['"]+/g, ''));
-                                        const firstImage = imageUrls[0] ? `${apiUrl}${imageUrls[0]}` : logo; // เลือกรูปแรก หรือใช้รูป default
+                                        const firstImage = imageUrls[0] ? (imageUrls[0].startsWith('http') ? `${imageUrls[0]}` : `${apiUrl}${imageUrls[0]}`) : logo; // เลือกรูปแรก หรือใช้รูป default
 
                                         return (
                                             <tr key={index} className="center-table">

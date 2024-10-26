@@ -88,10 +88,10 @@ const Reserveinfo = () => {
 
     // แปลง array ของ image_url ให้เป็นรูปแบบที่ถูกต้อง
     const imageUrls = reservationDetails.image_url.replace(/^\[|\]$/g, '').split(',').map(url => url.trim().replace(/['"]+/g, ''));
-    const firstImageUrl = imageUrls.length > 0 ? `${apiUrl}${imageUrls[0]}` : 'default-image-path.png';
+    const firstImageUrl = imageUrls[0].startsWith('http') ? `${imageUrls[0]}` : `${apiUrl}${imageUrls[0]}`;
 
     const openModal = (imageUrl) => {
-        setModalImageUrl(`${apiUrl}${imageUrl}`);
+        setModalImageUrl(imageUrls[0].startsWith('http') ? `${imageUrls[0]}` : `${apiUrl}${imageUrls[0]}`);
         setIsModalOpen(true);
     };
 
