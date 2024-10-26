@@ -80,7 +80,7 @@ function AppbarMain() {
           <div class="d-flex">
             
             <div class="d-flex align-items-center">
-              Member : {firstName} | 
+              {userRole} : {firstName} | 
             </div>
 
             <div class="px-2">
