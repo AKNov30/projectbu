@@ -163,7 +163,13 @@ app.get("/api/users", (req, res) => {
   const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า
   const offset = (page - 1) * limit;
 
-  const sql = `SELECT user_id, firstname, lastname, user_role FROM users LIMIT ? OFFSET ?`;
+  const sql = `
+    SELECT user_id, firstname, lastname, user_role FROM users
+    ORDER BY
+      CASE WHEN user_role = 'admin' THEN 1 ELSE 0 END,
+      firstname ASC
+    LIMIT ? OFFSET ?
+    `;
 
   pool.query(sql, [limit, offset], (err, results) => {
     if (err) {
