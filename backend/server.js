@@ -710,7 +710,10 @@ app.get("/api/reserve-admin", (req, res) => {
       bookings ON users.user_id = bookings.user_id
     INNER JOIN 
       dogs ON bookings.dog_id = dogs.dog_id
-    WHERE bookings.status IN ("pending","confirm")
+    WHERE 
+      bookings.status IN ("pending","confirm")
+    ORDER BY 
+      bookings.booking_date ASC, bookings.pickup_date ASC
     LIMIT ? OFFSET ?;
   `;
 
