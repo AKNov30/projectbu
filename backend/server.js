@@ -1166,7 +1166,7 @@ app.get("/api/user-dogs", (req, res) => {
       sql += " AND bookings.status = ?";
     }
 
-    sql += " LIMIT ? OFFSET ?;";
+    sql += " ORDER BY bookings.booking_date DESC LIMIT ? OFFSET ?;";
 
     const searchPattern = `%${searchTerm}%`;
     const queryParams = [user_id, searchPattern, searchPattern];
