@@ -873,7 +873,7 @@ app.get("/api/result-admin", (req, res) => {
     sql += ` AND bookings.booking_date BETWEEN ? AND ?`;
   }
 
-  sql += ` LIMIT ? OFFSET ?;`;
+  sql += `ORDER BY bookings.booking_date DESC LIMIT ? OFFSET ?;`;
 
   const params =
     startDate && endDate
