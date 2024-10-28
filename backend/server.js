@@ -577,6 +577,7 @@ app.get("/api/change-date", (req, res) => {
     JOIN dogs d ON b.dog_id = d.dog_id
     JOIN users u ON b.user_id = u.user_id
     WHERE b.status IN ('pending','confirm')
+    ORDER BY b.booking_date ASC, b.pickup_date ASC
     LIMIT ? OFFSET ?;
   `;
 
