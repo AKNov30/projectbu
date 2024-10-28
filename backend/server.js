@@ -338,9 +338,9 @@ app.post("/api/adddog", upload.array("files", 4), (req, res) => {
 
 // ดึงข้อมูลสุนัขทั้งหมดมาแสดงใน home-admin
 app.get("/api/dogs", (req, res) => {
-  const page = parseInt(req.query.page) || 1; // หน้าที่ต้องการแสดง, ค่า default คือหน้า 1
-  const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า, ค่า default คือ 10
-  const offset = (page - 1) * limit; // จุดเริ่มต้นของข้อมูลในหน้านั้น ๆ
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า
+  const offset = (page - 1) * limit; 
 
   const sql = `SELECT dog_id, dogs_name, birthday, price, color FROM dogs LIMIT ? OFFSET ?`;
   pool.query(sql, [limit, offset], (err, results) => {
@@ -700,7 +700,10 @@ app.get("/api/reserve-admin", (req, res) => {
       bookings ON users.user_id = bookings.user_id
     INNER JOIN 
       dogs ON bookings.dog_id = dogs.dog_id
-    WHERE bookings.status IN ("pending", "confirm")
+    WHERE 
+      bookings.status IN ("pending", "confirm")
+    ORDER BY 
+      bookings.booking_date ASC, bookings.pickup_date ASC
     LIMIT ? OFFSET ?;
   `;
 
