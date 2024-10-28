@@ -64,7 +64,7 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-// เชื่อมต่อกับฐานข้อมูล MySQL ด้วย Connection Pool (แนะนำ)
+// เชื่อมต่อกับฐานข้อมูล MySQL
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -166,7 +166,7 @@ app.post("/api/login", async (req, res) => {
 
         // เข้าสู่ระบบสำเร็จ
         const { user_id, user_role, firstname } = user; // ดึง user_id, user_role, firstname จากผลลัพธ์
-        const token = "your_generated_jwt_token"; // สร้าง JWT token ที่นี่ (คุณสามารถใช้ jwt.sign() เพื่อสร้าง token)
+        const token = "your_generated_jwt_token"; // ยังไม่ได้ทำ
 
         res.status(200).json({
           token,
@@ -186,9 +186,9 @@ app.post("/api/login", async (req, res) => {
 // ListUser
 // ดึงรายข้อมูล user มาแสดง
 app.get("/api/users", (req, res) => {
-  const page = parseInt(req.query.page) || 1; // หน้าที่ต้องการแสดง, ค่า default คือหน้า 1
-  const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า, ค่า default คือ 10
-  const offset = (page - 1) * limit; // จุดเริ่มต้นของข้อมูลในหน้านั้น ๆ
+  const page = parseInt(req.query.page) || 1; 
+  const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า
+  const offset = (page - 1) * limit;
 
   const sql = `SELECT user_id, firstname, lastname, user_role FROM users LIMIT ? OFFSET ?`;
 
@@ -643,8 +643,8 @@ app.get("/api/change-date", (req, res) => {
 
 // change-date put date,time
 app.put("/api/change-date/:booking_id", (req, res) => {
-  const { booking_id } = req.params; // รับ booking_id จาก URL parameter
-  const { booking_date, pickup_date } = req.body; // รับ booking_date และ pickup_date จาก request body
+  const { booking_id } = req.params;
+  const { booking_date, pickup_date } = req.body;
 
   // ตรวจสอบว่ามีข้อมูลที่จำเป็นหรือไม่
   if (!booking_date || !pickup_date) {
@@ -669,8 +669,6 @@ app.put("/api/change-date/:booking_id", (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: "ไม่พบรายการจองนี้" });
     }
-
-    // ส่งผลลัพธ์กลับไปที่ฟรอนต์เอนด์เมื่ออัปเดตเสร็จสิ้น
     res.json({ message: "อัปเดตข้อมูลสำเร็จ" });
   });
 });
@@ -684,7 +682,7 @@ app.get("/api/all-dogs", (req, res) => {
       console.error("Error fetching available dogs:", err);
       return res.status(500).json({ message: "Error fetching available dogs" });
     }
-    res.json(results); // ส่งข้อมูลสุนัขที่มีสถานะ available กลับไปในรูปแบบ JSON
+    res.json(results); // ส่งข้อมูลสุนัขที่มีสถานะ available
   });
 });
 
@@ -1074,9 +1072,9 @@ app.post("/api/book", upload.single("slip"), async (req, res) => {
 
 //การจอง cancel page
 app.get("/api/user-reserve", (req, res) => {
-  const user_id = req.query.user_id; // รับ user_id จาก query string
-  const page = parseInt(req.query.page) || 1; // กำหนดหน้าปัจจุบัน ถ้าไม่ได้ระบุใช้หน้าแรก
-  const limit = parseInt(req.query.limit) || 10; // กำหนดจำนวนรายการต่อหน้า (ค่าเริ่มต้นคือ 10)
+  const user_id = req.query.user_id; // รับ user_id
+  const page = parseInt(req.query.page) || 1; // กำหนดหน้าปัจจุบัน
+  const limit = parseInt(req.query.limit) || 10;
   const offset = (page - 1) * limit;
 
   const sql = `
@@ -1140,7 +1138,7 @@ app.get("/api/user-reserve", (req, res) => {
 
 // แสดงรายการการจองของ user
 app.get("/api/user-dogs", (req, res) => {
-  const user_id = req.query.user_id; // รับ user_id จาก query string
+  const user_id = req.query.user_id; // รับ user_id
   const page = parseInt(req.query.page) || 1; 
   const limit = parseInt(req.query.limit) || 10; // จำนวนรายการต่อหน้า 
   const offset = (page - 1) * limit;
