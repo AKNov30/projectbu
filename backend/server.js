@@ -979,7 +979,7 @@ app.get("/api/shop-dogs", (req, res) => {
     countSql += ` AND ${filterString}`;
   }
 
-  sql += ` LIMIT ${limit} OFFSET ${offset}`;
+  sql += ` ORDER BY birthday DESC LIMIT ${limit} OFFSET ${offset}`;
 
   // Query to get total count of available dogs for pagination
   pool.query(countSql, (err, countResult) => {
