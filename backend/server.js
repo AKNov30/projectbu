@@ -342,7 +342,11 @@ app.get("/api/dogs", (req, res) => {
   const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า
   const offset = (page - 1) * limit; 
 
-  const sql = `SELECT dog_id, dogs_name, birthday, price, color FROM dogs LIMIT ? OFFSET ?`;
+  const sql = `
+    SELECT dog_id, dogs_name, birthday, price, color 
+    FROM dogs
+    ORDER BY dogs_name ASC
+    LIMIT ? OFFSET ?`;
   pool.query(sql, [limit, offset], (err, results) => {
     if (err) return res.status(500).json("Error fetching dogs: " + err.message);
 
