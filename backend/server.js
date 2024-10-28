@@ -37,7 +37,7 @@ app.use(
 );
 app.use(bodyParser.json());
 
-// เชื่อมต่อกับฐานข้อมูล MySQL ด้วย Connection Pool (แนะนำ)
+// เชื่อมต่อกับฐานข้อมูล MySQL
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -139,7 +139,7 @@ app.post("/api/login", async (req, res) => {
 
         // เข้าสู่ระบบสำเร็จ
         const { user_id, user_role, firstname } = user; // ดึง user_id, user_role, firstname จากผลลัพธ์
-        const token = "your_generated_jwt_token"; // สร้าง JWT token ที่นี่ (คุณสามารถใช้ jwt.sign() เพื่อสร้าง token)
+        const token = "your_generated_jwt_token"; // ยังไม่ได้ทำ
 
         res.status(200).json({
           token,
@@ -159,9 +159,9 @@ app.post("/api/login", async (req, res) => {
 // ListUser
 // ดึงรายข้อมูล user มาแสดง
 app.get("/api/users", (req, res) => {
-  const page = parseInt(req.query.page) || 1; // หน้าที่ต้องการแสดง, ค่า default คือหน้า 1
-  const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า, ค่า default คือ 10
-  const offset = (page - 1) * limit; // จุดเริ่มต้นของข้อมูลในหน้านั้น ๆ
+  const page = parseInt(req.query.page) || 1; 
+  const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า
+  const offset = (page - 1) * limit;
 
   const sql = `SELECT user_id, firstname, lastname, user_role FROM users LIMIT ? OFFSET ?`;
 
@@ -171,7 +171,7 @@ app.get("/api/users", (req, res) => {
       return res.status(500).json("Error fetching users");
     }
 
-    const countSql = "SELECT COUNT(*) AS total FROM users"; // ดึงจำนวนทั้งหมดของผู้ใช้เพื่อนำไปคำนวณจำนวนหน้า
+    const countSql = "SELECT COUNT(*) AS total FROM users";
     pool.query(countSql, (countErr, countResult) => {
       if (countErr) {
         console.error("Error fetching total users count:", countErr);
@@ -552,7 +552,7 @@ app.put("/api/dogs/:dog_id", upload.array("files"), (req, res) => {
 
 //แสดงประวัติการจอง page admin/change-date
 app.get("/api/change-date", (req, res) => {
-  const page = parseInt(req.query.page) || 1; // หน้าเริ่มต้น
+  const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 7; // จำนวนข้อมูลต่อหน้า
   const offset = (page - 1) * limit;
 
@@ -633,8 +633,8 @@ app.get("/api/change-date", (req, res) => {
 
 // change-date put date,time
 app.put("/api/change-date/:booking_id", (req, res) => {
-  const { booking_id } = req.params; // รับ booking_id จาก URL parameter
-  const { booking_date, pickup_date } = req.body; // รับ booking_date และ pickup_date จาก request body
+  const { booking_id } = req.params; // รับ booking_id
+  const { booking_date, pickup_date } = req.body; // รับ booking_date และ pickup_date
 
   // ตรวจสอบว่ามีข้อมูลที่จำเป็นหรือไม่
   if (!booking_date || !pickup_date) {
@@ -966,8 +966,8 @@ app.get("/api/shop-dogs", (req, res) => {
     const totalItems = countResult[0].total;
     const totalPages = Math.ceil(totalItems / limit);
 
-    console.log("Total items:", totalItems); // Debug จำนวนรายการทั้งหมด
-    console.log("Total pages:", totalPages); // Debug จำนวนหน้าที่คำนวณได้
+    // console.log("Total items:", totalItems); 
+    // console.log("Total pages:", totalPages); 
 
     // Query to get filtered data
     pool.query(sql, (err, results) => {
@@ -1079,7 +1079,7 @@ app.post("/api/book", upload.single("slip"), async (req, res) => {
 
 // แสดงรายการการจองของ user
 app.get("/api/user-dogs", (req, res) => {
-  const user_id = req.query.user_id; // รับ user_id จาก query string
+  const user_id = req.query.user_id; // รับ user_id
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10; // จำนวนรายการต่อหน้า
   const offset = (page - 1) * limit;
