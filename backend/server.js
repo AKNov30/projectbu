@@ -837,6 +837,24 @@ app.post("/api/confirm-receive/:bookingId", upload.single('slip'), (req, res) =>
   });
 });
 
+// ยืนยันสลิปโดย admin และเปลี่ยนสถานะการจองและสถานะสุนัขเป็น confirm
+app.put("/api/confirm-slip", async (req, res) => {
+  const { booking_id, dog_id } = req.body;
+
+  const sqlUpdateBooking = "UPDATE bookings SET status = ? WHERE booking_id = ?";
+  const sqlUpdateDog = "UPDATE dogs SET status = ? WHERE dog_id = ?";
+
+  try {
+    await pool.promise().execute(sqlUpdateBooking, ["confirm", booking_id]);
+    await pool.promise().execute(sqlUpdateDog, ["confirm", dog_id]);
+
+    res.status(200).json({ message: "การยืนยันสลิปสำเร็จ" });
+  } catch (error) {
+    console.error("Error confirming slip:", error);
+    res.status(500).json({ message: "Error confirming slip", error: error.message });
+  }
+});
+
 //result สรุปยอด
 app.get("/api/result-admin", (req, res) => {
   const page = parseInt(req.query.page) || 1;
