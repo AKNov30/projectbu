@@ -23,6 +23,7 @@ import userAdmin from './useradmin.png';
 import result from './result.png';
 import time from './time.png';
 import list from './list.png';
+import contact from './contact.png';
 // Exporting all images
 export {
   back,
@@ -48,5 +49,6 @@ export {
   userAdmin,
   result,
   time,
-  list
+  list,
+  contact
 };

@@ -363,7 +363,10 @@ hr {
     --bs-btn-disabled-bg: #ccd5ae;
     --bs-btn-disabled-border-color: #ccd5ae;
 }
-
+.text-pay{
+    color:red;
+    font-size: 20px;
+}
 .text-brown{
     color:var(--brown);
 }
@@ -376,6 +379,14 @@ hr {
 
 .center-table{
     vertical-align: middle;
+}
+.div-contact{
+    width: 15%;
+    height: 300px;
+    object-fit: cover;
+}
+.bold{
+    font-weight: bold;
 }
 /*--------------------------------------------------------
     Start: Responsive View Google Chrome

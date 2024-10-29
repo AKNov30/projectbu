@@ -5,8 +5,8 @@ import { formatPrice } from '../../../utils/formatPrice';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Invoice from '../../../components/receipt/Receipt';
 import Pagination from '../../../components/pagination/Pagination';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
 function Result() {
     const [reservations, setReservations] = useState([]); // state สำหรับเก็บข้อมูลการจอง
