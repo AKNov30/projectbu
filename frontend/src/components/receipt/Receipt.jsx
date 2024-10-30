@@ -15,37 +15,44 @@ const Invoice = ({ reservation }) => {
         },
         title: {
             fontFamily: 'prompt',
-            fontSize: 50,
+            fontSize: 36, // ลดขนาดฟอนต์หัวข้อให้ดูสวยงามขึ้น
             textAlign: 'center',
-            marginBottom: 20,
+            marginBottom: 10,
         },
         body: {
-            paddingHorizontal: 40,
+            paddingHorizontal: 30,
         },
         row: {
             flexDirection: 'row',
-            justifyContent: 'space-between', // Keep items spaced out
+            justifyContent: 'space-between',
             marginBottom: 10,
         },
         leftColumn: {
-            width: '50%', // Left column width
+            width: '50%',
+            paddingRight: 10,
         },
         rightColumn: {
-            width: '50%', // Right column width
-            textAlign: 'left', // Change this to align text to the left
+            width: '50%',
+            paddingLeft: 10,
         },
         address: {
             fontFamily: 'prompt',
-            fontSize: 24,
+            fontSize: 18,
+            marginBottom: 5,
+        },
+        divider: {
+            marginVertical: 10,
+            borderBottomWidth: 1,
+            borderBottomColor: '#000',
         },
     });
 
-    // Title
+    // Title Component
     const InvoiceTitle = () => (
         <Text style={styles.title}>ใบเสร็จ</Text>
     );
 
-    // Body
+    // Body Component
     const Body = () => (
         <View style={styles.body}>
             <View style={styles.row}>
@@ -68,6 +75,7 @@ const Invoice = ({ reservation }) => {
         <Document>
             <Page size="A4" style={styles.page} orientation="landscape">
                 <InvoiceTitle />
+                <View style={styles.divider} /> {/* เส้นแบ่งระหว่างหัวข้อและเนื้อหา */}
                 <Body />
             </Page>
         </Document>
