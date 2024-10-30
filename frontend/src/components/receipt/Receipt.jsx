@@ -1,9 +1,9 @@
 import React from 'react';
 import { formatPrice } from '../../utils/formatPrice';
-import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
 import moment from 'moment';
 import fontDev from '../../fonts/Prompt.ttf';
-
+import { logo } from '../../assets'
 // Register font
 Font.register({ family: 'prompt', src: fontDev });
 
@@ -15,7 +15,7 @@ const Invoice = ({ reservation }) => {
         },
         title: {
             fontFamily: 'prompt',
-            fontSize: 36, // ลดขนาดฟอนต์หัวข้อให้ดูสวยงามขึ้น
+            fontSize: 36,
             textAlign: 'center',
             marginBottom: 10,
         },
@@ -45,7 +45,18 @@ const Invoice = ({ reservation }) => {
             borderBottomWidth: 1,
             borderBottomColor: '#000',
         },
+        logo: {
+            width: 100,
+            height: 100,
+            marginBottom: 10,
+            alignSelf: 'center', // Center the image horizontally
+        },
     });
+
+    // Logo Component
+    const Logo = () => (
+        <img className="pic-admin" src={ logo } />
+    );
 
     // Title Component
     const InvoiceTitle = () => (
@@ -74,8 +85,9 @@ const Invoice = ({ reservation }) => {
     return (
         <Document>
             <Page size="A4" style={styles.page} orientation="landscape">
+                <Logo /> {/* Add logo here */}
                 <InvoiceTitle />
-                <View style={styles.divider} /> {/* เส้นแบ่งระหว่างหัวข้อและเนื้อหา */}
+                <View style={styles.divider} />
                 <Body />
             </Page>
         </Document>
