@@ -24,6 +24,7 @@ import result from './result.png';
 import time from './time.png';
 import list from './list.png';
 import contact from './contact.png';
+import slip from './slip.png';
 // Exporting all images
 export {
   back,
@@ -50,5 +51,6 @@ export {
   result,
   time,
   list,
-  contact
+  contact,
+  slip
 };

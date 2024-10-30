@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { print, search } from '../../../assets/';
+import { print, search , slip } from '../../../assets/';
 import api from '../../../config/apiConfig';
 import { formatPrice } from '../../../utils/formatPrice';
 import { PDFDownloadLink } from '@react-pdf/renderer';
@@ -145,8 +145,8 @@ function Result() {
                                             <td>{reservation.dogs_name}</td>
                                             <td>{formatPrice(reservation.price)}</td>
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}                       
-                                            <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
-                                            <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}
+                                            <td><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
+                                            <td><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
                                             <td>
                                             <PDFDownloadLink 
                                                 document={<Invoice reservation={reservation} />}
