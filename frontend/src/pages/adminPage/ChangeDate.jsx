@@ -3,8 +3,8 @@ import { AlertSave } from '../../components/alert/Alert';
 import api, { apiUrl } from '../../config/apiConfig';
 import Pagination from '../../components/pagination/Pagination';
 import { logo } from '../../assets';
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 function ChangeDate() {
