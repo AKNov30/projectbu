@@ -116,7 +116,7 @@ const Reserveinfo = () => {
                     />
                 </div>
 
-                <div className="col-xl-9 col-lg-12 col-md-12 d-flex align-items-center justify-content-between">
+                <div className="col-xl-10 col-lg-12 col-md-12 d-flex align-items-center justify-content-between">
                     <div>
                         <div className="d-flex justify-content-center py-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
                             ข้อมูลสุนัข
@@ -184,8 +184,24 @@ const Reserveinfo = () => {
                         </div>
                     </div>
 
-                    <div>
+                    <div className='d-flex'>
                     
+                    <AlertDelete
+                        // onDelete={() => cancelBooking(reservationDetails.booking_id, reservationDetails.dog_id)}
+                        title="คุณต้องการที่จะยืนยันการจอง?"
+                        text="โปรดตรวจสอบหลักฐานการจองก่อนทุกครั้ง"
+                        confirmText="ยืนยันการจอง"
+                        successTitle="ยกเลิก"
+                        successText=" "
+                    >
+                        <div className="px-2">
+                            <button type="button" className="btn btn-primary setting-btn-reserve" id="cancelreserve">
+                                ยืนยันการจอง
+                            </button>
+                        </div>
+                        
+                    </AlertDelete>
+
                     <AlertDelete
                         onDelete={() => cancelBooking(reservationDetails.booking_id, reservationDetails.dog_id)}
                         title="คุณแน่ใจที่จะยกเลิกการจอง?"
@@ -195,7 +211,7 @@ const Reserveinfo = () => {
                         successText=" "
                     >
                         <div className="px-2">
-                            <button type="button" className="btn btn-danger setting-btn-reserve" id="cancelreserve">
+                            <button type="button" className="btn btn-danger setting-btn-reserve btn-cancel-reserve" id="cancelreserve">
                                 ยกเลิกจอง
                             </button>
                         </div>
@@ -204,14 +220,14 @@ const Reserveinfo = () => {
                     </div>
 
                 </div>
-                <div className="col-xl-3 col-lg-5 col-md-5 d-flex justify-content-center align-items-center">
+                
+                <div className="col-xl-3 col-lg-3 col-md-12 d-flex justify-content-start align-items-center">
                     <div className="py-2">
-                        <label htmlFor="formFile">แนบหลักฐานเพิ่มเติม</label>
                         <div className="text-red">ราคาที่ต้องชำระเพิ่ม : {formatPrice(reservationDetails.price/2)} บาท</div>
                         <input className="form-control" type="file" id="formFile" onChange={handleFileChange} />
                     </div>
                 </div>
-                <div className="col-xl-5 col-lg-5 col-md-5 d-flex justify-content-start align-items-end py-2">
+                <div className="col-xl-6 col-lg-6 col-md-12 d-flex justify-content-start align-items-end py-2">
                     <AlertSave
                         onConfirm={() => {
                             if (!selectedFile) {

@@ -187,13 +187,15 @@ a {
 }
 /*--- Button ---*/
 .setting-btn-reserve{
-    padding: 10px 50px;
+    padding: 10px 35px;
     --bs-btn-hover-color: #ffffff;
 }
 .btn-reserve-info{
     padding-top: 80px;
 }
-
+.btn-cancel-reserve{
+    margin-right: 10px;
+}
 /*--- Background ---*/
 .bg-grey{
     background: var(--theme-light);

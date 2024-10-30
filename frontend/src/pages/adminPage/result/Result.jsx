@@ -111,7 +111,7 @@ function Result() {
                     <div className="col-xl-11 col-lg-2 col-md-2 pt-3">
                         <table className="table table-striped table-hover">
                             <thead>
-                                <tr>
+                                <tr className='text-center'>
                                     <th className="text-center" style={{ width: '1%' }}>รายการ</th>
                                     <th>ชื่อลูกค้า</th>
                                     <th>วันที่จองสุนัข</th>
@@ -125,7 +125,7 @@ function Result() {
                                     <th>ใบเสร็จ</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className='text-center'>
                                 {reservations.length > 0 ? (
                                     reservations.map((reservation, index) => (
                                         <tr key={index}>
@@ -145,9 +145,9 @@ function Result() {
                                             <td>{reservation.dogs_name}</td>
                                             <td>{formatPrice(reservation.price)}</td>
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}                       
-                                            <td><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
-                                            <td><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
-                                            <td>
+                                            <td className='text-center'><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
+                                            <td className='text-center'><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
+                                            <td className='text-center'>
                                             <PDFDownloadLink 
                                                 document={<Invoice reservation={reservation} />}
                                                 fileName={`invoice-${reservation.booking_id}.pdf`}
