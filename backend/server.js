@@ -872,6 +872,8 @@ app.get("/api/result-admin", (req, res) => {
         bookings.created_at,
         bookings.status,
         bookings.booking_date,
+        bookings.slip_url,
+        bookings.slip2_url,
         users.firstname,
         users.lastname,
         dogs.dogs_name,

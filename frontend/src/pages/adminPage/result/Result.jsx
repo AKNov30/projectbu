@@ -5,6 +5,7 @@ import { formatPrice } from '../../../utils/formatPrice';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Invoice from '../../../components/receipt/Receipt';
 import Pagination from '../../../components/pagination/Pagination';
+import ImageModal from '../../../components/ImageModal/ImageModal';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -16,6 +17,8 @@ function Result() {
     const [totalPages, setTotalPages] = useState(1);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalImageUrl, setModalImageUrl] = useState('');
 
     // ดึงข้อมูลจาก API
     useEffect(() => {
@@ -61,6 +64,16 @@ function Result() {
             setEndDate(value);
         }
         setCurrentPage(1); // รีเซ็ตหน้าเป็นหน้าแรกเมื่อมีการเปลี่ยนแปลงวันที่
+    };
+
+    const openModal = (slipUrl) => {
+        setModalImageUrl(slipUrl.startsWith('http') ? slipUrl : `${apiUrl}${slipUrl}`);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalImageUrl('');
     };
 
     if (loading) {
@@ -145,8 +158,8 @@ function Result() {
                                             <td>{reservation.dogs_name}</td>
                                             <td>{formatPrice(reservation.price)}</td>
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}                       
-                                            <td className='text-center'><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
-                                            <td className='text-center'><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
+                                            <td className='text-center' onClick={() => openModal(reservation.slip_url)}><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
+                                            <td className='text-center' onClick={() => openModal(reservation.slip2_url)}><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
                                             <td className='text-center'>
                                             <PDFDownloadLink 
                                                 document={<Invoice reservation={reservation} />}
@@ -173,6 +186,12 @@ function Result() {
                     onPageChange={handlePageChange}
                 />
             </div>
+            {/* Modal slip */}
+            <ImageModal
+                isOpen={isModalOpen}
+                imageUrl={modalImageUrl}
+                onClose={closeModal}
+            />
         </>
     );
 }
