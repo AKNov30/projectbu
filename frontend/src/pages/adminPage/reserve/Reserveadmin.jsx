@@ -16,6 +16,7 @@ function Reserveadmin() {
     }, [currentPage]);
 
     const fetchReservations = (page) => {
+        setLoading(true);
         api.get(`/api/reserve-admin?page=${page}&limit=7`)
             .then(response => {
                 setReservations(response.data.data); // อัพเดทข้อมูลการจองจาก API
