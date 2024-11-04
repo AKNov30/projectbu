@@ -98,7 +98,8 @@ const Invoice = ({ reservation }) => {
         <View style={styles.header}>
             <Image
                 style={styles.logo}
-                src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAA..." // Replace with Base64 or URL of the logo
+                src={logo}
+                // src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAA..." // Replace with Base64 or URL of the logo
             />
             <View style={styles.companyInfo}>
                 <Text style={styles.contactInfo}>230/75 เขตทุ่งครุ แขวงทุ่งครุ จ.กรุงเทพมหานคร</Text>
@@ -120,8 +121,8 @@ const Invoice = ({ reservation }) => {
                 <View style={styles.leftColumn}>
                     <Text style={styles.address}>ชื่อผู้จอง: {reservation.firstname} {reservation.lastname}</Text>
                     <Text style={styles.address}>วันที่จอง: {moment(reservation.created_at).format('DD/MM/YYYY')}</Text>
-                    <Text style={styles.address}>วันที่รับสุนัข: {moment(reservation.created_at).format('DD/MM/YYYY')}</Text>
-                    <Text style={styles.address}>เวลาที่รับสุนัข: {moment(reservation.created_at).format('DD/MM/YYYY')}</Text>
+                    <Text style={styles.address}>วันที่รับสุนัข: {moment(reservation.booking_date).format('DD/MM/YYYY')}</Text>
+                    <Text style={styles.address}>เวลาที่รับสุนัข: {reservation.pickup_date.slice(0, 5)}</Text>
                 </View>
                 <View style={styles.rightColumn}>
                     <Text style={styles.address}>รหัสการจอง: {reservation.booking_id}</Text>
