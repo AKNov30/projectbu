@@ -762,6 +762,7 @@ app.get("/api/reserve-admin/:id", (req, res) => {
           bookings.booking_date,
           bookings.pickup_date,
           bookings.phone,
+          bookings.status,
           bookings.slip_url,
           users.user_id,
           users.firstname,

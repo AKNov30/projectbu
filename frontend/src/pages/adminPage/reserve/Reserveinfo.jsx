@@ -59,6 +59,21 @@ const Reserveinfo = () => {
         }
     };
 
+    const handleConfirmBooking = async () => {
+        try {
+            const response = await api.put('/api/confirm-slip', {
+                booking_id: reservationDetails.booking_id,
+                dog_id: reservationDetails.dog_id,
+            });
+
+            AlertSave("การยืนยันการจองสำเร็จ");
+            navigate('/admin/reserve-admin');
+        } catch (err) {
+            console.error("Error confirming booking:", err);
+            AlertSave("เกิดข้อผิดพลาดในการยืนยันการจอง");
+        }
+    };
+
     const cancelBooking = async (bookingId, dogId) => {
         try {
             const response = await api.put('/api/cancel-booking', {
@@ -131,7 +146,7 @@ const Reserveinfo = () => {
 
                     <div>
                         <div className="d-flex justify-content-center py-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
-                        ข้อมูลผู้จอง
+                            ข้อมูลผู้จอง
                         </div>
                         <div className="underline-pink d-flex justify-content-center"></div>
                         <div className="pt-2" style={{ fontSize: '16px' }}>
@@ -143,7 +158,7 @@ const Reserveinfo = () => {
 
                     <div>
                         <div className="d-flex justify-content-center py-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
-                        รายละเอียดการจอง
+                            รายละเอียดการจอง
                         </div>
                         <div className="underline-pink d-flex justify-content-center"></div>
                         <div className="pt-2" style={{ fontSize: '16px' }}>
@@ -163,90 +178,93 @@ const Reserveinfo = () => {
 
                     <div>
                         <div className="d-flex justify-content-center py-2" style={{ fontSize: '18px', fontWeight: 'bold' }}>
-                        ราคา
+                            ราคา
                         </div>
                         <div className="underline-pink d-flex justify-content-center"></div>
                         <div className="pt-2" style={{ fontSize: '16px' }}>
-                            ราคาการจอง: {formatPrice(reservationDetails.price/2)} บาท<br />
+                            ราคาการจอง: {formatPrice(reservationDetails.price / 2)} บาท<br />
                             {reservationDetails.slip_url ? (
-                            <>
-                                <a
-                                    className="text-primary"
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => openModal(reservationDetails.slip_url)}
-                                >
-                                    หลักฐานการจอง
-                                </a>
-                            </>
-                        ) : (
-                            <a className="text-danger" style={{ cursor: 'no-drop' }}>ยังไม่ได้ชำระการจอง</a>
-                        )}
+                                <>
+                                    <a
+                                        className="text-primary"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => openModal(reservationDetails.slip_url)}
+                                    >
+                                        หลักฐานการจอง
+                                    </a>
+                                </>
+                            ) : (
+                                <a className="text-danger" style={{ cursor: 'no-drop' }}>ยังไม่ได้ชำระการจอง</a>
+                            )}
                         </div>
                     </div>
 
                     <div className='d-flex'>
-                    
-                    <AlertDelete
-                        // onDelete={() => cancelBooking(reservationDetails.booking_id, reservationDetails.dog_id)}
-                        title="คุณต้องการที่จะยืนยันการจอง?"
-                        text="โปรดตรวจสอบหลักฐานการจองก่อนทุกครั้ง"
-                        confirmText="ยืนยันการจอง"
-                        successTitle="ยกเลิก"
-                        successText=" "
-                    >
-                        <div className="px-2">
-                            <button type="button" className="btn btn-primary setting-btn-reserve" id="cancelreserve">
-                                ยืนยันการจอง
-                            </button>
-                        </div>
-                        
-                    </AlertDelete>
+                        {reservationDetails.status !== 'confirm' && (
+                            <AlertDelete
+                                onDelete={handleConfirmBooking}
+                                title="คุณต้องการที่จะยืนยันการจอง?"
+                                text="โปรดตรวจสอบหลักฐานการจองก่อนทุกครั้ง"
+                                confirmText="ยืนยันการจอง"
+                                successTitle="ยืนยันการจองเสร็จสิ้น"
+                                successText=" "
+                            >
+                                <div className="px-2">
+                                    <button type="button" className="btn btn-primary setting-btn-reserve" id="cancelreserve">
+                                        ยืนยันการจอง
+                                    </button>
+                                </div>
 
-                    <AlertDelete
-                        onDelete={() => cancelBooking(reservationDetails.booking_id, reservationDetails.dog_id)}
-                        title="คุณแน่ใจที่จะยกเลิกการจอง?"
-                        text="การยกเลิกการจองจะไม่สามารถคืนเงินจองได้"
-                        confirmText="ยกเลิกการจอง"
-                        successTitle="ยกเลิกการจองเสร็จสิ้น"
-                        successText=" "
-                    >
-                        <div className="px-2">
-                            <button type="button" className="btn btn-danger setting-btn-reserve btn-cancel-reserve" id="cancelreserve">
-                                ยกเลิกจอง
-                            </button>
-                        </div>
-                        
-                    </AlertDelete>
+                            </AlertDelete>
+                        )}
+                        <AlertDelete
+                            onDelete={() => cancelBooking(reservationDetails.booking_id, reservationDetails.dog_id)}
+                            title="คุณแน่ใจที่จะยกเลิกการจอง?"
+                            text="การยกเลิกการจองจะไม่สามารถคืนเงินจองได้"
+                            confirmText="ยกเลิกการจอง"
+                            successTitle="ยกเลิกการจองเสร็จสิ้น"
+                            successText=" "
+                        >
+                            <div className="px-2">
+                                <button type="button" className="btn btn-danger setting-btn-reserve btn-cancel-reserve" id="cancelreserve">
+                                    ยกเลิกจอง
+                                </button>
+                            </div>
+
+                        </AlertDelete>
                     </div>
 
                 </div>
-                
-                <div className="col-xl-3 col-lg-3 col-md-12 d-flex justify-content-start align-items-center">
-                    <div className="py-2">
-                        <div className="text-red">ราคาที่ต้องชำระเพิ่ม : {formatPrice(reservationDetails.price/2)} บาท</div>
-                        <input className="form-control" type="file" id="formFile" onChange={handleFileChange} />
-                    </div>
-                </div>
-                <div className="col-xl-6 col-lg-6 col-md-12 d-flex justify-content-start align-items-end py-2">
-                    <AlertSave
-                        onConfirm={() => {
-                            if (!selectedFile) {
-                                setValidate("กรุณาอัปโหลดสลิป");
-                                return false
-                            } else {
-                                handleConfirmReceive();
-                            }
-                        }}
-                        title={"ยืนยันการรับสุนัข?"}
-                        confirmText={"ยืนยัน"}
-                        failMessage={"ไม่สำเร็จ"}
-                        successMessage={"สำเร็จ"}
-                    >
-                        <button type="button" className="btn btn-success setting-btn-reserve" id="confirmreserve">
-                            ยืนยันการรับ
-                        </button>
-                    </AlertSave>
-                </div>
+                {reservationDetails.status === 'confirm' && (
+                    <>
+                        <div className="col-xl-3 col-lg-3 col-md-12 d-flex justify-content-start align-items-center">
+                            <div className="py-2">
+                                <div className="text-red">ราคาที่ต้องชำระเพิ่ม : {formatPrice(reservationDetails.price / 2)} บาท</div>
+                                <input className="form-control" type="file" id="formFile" onChange={handleFileChange} />
+                            </div>
+                        </div>
+                        <div className="col-xl-6 col-lg-6 col-md-12 d-flex justify-content-start align-items-end py-2">
+                            <AlertSave
+                                onConfirm={() => {
+                                    if (!selectedFile) {
+                                        setValidate("กรุณาอัปโหลดสลิป");
+                                        return false
+                                    } else {
+                                        handleConfirmReceive();
+                                    }
+                                }}
+                                title={"ยืนยันการรับสุนัข?"}
+                                confirmText={"ยืนยัน"}
+                                failMessage={"ไม่สำเร็จ"}
+                                successMessage={"สำเร็จ"}
+                            >
+                                <button type="button" className="btn btn-success setting-btn-reserve" id="confirmreserve">
+                                    ยืนยันการรับ
+                                </button>
+                            </AlertSave>
+                        </div>
+                    </>
+                )}
             </div>
             {validate && (
                 <div className="alert alert-danger mt-3" role="alert">
