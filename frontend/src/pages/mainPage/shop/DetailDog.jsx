@@ -7,6 +7,7 @@ import calculateAge from '../../../utils/calculateAge';
 import DogCard from '../../../components/shopcomponent/DogCard';
 import { formatPrice } from '../../../utils/formatPrice';
 import ImageModal from '../../../components/ImageModal/ImageModal'
+import Swal from 'sweetalert2';
 
 function DetailDog() {
   const { dog_id } = useParams(); // ดึง dog_id จาก URL
@@ -136,8 +137,28 @@ function DetailDog() {
               {/* ถ้าไม่ได้ login หรือ role=admin จะไม่สามารถกดจองได้ */}
               {userRole === 'member' ? (
                 <Link to={`/reserve/${dog.dog_id}`} className="btn btn-warning setting-btn-reserve mx-2">จอง</Link>
+              ) : userRole === 'admin' ? (
+                <button
+                  type="button"
+                  className="btn btn-warning setting-btn-reserve mx-2"
+                  disabled
+                >
+                  admin จองไม่ได้
+                </button>
               ) : (
-                <button type="button" className="btn btn-warning setting-btn-reserve mx-2" disabled>จอง</button>
+                <button
+                  type="button"
+                  className="btn btn-warning setting-btn-reserve mx-2"
+                  onClick={() => {
+                    Swal.fire({
+                      title: 'กรุณาล็อคอินก่อน',
+                      icon: 'warning',
+                      confirmButtonText: 'ตกลง'
+                    });
+                  }}
+                >
+                  จอง
+                </button>
               )}
             </div>
             <div className="d-flex justify-content-center pt-4">**สุนัขทุกตัวได้ฉีดวัคซีนแรกเกิดทุกตัวแล้ว**</div>
