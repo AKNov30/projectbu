@@ -14,6 +14,12 @@ function ChangeDate() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    const today = new Date();
+    const tomorrow = new Date();
+    const maxDate = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    maxDate.setDate(today.getDate() + 15);
+
     useEffect(() => {
         fetchReservations(currentPage);
     }, [currentPage]);
@@ -158,6 +164,8 @@ function ChangeDate() {
                                                     selected={dateSelections[reservation.booking_id] || null}
                                                     onChange={(date) => handleDateChange(date, reservation.booking_id)}
                                                     dateFormat="dd/MM/yyyy"
+                                                    minDate={tomorrow}
+                                                    maxDate={maxDate}
                                                     className="form-control"
                                                     placeholderText="dd/mm/yyyy"
                                                 />

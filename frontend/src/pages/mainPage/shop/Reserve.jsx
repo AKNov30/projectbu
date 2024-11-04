@@ -21,6 +21,12 @@ function Reserve() {
     const [phone, setPhone] = useState('');
     const user_id = localStorage.getItem('user_id');
 
+    const today = new Date();
+    const tomorrow = new Date();
+    const maxDate = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    maxDate.setDate(today.getDate() + 15);
+
     // Fetch dog details for reservation
     const fetchDogDetails = async () => {
         try {
@@ -145,6 +151,8 @@ function Reserve() {
                             selected={date}
                             onChange={(date) => setDate(date)}
                             dateFormat="dd/MM/yyyy"
+                            minDate={tomorrow}
+                            maxDate={maxDate}
                             className="form-control"
                             placeholderText="dd/mm/yyyy"
                             disabled={!isAccepted}
