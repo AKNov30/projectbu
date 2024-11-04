@@ -67,7 +67,6 @@ const Reserveinfo = () => {
             });
 
             AlertSave("การยืนยันการจองสำเร็จ");
-            navigate('/admin/reserve-admin');
         } catch (err) {
             console.error("Error confirming booking:", err);
             AlertSave("เกิดข้อผิดพลาดในการยืนยันการจอง");

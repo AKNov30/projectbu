@@ -8,6 +8,7 @@ function Reserveadmin() {
     const [reservations, setReservations] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(true);
 
     // ดึงข้อมูลจาก API 
     useEffect(() => {
@@ -20,9 +21,11 @@ function Reserveadmin() {
                 setReservations(response.data.data); // อัพเดทข้อมูลการจองจาก API
                 setCurrentPage(response.data.currentPage); // หน้าปัจจุบัน
                 setTotalPages(response.data.totalPages); // จำนวนหน้าทั้งหมด
+                setLoading(false); // สิ้นสุดการโหลดข้อมูล
             })
             .catch(error => {
                 console.error("Error fetching reservation data:", error);
+                setLoading(false); // สิ้นสุดการโหลดข้อมูลเมื่อเกิดข้อผิดพลาด
             });
     };
 
