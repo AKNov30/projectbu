@@ -133,8 +133,8 @@ function Result() {
                                     <th>ชื่อสุนัข</th>
                                     <th>ราคา(บาท)</th>
                                     <th>รวมเป็น</th>
-                                    <th>หลักฐานการจอง</th>
-                                    <th>หลักฐานการรับ</th>
+                                    <th>หลักฐานการจองสุนัข</th>
+                                    <th>หลักฐานการรับสุนัข</th>
                                     <th>ใบเสร็จ</th>
                                 </tr>
                             </thead>
@@ -158,8 +158,8 @@ function Result() {
                                             <td>{reservation.dogs_name}</td>
                                             <td>{formatPrice(reservation.price)}</td>
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}                       
-                                            <td className='text-center' onClick={() => openModal(reservation.slip_url)}><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
-                                            <td className='text-center' onClick={() => openModal(reservation.slip2_url)}><img src={slip} alt="Print" style={{ width: '25px' }} /></td>
+                                            <td className='text-center' onClick={() => openModal(reservation.slip_url)}><img className='click' src={slip} alt="Print" style={{ width: '25px' }} /></td>
+                                            <td className='text-center' onClick={() => openModal(reservation.slip2_url)}><img className='click' src={slip} alt="Print" style={{ width: '25px' }} /></td>
                                             <td className='text-center'>
                                             <PDFDownloadLink 
                                                 document={<Invoice reservation={reservation} />}

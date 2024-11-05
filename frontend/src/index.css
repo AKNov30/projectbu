@@ -348,6 +348,9 @@ hr {
 .border {
     border: 1px solid var(--brown) !important;
 }
+.click{
+    cursor: pointer;
+}
 
 .btn-login {
     --bs-btn-color: var(--brown);
