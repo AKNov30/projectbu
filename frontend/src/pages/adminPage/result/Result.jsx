@@ -135,7 +135,7 @@ function Result() {
                                     <th>รวมเป็น</th>
                                     <th>หลักฐานการจองสุนัข</th>
                                     <th>หลักฐานการรับสุนัข</th>
-                                    <th>ใบเสร็จ</th>
+                                    <th style={{ width: '3%' }}>ใบเสร็จ</th>
                                 </tr>
                             </thead>
                             <tbody className='text-center'>

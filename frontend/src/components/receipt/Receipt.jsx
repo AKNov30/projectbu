@@ -144,6 +144,7 @@ const Invoice = ({ reservation }) => {
     const SignatureSection = () => (
         <View style={styles.signatureSection}>
             <Text style={styles.signatureLabel}>ลงชื่อผู้รับเงิน</Text>
+            <Text style={styles.signatureText}>(สิทธิโชค จัทร์ทรง)</Text>
             <View style={styles.signatureLine}></View>
             <Text style={styles.signatureText}>(ฟาร์มปั๊ก เอ็นบีเคเค)</Text>
         </View>

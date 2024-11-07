@@ -114,7 +114,15 @@ function History() {
                                         <td>{booking.dogs_name}</td>
                                         <td>{formatPrice(booking.price)}</td>
                                         <td>{formatDate(booking.booking_date)}</td>
-                                        <td>{booking.status === 'successful' ? 'สำเร็จ' : 'ยกเลิกการจอง'}</td>
+                                        <td>
+                                            {booking.status === 'successful' 
+                                                ? 'สำเร็จ' 
+                                                : booking.status === 'pending' 
+                                                ? 'รอดำเนินการ' 
+                                                : booking.status === 'confirm' 
+                                                    ? 'ยืนยันการจอง' 
+                                                    : 'ยกเลิกการจอง'}
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
