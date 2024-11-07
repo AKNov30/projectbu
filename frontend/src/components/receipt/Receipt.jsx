@@ -82,7 +82,7 @@ const Invoice = ({ reservation }) => {
             height: 1,
             backgroundColor: '#000',
             marginVertical: 10,
-            marginTop: 40,
+            marginTop: 0,
         },
         signatureText: {
             fontSize: 14,
@@ -144,7 +144,7 @@ const Invoice = ({ reservation }) => {
     const SignatureSection = () => (
         <View style={styles.signatureSection}>
             <Text style={styles.signatureLabel}>ลงชื่อผู้รับเงิน</Text>
-            <Text style={styles.signatureText}>(สิทธิโชค จัทร์ทรง)</Text>
+            <Text style={styles.signatureText}>สิทธิโชค จัทร์ทรง</Text>
             <View style={styles.signatureLine}></View>
             <Text style={styles.signatureText}>(ฟาร์มปั๊ก เอ็นบีเคเค)</Text>
         </View>
