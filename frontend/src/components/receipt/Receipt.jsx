@@ -127,9 +127,9 @@ const Invoice = ({ reservation }) => {
                 <View style={styles.rightColumn}>
                     <Text style={styles.address}>รหัสการจอง: {reservation.booking_id}</Text>
                     <Text style={styles.address}>ชื่อสนุัข: {reservation.dogs_name}</Text>
-                    <Text style={styles.address}>ราคาสุนัข: {formatPrice(reservation.price * 2)} บาท</Text>
-                    <Text style={styles.address}>ราคาการจอง: {formatPrice(reservation.price)} บาท</Text>
-                    <Text style={styles.address}>ราคาที่ชำระเพิ่ม: {formatPrice(reservation.price)} บาท</Text>
+                    <Text style={styles.address}>ราคาสุนัข: {formatPrice(reservation.price)} บาท</Text>
+                    <Text style={styles.address}>ราคาการจอง: {formatPrice(reservation.price/2)} บาท</Text>
+                    <Text style={styles.address}>ราคาที่ชำระเพิ่ม: {formatPrice(reservation.price/2)} บาท</Text>
                 </View>
             </View>
         </View>
@@ -137,7 +137,7 @@ const Invoice = ({ reservation }) => {
 
     // Summary at the Bottom
     const Summary = () => (
-        <Text style={styles.summary}>รวมทั้งสิ้น: {formatPrice(reservation.price * 2)} บาท</Text>
+        <Text style={styles.summary}>รวมทั้งสิ้น: {formatPrice(reservation.price)} บาท</Text>
     );
 
     // Signature Section at the Bottom
