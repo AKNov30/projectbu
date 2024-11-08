@@ -351,13 +351,14 @@ app.get("/api/dogs", (req, res) => {
   const sql = `
     SELECT dog_id, dogs_name, birthday, price, color 
     FROM dogs
+    WHERE status = 'available'
     ORDER BY dogs_name ASC
     LIMIT ? OFFSET ?`;
   pool.query(sql, [limit, offset], (err, results) => {
     if (err) return res.status(500).json("Error fetching dogs: " + err.message);
 
     // คำสั่งเพื่อดึงจำนวนข้อมูลทั้งหมดเพื่อนำไปคำนวณจำนวนหน้า
-    const countSql = "SELECT COUNT(*) AS total FROM dogs";
+    const countSql = "SELECT COUNT(*) AS total FROM dogs WHERE status IN ('available')";
     pool.query(countSql, (countErr, countResult) => {
       if (countErr) {
         return res
