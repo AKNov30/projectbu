@@ -178,7 +178,7 @@ function Cancle() {
                                     <div className="pt-2" style={{ fontSize: '16px' }}>
                                         วันที่จอง : {formatDate(booking.created_at)}<br />
                                         วันที่รับ : {formatDate(booking.booking_date)} ({formatTime(booking.pickup_date)} น.)<br />
-                                        สถานะ : {booking.status === 'pending' ? 'รอดำเนินการ' : 'yess'}
+                                        สถานะ : {booking.status === 'pending' ? 'รอดำเนินการ' : 'ยืนยันการจอง'}
                                     </div>
                                 </div>
 
