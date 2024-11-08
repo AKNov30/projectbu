@@ -129,6 +129,7 @@ function AddDogForm() {
                     onChange={(date) => setBirthDay(date)}
                     dateFormat="dd/MM/yyyy"
                     placeholderText="dd/mm/yyyy"
+                    maxDate={new Date()}
                     required
                   />
                 </div>
