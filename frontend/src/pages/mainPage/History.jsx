@@ -86,6 +86,8 @@ function History() {
                         <option value="ทั้งหมด">ทั้งหมด</option>
                         <option value="successful">สำเร็จ</option>
                         <option value="canceled">ยกเลิกการจอง</option>
+                        <option value="pending">รอดำเนินการ</option>
+                        <option value="confirm">ยืนยันการจอง</option>
                     </select>
                 </div>
             </div>
