@@ -9,14 +9,19 @@ import ImageModal from '../../../components/ImageModal/ImageModal';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+const oneMonthAgo = new Date();
+oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
 function Result() {
     const [reservations, setReservations] = useState([]); // state สำหรับเก็บข้อมูลการจอง
     const [loading, setLoading] = useState(true); // สถานะการโหลดข้อมูล
     const [error, setError] = useState(null); // สถานะข้อผิดพลาด
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [totalSales, setTotalSales] = useState(0);
+    const [totalCount, setTotalCount] = useState('');
+    const [startDate, setStartDate] = useState(oneMonthAgo);
+    const [endDate, setEndDate] = useState(new Date()); 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalImageUrl, setModalImageUrl] = useState('');
 
@@ -38,6 +43,8 @@ function Result() {
                 setReservations(response.data.data);
                 setCurrentPage(response.data.currentPage);
                 setTotalPages(response.data.totalPages);
+                setTotalCount(response.data.totalCount);
+                setTotalSales(response.data.totalSales);
                 setLoading(false);
             })
             .catch(error => {
@@ -177,6 +184,12 @@ function Result() {
                                     </tr>
                                 )}
                             </tbody>
+                            <tfoot>
+                                <tr className='text-center'>
+                                    <th colSpan="8" className="text-end"><strong>จำนวนสุนัขทั้งหมด: {totalCount}</strong></th>
+                                    <th colSpan="3" className="text-center"><strong>ยอดรวมทั้งหมด: {formatPrice(totalSales)}</strong></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

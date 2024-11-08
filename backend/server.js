@@ -866,6 +866,7 @@ app.get("/api/result-admin", (req, res) => {
   const startDate = req.query.startDate;
   const endDate = req.query.endDate;
 
+  // SQL สำหรับดึงข้อมูลหลักพร้อม pagination
   let sql = `
     SELECT 
         bookings.booking_id,
@@ -891,47 +892,54 @@ app.get("/api/result-admin", (req, res) => {
         bookings.status = 'successful'
   `;
 
-  // ถ้ามีการส่ง startDate และ endDate มาใน request
+  // เพิ่มเงื่อนไขสำหรับ startDate และ endDate
   if (startDate && endDate) {
     sql += ` AND bookings.booking_date BETWEEN ? AND ?`;
   }
 
-  sql += `ORDER BY bookings.booking_date DESC LIMIT ? OFFSET ?;`;
+  sql += ` ORDER BY bookings.booking_date DESC LIMIT ? OFFSET ?;`;
 
   const params =
     startDate && endDate
       ? [startDate, endDate, limit, offset]
       : [limit, offset];
 
+  // Query หลักดึงข้อมูลและ pagination
   pool.query(sql, params, (err, results) => {
     if (err) {
       console.error("Error fetching result:", err);
       return res.status(500).json({ message: "Error fetching result" });
     }
 
+    // Query นับจำนวนข้อมูลทั้งหมดเพื่อใช้ใน pagination
     const countSql = `
-      SELECT COUNT(*) as count
+      SELECT COUNT(*) as count, SUM(dogs.price) as total_sales
       FROM bookings
-      WHERE status = 'successful'
+      INNER JOIN dogs ON bookings.dog_id = dogs.dog_id
+      WHERE bookings.status = 'successful'
       ${
         startDate && endDate
-          ? `AND booking_date BETWEEN '${startDate}' AND '${endDate}'`
+          ? `AND bookings.booking_date BETWEEN '${startDate}' AND '${endDate}'`
           : ""
       }
     `;
 
     pool.query(countSql, (countErr, countResult) => {
       if (countErr) {
+        console.error("Error counting reservations:", countErr);
         return res.status(500).json({ message: "Error counting reservations" });
       }
 
       const totalCount = countResult[0].count;
+      const totalSales = countResult[0].total_sales || 0;
       const totalPages = Math.ceil(totalCount / limit);
 
       res.json({
         data: results,
-        currentPage: page,
-        totalPages: totalPages,
+        currentPage: page, 
+        totalPages: totalPages, //จำนวนหน้า
+        totalSales: totalSales, //ผลรวมราคา
+        totalCount: totalCount, //จำนวนรายการ
       });
     });
   });
