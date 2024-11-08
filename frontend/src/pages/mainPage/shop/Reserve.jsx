@@ -53,7 +53,11 @@ function Reserve() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!isAccepted || !date || !time || !phone) {
-            alert('Please fill all fields and accept the terms.');
+            alert('กรอกข้อมูลให้ครบ');
+            return;
+        }
+        if (phone.length !== 10) {
+            alert('กรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก');
             return;
         }
          // Calculate half the price for payment
@@ -190,7 +194,10 @@ function Reserve() {
                             className="form-control" 
                             type="text" 
                             value={phone} 
-                            onChange={(e) => setPhone(e.target.value)} 
+                            onChange={(e) => {
+                                const onlyNumbers = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                setPhone(onlyNumbers);
+                            }} 
                             disabled={!isAccepted} 
                         />
                     </div>

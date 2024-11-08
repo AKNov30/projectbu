@@ -21,10 +21,20 @@ const RegisterForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    
+    if (name === "phone") {
+      // กรองเฉพาะตัวเลขและจำกัดความยาวไม่เกิน 10 หลัก
+      const onlyNumbers = value.replace(/\D/g, '').slice(0, 10);
+      setFormData({
+        ...formData,
+        [name]: onlyNumbers,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
 
     // ล้างข้อความแสดงข้อผิดพลาดเมื่อผู้ใช้เริ่มพิมพ์ใหม่ในฟิลด์รหัสผ่านหรือยืนยันรหัสผ่าน
     if (name === 'user_password' || name === 'user_password_confirm') {
@@ -38,6 +48,11 @@ const RegisterForm = () => {
 
     if (formData.user_password !== formData.user_password_confirm) {
       setError('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน');
+      return;
+    }
+
+    if (formData.phone.length !== 10) {
+      setError('กรุณากรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก');
       return;
     }
 
