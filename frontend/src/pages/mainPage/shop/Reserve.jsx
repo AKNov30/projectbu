@@ -151,7 +151,7 @@ function Reserve() {
                             selected={date}
                             onChange={(date) => setDate(date)}
                             dateFormat="dd/MM/yyyy"
-                            minDate={tomorrow}
+                            minDate={today}
                             maxDate={maxDate}
                             className="form-control"
                             placeholderText="dd/mm/yyyy"
