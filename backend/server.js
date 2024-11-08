@@ -364,18 +364,19 @@ app.post("/api/adddog", upload.array("files", 4), (req, res) => {
 app.get("/api/dogs", (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 14; // จำนวนข้อมูลต่อหน้า
-  const offset = (page - 1) * limit;
+  const offset = (page - 1) * limit; 
 
   const sql = `
     SELECT dog_id, dogs_name, birthday, price, color 
-    FROM dogs 
+    FROM dogs
+    WHERE status = 'available'
     ORDER BY dogs_name ASC
     LIMIT ? OFFSET ?`;
   pool.query(sql, [limit, offset], (err, results) => {
     if (err) return res.status(500).json("Error fetching dogs: " + err.message);
 
     // คำสั่งเพื่อดึงจำนวนข้อมูลทั้งหมดเพื่อนำไปคำนวณจำนวนหน้า
-    const countSql = "SELECT COUNT(*) AS total FROM dogs";
+    const countSql = "SELECT COUNT(*) AS total FROM dogs WHERE status IN ('available')";
     pool.query(countSql, (countErr, countResult) => {
       if (countErr) {
         return res
