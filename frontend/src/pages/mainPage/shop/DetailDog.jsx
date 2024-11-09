@@ -7,6 +7,7 @@ import calculateAge from '../../../utils/calculateAge';
 import DogCard from '../../../components/shopcomponent/DogCard';
 import { formatPrice } from '../../../utils/formatPrice';
 import ImageModal from '../../../components/ImageModal/ImageModal'
+import LoginForm from '../../../components/LoginForm/LoginForm';
 import Swal from 'sweetalert2';
 
 function DetailDog() {
@@ -154,6 +155,12 @@ function DetailDog() {
                       title: 'กรุณาล็อคอินก่อน',
                       icon: 'warning',
                       confirmButtonText: 'ตกลง'
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        // เปิดโมดัลด้วย JavaScript
+                        const loginModal = new bootstrap.Modal(document.getElementById('login'));
+                        loginModal.show();
+                      }
                     });
                   }}
                 >
@@ -209,6 +216,7 @@ function DetailDog() {
 
       {/* Image Modal */}
       <ImageModal isOpen={isModalOpen} imageUrl={selectedImageUrl} onClose={closeModal} />
+      <LoginForm />
     </>
   );
 }
