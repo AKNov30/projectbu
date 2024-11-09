@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import api from '../../config/apiConfig';
 
-import { logo } from '../../assets/' 
+import { logo } from '../../assets/'
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     user_email: '',
     user_password: '',
@@ -27,7 +30,7 @@ function LoginForm() {
       setAlert({ message: 'กรุณากรอกข้อมูลให้ครบถ้วน', type: 'danger' });
       return;
     }
-    
+
     try {
       const response = await api.post('/api/login', formData);
       const { token, message, user_role, user_id, firstname } = response.data;
@@ -38,12 +41,19 @@ function LoginForm() {
       localStorage.setItem('firstname', firstname);
 
       setAlert({ message: response.data, type: 'success' }); // แสดงข้อความสำเร็จ
-       // จัดการสถานะการเข้าสู่ระบบ
+      // จัดการสถานะการเข้าสู่ระบบ
       localStorage.setItem('token', response.data.token); // เก็บ token ใน localStorage
       if (user_role == 'admin') {
         window.location.href = '/admin/home-admin'; // เปลี่ยนเส้นทางไปยังหน้าโฮม
-      }else{
-        window.location.href = '/shop'; // เปลี่ยนเส้นทางไปยังหน้าโฮม
+      }
+      else {
+        const currentPath = window.location.pathname;
+        if (currentPath.startsWith('/detail-dog/')) {
+          const dogId = currentPath.split('/').pop(); // ดึงหมายเลข ID จาก path
+          window.location.href = (`/reserve/${dogId}`);
+        } else {
+          window.location.href = '/shop';
+        }
       }
     } catch (error) {
       console.error('Error logging in:', error);
@@ -54,8 +64,8 @@ function LoginForm() {
 
   return (
     <>
-    {/* Start Modal_Login CSS */}
-    <div
+      {/* Start Modal_Login CSS */}
+      <div
         className="modal fade"
         id="login"
         tabIndex="-1"
@@ -83,7 +93,7 @@ function LoginForm() {
               <div className="row">
                 <div className="col-12 d-flex justify-content-center">
                   <img
-                    src={ logo }
+                    src={logo}
                     style={{ width: '100px' }}
                     alt="Logo"
                   />
