@@ -352,7 +352,7 @@ app.get("/api/dogs", (req, res) => {
     SELECT dog_id, dogs_name, birthday, price, color 
     FROM dogs
     WHERE status = 'available'
-    ORDER BY dogs_name ASC
+    ORDER BY birthday DESC
     LIMIT ? OFFSET ?`;
   pool.query(sql, [limit, offset], (err, results) => {
     if (err) return res.status(500).json("Error fetching dogs: " + err.message);
