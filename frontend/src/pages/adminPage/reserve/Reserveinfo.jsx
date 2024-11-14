@@ -219,7 +219,7 @@ const Reserveinfo = () => {
                         <AlertDelete
                             onDelete={() => cancelBooking(reservationDetails.booking_id, reservationDetails.dog_id)}
                             title="คุณแน่ใจที่จะยกเลิกการจอง?"
-                            text="การยกเลิกการจองจะไม่สามารถคืนเงินจองได้"
+                            text=" "
                             confirmText="ยกเลิกการจอง"
                             successTitle="ยกเลิกการจองเสร็จสิ้น"
                             successText=" "

@@ -11,7 +11,7 @@ function AppbarAdmin() {
 
             <div className='d-flex p-2'>
               <img className="pic-admin" src={ list } alt="Add Dog" />
-              <Link to="/admin/home-admin" className="nav-link">รายชื่อสุนัข</Link>
+              <Link to="/admin/home-admin" className="nav-link">จัดการสุนัข</Link>
             </div>
             <div className='d-flex p-2'>
               <img className="pic-admin" src={ dogAdmin } alt="Add Dog" />
@@ -27,7 +27,7 @@ function AppbarAdmin() {
             </div>
             <div className="d-flex p-2">
               <img className="pic-admin" src={ userAdmin } alt="Member List" />
-              <Link to="/admin/list-user" className="nav-link">รายชื่อสมาชิก</Link>
+              <Link to="/admin/list-user" className="nav-link">จัดการสมาชิก</Link>
             </div>
             <div className="d-flex p-2">
               <img className="pic-admin" src={ result } alt="Summary" />

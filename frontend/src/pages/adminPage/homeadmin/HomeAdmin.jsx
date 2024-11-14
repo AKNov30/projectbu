@@ -69,7 +69,7 @@ function HomeAdmin() {
                 <th scope="col" style={{ width: '5%' }}>รหัส</th>
                 <th scope="col" style={{ width: '10%' }}>ชื่อสุนัข</th>
                 <th scope="col" style={{ width: '10%' }}>วันเกิด</th>
-                <th scope="col" style={{ width: '5%' }}>ราคา</th>
+                <th scope="col" style={{ width: '5%' }}>ราคาสุนัข (บาท)</th>
                 <th scope="col" style={{ width: '7%' }}>สี</th>
                 <th scope="col" style={{ width: '10%' }} className="text-center">&nbsp;</th>
               </tr>
@@ -80,7 +80,7 @@ function HomeAdmin() {
                   <td>{dog.dog_id}</td>
                   <td>{dog.dogs_name}</td>
                   <td>{formatDate(dog.birthday)}</td>
-                  <td>{formatPrice(dog.price)} บาท</td> 
+                  <td>{formatPrice(dog.price)}</td> 
                   <td>{dog.color}</td>
                   <td className="text-center">
                     <a className="hover-icon me-2" href={`editdog/${dog.dog_id}`} aria-label="Edit">

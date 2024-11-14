@@ -192,7 +192,7 @@ function Cancle() {
                                         ค่าจอง : {formatPrice(booking.price / 2)} บาท<br />
                                     </div>
                                     <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'red' }}>
-                                        รวมเป็น : {formatPrice(booking.price / 2)} บาท
+                                        คงเหลือยอดที่ต้องชำระ<br></br>ในวันที่มารับสุนัข : {formatPrice(booking.price / 2)} บาท
                                     </div>
                                 </div>
                             </div>

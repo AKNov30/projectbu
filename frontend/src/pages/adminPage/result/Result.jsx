@@ -133,11 +133,11 @@ function Result() {
                             <thead>
                                 <tr className='text-center'>
                                     <th className="text-center" style={{ width: '1%' }}>รายการ</th>
-                                    <th>ชื่อลูกค้า</th>
+                                    <th className='text-left'>ชื่อลูกค้า</th>
                                     <th>วันที่จองสุนัข</th>
                                     <th>วันที่ขายสุนัข</th>
                                     <th>รหัสสุนัข</th>
-                                    <th>ชื่อสุนัข</th>
+                                    <th className='text-left'>ชื่อสุนัข</th>
                                     <th>ราคา(บาท)</th>
                                     <th>รวมเป็น</th>
                                     <th>หลักฐานการจองสุนัข</th>
@@ -150,7 +150,7 @@ function Result() {
                                     reservations.map((reservation, index) => (
                                         <tr key={index}>
                                             <td className="text-center">{reservation.booking_id}</td>
-                                            <td>{reservation.firstname} {reservation.lastname}</td>
+                                            <td className='text-left'>{reservation.firstname} {reservation.lastname}</td>
                                             <td>{new Date(reservation.created_at).toLocaleDateString('en-GB', {
                                                 day: '2-digit',
                                                 month: '2-digit',
@@ -162,7 +162,7 @@ function Result() {
                                                 year: 'numeric'
                                             })}</td>
                                             <td>{reservation.dog_id}</td>
-                                            <td>{reservation.dogs_name}</td>
+                                            <td className='text-left'>{reservation.dogs_name}</td>
                                             <td>{formatPrice(reservation.price)}</td>
                                             <td>{formatPrice(reservation.price)}</td> {/* แก้ไขตามการคำนวณรวม */}                       
                                             <td className='text-center' onClick={() => openModal(reservation.slip_url)}><img className='click' src={slip} alt="Print" style={{ width: '25px' }} /></td>

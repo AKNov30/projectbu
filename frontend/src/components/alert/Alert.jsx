@@ -50,24 +50,24 @@ export const AlertDelete = ({
 }) => {
     const showDeleteAlert = () => {
         Swal.fire({
-          title: title || "Are you sure?",
-          text: text || "You won't be able to revert this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: confirmText || "Yes, delete it!"
+            title: title || "Are you sure?",
+            html: `<span style="color: red;">${text || "คุณจะไม่สามารถกู้คืนการจองนี้ได้!"}</span>`, // ใช้ html แทน text
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: confirmText || "Yes, delete it!"
         }).then((result) => {
-          if (result.isConfirmed) {
-            onDelete(); // เรียกใช้ callback หากผู้ใช้ยืนยันการลบ
-            Swal.fire({
-              title: successTitle || "Deleted!",
-              text: successText || "Your file has been deleted.",
-              icon: "success"
-            });
-          }
+            if (result.isConfirmed) {
+                onDelete(); // เรียกใช้ callback หากผู้ใช้ยืนยันการลบ
+                Swal.fire({
+                    title: successTitle || "Deleted!",
+                    text: successText || "Your file has been deleted.",
+                    icon: "success"
+                });
+            }
         });
-      };
+    };
 
     return <span onClick={showDeleteAlert} style={{ cursor: 'pointer' }}>{children}</span>;
 };

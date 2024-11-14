@@ -54,9 +54,6 @@ function AppbarMain() {
       <li className="nav-item">
         <Link to="/shop" className="nav-link">ร้านค้า</Link>
       </li>
-      <li className="nav-item">
-        <Link to="/contact" className="nav-link">ติดต่อฉัน</Link>
-      </li>
     </>
   )}
 
@@ -72,13 +69,17 @@ function AppbarMain() {
     </>
   )}
 
-{isLoggedIn && userRole === 'admin' && (
-    <>
-      <li className="nav-item">
-        <Link to="/admin/home-admin" className="nav-link">ระบบแอดมิน</Link>
-      </li>
-    </>
+  {/* เมนูสำหรับแอดมิน */}
+  {isLoggedIn && userRole === 'admin' && (
+    <li className="nav-item">
+      <Link to="/admin/home-admin" className="nav-link">ระบบแอดมิน</Link>
+    </li>
   )}
+
+  {/* ลิงก์ "ติดต่อฉัน" แสดงเป็นรายการสุดท้ายเสมอ */}
+  <li className="nav-item">
+    <Link to="/contact" className="nav-link">ติดต่อฉัน</Link>
+  </li>
 </ul>
 
 

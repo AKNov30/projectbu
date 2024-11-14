@@ -77,50 +77,48 @@ function EditUser() {
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label">อีเมล/Username</label>
-            <input
-              type="email"
-              name="user_email"
-              value={user.user_email}
-              onChange={handleChange}
-              className="form-control mb-3"
-              required
-            />
+          <div className='row d-flex justify-content-center'>
+            <div className="form-group">
+              <label className="form-label">ชื่อ</label>
+              <input
+                type="text"
+                name="firstname"
+                value={user.firstname}
+                onChange={handleChange}
+                className="form-control input-edit mb-3"
+                required
+              />
+            </div>
           </div>
-          <div className="form-group">
-            <label className="form-label">ชื่อ</label>
-            <input
-              type="text"
-              name="firstname"
-              value={user.firstname}
-              onChange={handleChange}
-              className="form-control mb-3"
-              required
-            />
+
+          <div className='row d-flex justify-content-center'>
+            <div className="form-group">
+              <label className="form-label">นามสกุล</label>
+              <input
+                type="text"
+                name="lastname"
+                value={user.lastname}
+                onChange={handleChange}
+                className="form-control input-edit mb-3"
+                required
+              />
+            </div>
           </div>
-          <div className="form-group">
-            <label className="form-label">นามสกุล</label>
-            <input
-              type="text"
-              name="lastname"
-              value={user.lastname}
-              onChange={handleChange}
-              className="form-control mb-3"
-              required
-            />
+
+          <div className='row d-flex justify-content-center'>
+            <div className="form-group">
+              <label className="form-label">เบอร์โทรศัพท์</label>
+              <input
+                type="text"
+                name="phone"
+                value={user.phone}
+                onChange={handleChange}
+                className="form-control input-edit mb-3"
+                required
+              />
+            </div>
           </div>
-          <div className="form-group">
-            <label className="form-label">เบอร์โทรศัพท์</label>
-            <input
-              type="text"
-              name="phone"
-              value={user.phone}
-              onChange={handleChange}
-              className="form-control mb-3"
-              required
-            />
-          </div>
+
           <AlertSave
             onConfirm={handleSubmit}
             title={"คุณแน่ใจหรือไม่ที่จะแก้ไขข้อมูล?"}

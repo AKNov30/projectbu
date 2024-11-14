@@ -188,7 +188,7 @@ function AddDogForm() {
 
               {/* File Upload */}
               <div className="mb-3">
-                <label className="form-label">เพิ่มรูป</label>
+                <label className="form-label">เพิ่มรูป (ขั้นต่ำ 1 รูป สูงสุด 4 รูป)</label>
                 <input
                   key={fileKey}
                   type="file"

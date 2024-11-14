@@ -185,10 +185,16 @@ a {
     border-radius: 5px;
     background-color: #fdeacd;
 }
+.input-edit{
+    width: 400px;
+}
 /*--- Button ---*/
 .setting-btn-reserve{
     padding: 10px 35px;
-    --bs-btn-hover-color: #ffffff;
+    --bs-btn-hover-color: #000000;
+}
+.text-left {
+    text-align: left !important;
 }
 .btn-reserve-info{
     padding-top: 80px;
