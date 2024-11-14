@@ -62,7 +62,7 @@ function ListUser() {
             <div className="container">
                 <div className="row">
                     <div className="col-12 pt-3 d-flex justify-content-center">
-                        <h1>รายชื่อสมาชิก</h1>
+                        <h1>จัดการสมาชิก</h1>
                     </div>
                 </div>
 
