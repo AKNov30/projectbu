@@ -375,6 +375,9 @@ hr {
 .text-brown{
     color:var(--brown);
 }
+.btn-edit{
+    width: 150px;
+}
 .text-red{
     color:red;
 }

@@ -127,7 +127,10 @@ function EditUser() {
             confirmText={"ยืนยัน"}
             successMessage={"แก้ไขสำเร็จ"}
           >
-            <button type="button" className="btn btn-primary w-100">บันทึก</button>
+            <div className="row d-flex justify-content-center">
+              <button type="button" className="btn btn-primary btn-edit">บันทึก</button>
+            </div>
+            
           </AlertSave>
       </form>
       {/* แสดง Alert สำเร็จ */}
