@@ -77,7 +77,7 @@ function EditUser() {
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className='row d-flex justify-content-center'>
+          <div className='d-flex justify-content-center'>
             <div className="form-group">
               <label className="form-label">ชื่อ</label>
               <input
@@ -91,7 +91,7 @@ function EditUser() {
             </div>
           </div>
 
-          <div className='row d-flex justify-content-center'>
+          <div className='d-flex justify-content-center'>
             <div className="form-group">
               <label className="form-label">นามสกุล</label>
               <input
@@ -105,7 +105,7 @@ function EditUser() {
             </div>
           </div>
 
-          <div className='row d-flex justify-content-center'>
+          <div className='d-flex justify-content-center'>
             <div className="form-group">
               <label className="form-label">เบอร์โทรศัพท์</label>
               <input
