@@ -258,7 +258,7 @@ function AddDogForm() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    style={{ width: '100%', height: '50px' }}
+                    style={{ width: '30%', height: '40px' }}
                   >
                     เพิ่มสุนัข
                   </button>

@@ -237,7 +237,7 @@ function EditDogForm() {
 
                             {/* การจัดการรูปภาพ */}
                             <div className="mb-3">
-                                <label className="form-label">เพิ่มรูป</label>
+                                <label className="form-label">เพิ่มรูป (ขั้นต่ำ 1 รูป สูงสุด 4 รูป)</label>
                                 <input
                                     key={fileKey}
                                     type="file"
@@ -330,7 +330,7 @@ function EditDogForm() {
                                     <button
                                         type="button"
                                         className="btn btn-primary"
-                                        style={{ width: '100%', height: '50px' }}
+                                        style={{ width: '30%', height: '40px' }}
                                     >
                                         แก้ไขข้อมูลสุนัข
                                     </button>
