@@ -75,7 +75,7 @@ const Reserveinfo = () => {
 
     const cancelBooking = async (bookingId, dogId) => {
         try {
-            const response = await api.put('/api/cancel-booking', {
+            const response = await api.put('/api/cancel-booking-admin', {
                 booking_id: bookingId,
                 dog_id: dogId,
             });
