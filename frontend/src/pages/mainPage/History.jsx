@@ -86,8 +86,7 @@ function History() {
                         <option value="ทั้งหมด">ทั้งหมด</option>
                         <option value="successful">สำเร็จ</option>
                         <option value="canceled">ยกเลิกการจอง</option>
-                        <option value="pending">รอดำเนินการ</option>
-                        <option value="confirm">ยืนยันการจอง</option>
+                        <option value="canceladmin">ยกเลิกการจอง(admin)</option>
                     </select>
                 </div>
             </div>
@@ -118,11 +117,9 @@ function History() {
                                         <td>{formatDate(booking.booking_date)}</td>
                                         <td>
                                             {booking.status === 'successful' 
-                                                ? 'สำเร็จ' 
-                                                : booking.status === 'pending' 
-                                                ? 'รอดำเนินการ' 
-                                                : booking.status === 'confirm' 
-                                                    ? 'ยืนยันการจอง' 
+                                                ? 'สำเร็จ'
+                                                : booking.status === 'canceladmin' 
+                                                    ? 'ยกเลิกการจอง(admin)'
                                                     : 'ยกเลิกการจอง'}
                                         </td>
                                     </tr>
