@@ -1322,7 +1322,7 @@ app.get("/api/user-dogs", (req, res) => {
     }
   });  
 
-  //ยกเลิกการจอง
+  //ยกเลิกการจอง user
   app.put("/api/cancel-booking", async (req, res) => {
     const { booking_id, dog_id } = req.body;
 
@@ -1333,6 +1333,30 @@ app.get("/api/user-dogs", (req, res) => {
     try {
       // อัปเดตสถานะการจองเป็น canceled
       await pool.promise().execute(sqlUpdateBooking, ["canceled", booking_id]);
+
+      // อัปเดตสถานะสุนัขเป็น available
+      await pool.promise().execute(sqlUpdateDog, ["available", dog_id]);
+
+      res.status(200).json({ message: "การจองถูกยกเลิกเรียบร้อยแล้ว" });
+    } catch (error) {
+      console.error("Error canceling booking:", error);
+      res
+        .status(500)
+        .json({ message: "Error canceling booking", error: error.message });
+    }
+  });
+
+  //ยกเลิกการจอง admin
+  app.put("/api/cancel-booking-admin", async (req, res) => {
+    const { booking_id, dog_id } = req.body;
+
+    const sqlUpdateBooking =
+      "UPDATE bookings SET status = ? WHERE booking_id = ?";
+    const sqlUpdateDog = "UPDATE dogs SET status = ? WHERE dog_id = ?";
+
+    try {
+      // อัปเดตสถานะการจองเป็น canceled
+      await pool.promise().execute(sqlUpdateBooking, ["canceladmin", booking_id]);
 
       // อัปเดตสถานะสุนัขเป็น available
       await pool.promise().execute(sqlUpdateDog, ["available", dog_id]);
