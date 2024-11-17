@@ -5,6 +5,7 @@ import { formatPrice } from '../../utils/formatPrice';
 import { logo } from '../../assets';
 import Pagination from '../../components/pagination/Pagination';
 import ImageModal from '../../components/ImageModal/ImageModal';
+import { check, loading } from '../../assets';
 
 function Cancle() {
     const [bookingData, setBookingData] = useState([]);
@@ -178,7 +179,23 @@ function Cancle() {
                                     <div className="pt-2" style={{ fontSize: '16px' }}>
                                         วันที่จอง : {formatDate(booking.created_at)}<br />
                                         วันที่รับ : {formatDate(booking.booking_date)} ({formatTime(booking.pickup_date)} น.)<br />
-                                        สถานะ : {booking.status === 'pending' ? 'รอดำเนินการ' : 'ยืนยันการจอง'}
+                                        สถานะ : <span
+                                            style={{
+                                                color: booking.status === 'pending' ? '#009eff' : '#20bf55',
+                                            }}
+                                        >
+                                            {booking.status === 'pending' ? 'รอดำเนินการ' : 'ยืนยันการจอง'}
+                                            <img
+                                                src={booking.status === 'pending' ? loading : check}
+                                                alt={booking.status === 'pending' ? 'Loading' : 'Check'}
+                                                style={{
+                                                    width: '16px',
+                                                    height: '16px',
+                                                    marginLeft: '8px',
+                                                }}
+                                            />
+                                        </span>
+
                                     </div>
                                 </div>
 
@@ -217,12 +234,12 @@ function Cancle() {
                                         </>
                                     ) : (
                                         <div className="pb-2">
-                                            <p 
-                                                className="m-0 p-0 text-success text-center" 
-                                                onClick={() => openModal(booking.slip_url.startsWith('http') ? booking.slip_url :`${apiUrl}${booking.slip_url}`)}
+                                            <p
+                                                className="m-0 p-0 text-success text-center"
+                                                onClick={() => openModal(booking.slip_url.startsWith('http') ? booking.slip_url : `${apiUrl}${booking.slip_url}`)}
                                                 style={{ cursor: 'pointer', textDecoration: 'underline' }}
-                                                >
-                                                    หลักฐานการจอง
+                                            >
+                                                หลักฐานการจอง
                                             </p>
                                         </div>
                                     )}
