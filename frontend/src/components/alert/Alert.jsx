@@ -54,8 +54,8 @@ export const AlertDelete = ({
             html: `<span style="color: red;">${text || "คุณจะไม่สามารถกู้คืนการจองนี้ได้!"}</span>`, // ใช้ html แทน text
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#6e7881",
             confirmButtonText: confirmText || "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
