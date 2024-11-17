@@ -1210,7 +1210,7 @@ app.get("/api/user-dogs", (req, res) => {
       JOIN dogs ON bookings.dog_id = dogs.dog_id
       JOIN users ON bookings.user_id = users.user_id
       WHERE bookings.user_id = ? 
-      AND bookings.status NOT IN ('canceled', 'successful')
+      AND bookings.status NOT IN ('canceled', 'successful', 'canceladmin')
       LIMIT ? OFFSET ?;
   `;
   const params = [user_id, limit, offset];
