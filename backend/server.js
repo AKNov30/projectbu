@@ -1171,6 +1171,7 @@ app.get("/api/user-dogs", (req, res) => {
         FROM bookings
         JOIN dogs ON bookings.dog_id = dogs.dog_id
         WHERE bookings.user_id = ?
+        AND bookings.status IN ('canceled', 'canceladmin', 'successful')
         AND (dogs.dogs_name LIKE ? OR bookings.dog_id LIKE ?)
     `;
 
@@ -1203,6 +1204,7 @@ app.get("/api/user-dogs", (req, res) => {
             FROM bookings
             JOIN dogs ON bookings.dog_id = dogs.dog_id
             WHERE bookings.user_id = ?
+            AND bookings.status IN ('canceled', 'canceladmin', 'successful')
             AND (dogs.dogs_name LIKE ? OR bookings.dog_id LIKE ?)
         ` +
         (statusFilter && statusFilter !== "ทั้งหมด"
