@@ -70,18 +70,18 @@ function HomeAdmin() {
                 <th scope="col" style={{ width: '10%' }}>ชื่อสุนัข</th>
                 <th scope="col" style={{ width: '10%' }}>วันเกิด</th>
                 <th className="text-right" scope="col" style={{ width: '5%' }}>ราคาสุนัข (บาท)</th>
-                <th scope="col" style={{ width: '7%' }}>สี</th>
+                <th className="text-center" scope="col" style={{ width: '7%' }}>สี</th>
                 <th scope="col" style={{ width: '10%' }} className="text-center">&nbsp;</th>
               </tr>
             </thead>
             <tbody>
               {dogs.map((dog) => (
-                <tr className="text-right" key={dog.dog_id}>
+                <tr key={dog.dog_id}>
                   <td>{dog.dog_id}</td>
                   <td>{dog.dogs_name}</td>
                   <td>{formatDate(dog.birthday)}</td>
-                  <td>{formatPrice(dog.price)}</td> 
-                  <td>{dog.color}</td>
+                  <td className="text-right">{formatPrice(dog.price)}</td> 
+                  <td className="text-center">{dog.color}</td>
                   <td className="text-center">
                     <a className="hover-icon me-2" href={`editdog/${dog.dog_id}`} aria-label="Edit">
                       <img className="pic-icon" src={editIcon} alt="Edit" />

@@ -59,7 +59,7 @@ function History() {
         <div className="container">
             <div className="row">
                 <div className="col-xl-12 col-lg-2 col-md-2 py-4 text-center">
-                    <h2>ประวัติการจอง</h2>
+                    <h2>ประวัติการขาย</h2>
                 </div>
             </div>
 
