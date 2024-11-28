@@ -69,14 +69,14 @@ function HomeAdmin() {
                 <th scope="col" style={{ width: '5%' }}>รหัส</th>
                 <th scope="col" style={{ width: '10%' }}>ชื่อสุนัข</th>
                 <th scope="col" style={{ width: '10%' }}>วันเกิด</th>
-                <th scope="col" style={{ width: '5%' }}>ราคาสุนัข (บาท)</th>
+                <th className="text-right" scope="col" style={{ width: '5%' }}>ราคาสุนัข (บาท)</th>
                 <th scope="col" style={{ width: '7%' }}>สี</th>
                 <th scope="col" style={{ width: '10%' }} className="text-center">&nbsp;</th>
               </tr>
             </thead>
             <tbody>
               {dogs.map((dog) => (
-                <tr key={dog.dog_id}>
+                <tr className="text-right" key={dog.dog_id}>
                   <td>{dog.dog_id}</td>
                   <td>{dog.dogs_name}</td>
                   <td>{formatDate(dog.birthday)}</td>

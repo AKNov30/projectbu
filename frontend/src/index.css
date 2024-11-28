@@ -180,6 +180,12 @@ a {
     padding: 4px ;
     cursor: pointer;
 }
+.add-font{
+    font-size: 19px;
+}
+.text-right{
+    text-align: right;
+}
 .hover-icon :hover{
     transition: background-color 0.3s ease;
     border-radius: 5px;

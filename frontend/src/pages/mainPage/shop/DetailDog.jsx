@@ -137,7 +137,7 @@ function DetailDog() {
 
               {/* ถ้าไม่ได้ login หรือ role=admin จะไม่สามารถกดจองได้ */}
               {userRole === 'member' ? (
-                <Link to={`/reserve/${dog.dog_id}`} className="btn btn-warning setting-btn-reserve mx-2">จอง</Link>
+                <Link to={`/reserve/${dog.dog_id}`} className="btn btn-warning setting-btn-reserve mx-2 add-font">จอง</Link>
               ) : userRole === 'admin' ? (
                 <button
                   type="button"
@@ -150,6 +150,7 @@ function DetailDog() {
                 <button
                   type="button"
                   className="btn btn-warning setting-btn-reserve mx-2"
+                  
                   onClick={() => {
                     Swal.fire({
                       title: 'กรุณาล็อคอินก่อน',
