@@ -247,7 +247,7 @@ function Cancle() {
                                         onDelete={() => handleCancelBooking(booking.booking_id, booking.dog_id)} // ฟังก์ชันที่จะถูกเรียกเมื่อผู้ใช้ยืนยันการลบ
                                         title="คุณแน่ใจที่จะยกเลิกการจอง?" // ข้อความถามการยืนยัน
                                         text="การยกเลิกการจองจะไม่สามารถคืนเงินจองได้"
-                                        confirmText="ยกเลิกการจอง"
+                                        confirmText="ยืนยันยกเลิก"
                                         successTitle="ยกเลิกการจองเสร็จสิ้น"
                                     >
                                         <button type="button" className="btn btn-danger mx-2">

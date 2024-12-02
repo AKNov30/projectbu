@@ -64,7 +64,7 @@ function AppbarMain() {
         <Link to="/cancle" className="nav-link">การจอง</Link>
       </li>
       <li className="nav-item">
-        <Link to="/history" className="nav-link">ประวัติการจอง</Link>
+        <Link to="/history" className="nav-link">ประวัติการขาย</Link>
       </li>
     </>
   )}

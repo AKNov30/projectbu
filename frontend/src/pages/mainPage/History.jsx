@@ -77,7 +77,7 @@ function History() {
                 </div>
 
                 <div className="col-xl-2 col-lg-2 col-md-2 col-3 mb-3">
-                    <label className="form-label">สถานะการจอง</label>
+                    <label className="form-label">สถานะการขาย</label>
                     <select
                         className="form-select"
                         value={statusFilter}
@@ -103,7 +103,7 @@ function History() {
                                 <th scope="col">ชื่อสุนัข</th>
                                 <th scope="col">ราคา (บาท)</th>
                                 <th scope="col">วันที่รับสุนัข</th>
-                                <th scope="col">สถานะการจอง</th>
+                                <th scope="col">สถานะการขาย</th>
                             </tr>
                         </thead>
                         <tbody>
